@@ -10,21 +10,23 @@ type Tree struct {
 }
 
 // CreateTree returns a (mostly) symmetric binary tree, filling with values from top to bottom, left to right.
+// CreateTree() returns a Tree with default values
 func CreateTree(values ...int) *Tree {
-	var t *Tree
-	trees := []*Tree{t}
+	trees := []*Tree{{}}
 
 	i := 0
 	for ; i < len(values)/2; i++ {
-		trees[i] = insert(nil, false, values[i])
+		trees[i].Value = values[i]
+		trees[i].Left = &Tree{}
+		trees[i].Right = &Tree{}
 		trees = append(trees, trees[i].Left, trees[i].Right)
 	}
 
 	for ; i < len(values); i++ {
-		trees[i] = insert(nil, false, values[i])
+		trees[i].Value = values[i]
 	}
 
-	return t
+	return trees[0]
 }
 
 func insert(t *Tree, insertLeft bool, v int) *Tree {
@@ -42,6 +44,7 @@ func insert(t *Tree, insertLeft bool, v int) *Tree {
 }
 
 // MaxPath returns the largest of all the possible summations from top to bottom of a binary tree.
+// MaxPath(<nil>) returns 0
 func MaxPath(t *Tree) int {
 	if t == nil {
 		return 0

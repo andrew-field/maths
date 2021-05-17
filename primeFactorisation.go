@@ -8,18 +8,19 @@ type PrimeFactor struct {
 // PrimeFactorisation sends the prime factorisation of a number on a channel, in ascending order.
 // If x is negative, PrimeFactorisation(x) returns PrimeFactorisation(-x)
 // If x is 0 or 1, PrimeFactorisation(x) returns factor x, index 1.
-func PrimeFactorisation(numberToFactorise int) <-chan PrimeFactor {
-	factorisationChannel := make(chan PrimeFactor)
+// Does not handle math.MinInt64.
+func PrimeFactorisation(number int) <-chan PrimeFactor {
+	factorisationCh := make(chan PrimeFactor)
 
 	go func() {
-		if numberToFactorise < 0 {
-			numberToFactorise = -numberToFactorise
+		if number < 0 {
+			number = -number
 		}
 
 		// Special case for 0 and 1.
-		if numberToFactorise == 0 || numberToFactorise == 1 {
-			factorisationChannel <- PrimeFactor{numberToFactorise, 1}
-			close(factorisationChannel)
+		if number == 0 || number == 1 {
+			factorisationCh <- PrimeFactor{number, 1}
+			close(factorisationCh)
 			return
 		}
 
@@ -28,21 +29,21 @@ func PrimeFactorisation(numberToFactorise int) <-chan PrimeFactor {
 		// For each prime, see if it is a factor.
 		for val := range primeChannel {
 			index := 0
-			for ; numberToFactorise%val == 0; index++ {
-				numberToFactorise /= val
+			for ; number%val == 0; index++ {
+				number /= val
 			}
 
 			if index != 0 {
-				factorisationChannel <- PrimeFactor{val, index}
+				factorisationCh <- PrimeFactor{val, index}
 
 				// If found all factors then finish.
-				if numberToFactorise == 1 {
-					close(factorisationChannel)
+				if number == 1 {
+					close(factorisationCh)
 					return
 				}
 			}
 		}
 	}()
 
-	return factorisationChannel
+	return factorisationCh
 }

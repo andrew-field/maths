@@ -14,7 +14,7 @@ func TestPrimeFactorisation(t *testing.T) {
 		{-3, []PrimeFactor{{3, 1}}},
 		{-2, []PrimeFactor{{2, 1}}},
 		{-1, []PrimeFactor{{1, 1}}},
-		{0, []PrimeFactor{{0, 0}}},
+		{0, []PrimeFactor{{0, 1}}},
 		{1, []PrimeFactor{{1, 1}}},
 		{2, []PrimeFactor{{2, 1}}},
 		{3, []PrimeFactor{{3, 1}}},
@@ -33,15 +33,15 @@ func TestPrimeFactorisation(t *testing.T) {
 	}
 
 	for _, tC := range testCases {
-		primeFactorisationChannel := PrimeFactorisation(tC.input)
+		primeFactorisationCh := PrimeFactorisation(tC.input)
 
 		for _, expectedPrimeFactor := range tC.expectedResult {
-			if actualPrimeFactor := <-primeFactorisationChannel; actualPrimeFactor != expectedPrimeFactor {
+			if actualPrimeFactor := <-primeFactorisationCh; actualPrimeFactor != expectedPrimeFactor {
 				t.Errorf("Input in test: %v. Actual factor: %v. Expected factor: %v.", tC.input, actualPrimeFactor, expectedPrimeFactor)
 			}
 		}
 
-		if factor, more := <-primeFactorisationChannel; more {
+		if factor, more := <-primeFactorisationCh; more {
 			t.Errorf("Received more prime factors than expected. Input in test: %v. Unexpected prime factor: %v", tC.input, factor)
 		}
 	}
