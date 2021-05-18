@@ -25,11 +25,8 @@ jobs:
     - name: Build
       run: go build -v ./...
       
-    - name: Run coverage
+    - name: Test and run coverage
       run: go test -v ./... -race -coverprofile=coverage.out -covermode=atomic
     
     - name: Upload coverage to Codecov
       run: bash <(curl -s https://codecov.io/bash)
-
-    #- name: Test
-    #  run: go test -v ./...
