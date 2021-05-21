@@ -53,9 +53,9 @@ func lcm(numbers ...int) int {
 	return (numbers[0] / GCD(numbers...)) * numbers[1]
 }
 
-// LCM returns the least common multple of a group of integers.
-// LCM() = 0
-// LCM(a, 0) = |a|
+// LCMBig returns the least common multple of a group of integers.
+// LCMBig() = 0
+// LCMBig(a, 0) = |a|
 func LCMBig(numbers ...*big.Int) *big.Int {
 	if len(numbers) == 0 {
 		return big.NewInt(0)
