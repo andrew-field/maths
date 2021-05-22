@@ -7,7 +7,7 @@ func TestMaxPath(t *testing.T) {
 		input          *Tree
 		expectedResult int
 	}{
-		{nil, 0},
+		{CreateBinaryTree(), 0},
 		{CreateBinaryTree(1, 2, -3), 3},
 		{CreateBinaryTree(-1), -1},
 		{CreateBinaryTree(0), 0},
