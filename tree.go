@@ -66,12 +66,5 @@ func MaxPath(t *Tree) int {
 		return 0
 	}
 
-	return max(MaxPath(t.Left), MaxPath(t.Right)) + t.Value
-}
-
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
+	return Max(MaxPath(t.Left), MaxPath(t.Right)) + t.Value
 }

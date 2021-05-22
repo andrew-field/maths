@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestNumberOfDigitsOfInt(t *testing.T) {
+func TestNumberOfDigits(t *testing.T) {
 	testCases := []struct {
 		input          int
 		expectedResult int
@@ -33,7 +33,7 @@ func TestNumberOfDigitsOfInt(t *testing.T) {
 	}
 }
 
-func TestNumberOfDigitsOfBigInt(t *testing.T) {
+func TestNumberOfDigitsBig(t *testing.T) {
 	testCases := []struct {
 		input          *big.Int
 		expectedResult int
@@ -65,7 +65,7 @@ func TestNumberOfDigitsOfBigInt(t *testing.T) {
 	}
 }
 
-func TestDigitsOfInt(t *testing.T) {
+func TestDigits(t *testing.T) {
 	testCases := []struct {
 		input          int
 		expectedDigits []int
@@ -101,7 +101,7 @@ func TestDigitsOfInt(t *testing.T) {
 	}
 }
 
-func TestDigitsOfBigInt(t *testing.T) {
+func TestDigitsBig(t *testing.T) {
 	testCases := []struct {
 		input          *big.Int
 		expectedDigits []int

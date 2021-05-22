@@ -15,14 +15,10 @@ func GCD(numbers ...int) int {
 		y = x
 	}
 
-	if y < 0 {
-		return -y
-	}
-
-	return y
+	return Abs(y)
 }
 
-// LCM returns the least common multple of a group of integers.
+// LCM returns the least common multple of a group of integers. This method uses GCD().
 // LCM() = 0
 // LCM(a, 0) = |a|
 // Does not handle int overflows if the numbers get too large. Use LCMBig.
@@ -38,11 +34,7 @@ func LCM(numbers ...int) int {
 		lcmResult = lcm(numbers...)
 	}
 
-	if lcmResult < 0 {
-		return -lcmResult
-	}
-
-	return lcmResult
+	return Abs(lcmResult)
 }
 
 func lcm(numbers ...int) int {
@@ -53,7 +45,7 @@ func lcm(numbers ...int) int {
 	return (numbers[0] / GCD(numbers...)) * numbers[1]
 }
 
-// LCMBig returns the least common multple of a group of integers.
+// LCMBig returns the least common multple of a group of integers. This method uses (*Int) GCD().
 // LCMBig() = 0
 // LCMBig(a, 0) = |a|
 func LCMBig(numbers ...*big.Int) *big.Int {

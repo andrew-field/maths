@@ -5,9 +5,7 @@ import (
 	"strconv"
 )
 
-// Some methods use string-integer conversion, some functions stick with mathematical operations.
-
-// NumberOfDigits returns the number of digits an int has.
+// NumberOfDigits(x) returns the number of digits x has. Uses integer-string conversion.
 func NumberOfDigits(x int) int {
 	if x < 0 {
 		return len(strconv.Itoa(x)) - 1
@@ -16,7 +14,7 @@ func NumberOfDigits(x int) int {
 	return len(strconv.Itoa(x))
 }
 
-// NumberOfDigitsBig returns the number of digits a big.Int has.
+// NumberOfDigitsBig(x) returns the number of digits x has. Uses integer-string conversion.
 func NumberOfDigitsBig(x *big.Int) int {
 	if x.Sign() == -1 {
 		return len(x.String()) - 1
@@ -24,7 +22,7 @@ func NumberOfDigitsBig(x *big.Int) int {
 	return len(x.String())
 }
 
-// Digits returns and fills a channel with the digits of a number
+// Digits(x) returns and fills a channel with the digits of x
 // starting with the smallest magnitude numbers (right to left).
 func Digits(number int) <-chan int {
 	digitsCh := make(chan int)
@@ -47,7 +45,7 @@ func Digits(number int) <-chan int {
 	return digitsCh
 }
 
-// DigitsBig fills and returns a channel with the digits of a big.Int number
+// DigitsBig(x) fills and returns a channel with the digits of x
 // starting with the smallest magnitude numbers (right to left).
 func DigitsBig(number *big.Int) <-chan int {
 	digitsCh := make(chan int)
