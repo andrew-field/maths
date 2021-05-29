@@ -3,8 +3,7 @@ package maths
 // Factorial returns the factorial of |n|.
 // It does not handle int overflows when numbers get too large. Use big.MulRange() instead.
 func Factorial(n int) int {
-	n = Abs(n)
-	return fact(n)
+	return fact(Abs(n))
 }
 
 func fact(n int) int {
