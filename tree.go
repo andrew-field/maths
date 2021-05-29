@@ -30,12 +30,14 @@ func createTree(isPyramid bool, values ...int) *Tree {
 
 	trees := make([]*Tree, numberOfValues)
 
+	// Create all the tree nodes.
 	for ind, val := range values {
 		trees[ind] = &Tree{nil, val, nil}
 	}
 
 	pyramidSet, pyramidLimit := 0, 0
 
+	// Take the tree nodes and link them together to build the tree structure.
 	i, j := 0, 1
 	for ; j < numberOfValues-1; i++ {
 		trees[i].Left = trees[j]
