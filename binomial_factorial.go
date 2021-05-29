@@ -1,8 +1,8 @@
 package maths
 
-// Fact(x) returns the factorial of |x|.
+// Factorial returns the factorial of |n|.
 // It does not handle int overflows when numbers get too large. Use big.MulRange() instead.
-func Fact(n int) int {
+func Factorial(n int) int {
 	n = Abs(n)
 	return fact(n)
 }
@@ -14,8 +14,8 @@ func fact(n int) int {
 	return n * fact(n-1)
 }
 
-// Binomial(n, k) returns to binomial coefficient of (|n|, |k|).
+// Binomial returns to binomial coefficient of (|n|, |k|).
 // It does not handle int overflows when numbers get too large. Use big.Binomial() instead.
 func Binomial(n, k int) int {
-	return (Fact(n) / Fact(k)) / Fact(Abs(n)-Abs(k))
+	return (Factorial(n) / Factorial(k)) / Factorial(Abs(n)-Abs(k))
 }

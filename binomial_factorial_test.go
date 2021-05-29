@@ -20,7 +20,7 @@ func TestFact(t *testing.T) {
 	}
 
 	for _, tC := range testCases {
-		if actualResult := Fact(tC.input); actualResult != tC.expectedResult {
+		if actualResult := Factorial(tC.input); actualResult != tC.expectedResult {
 			t.Errorf("Input in test: %v. Actual factorial: %v. Expected factorial: %v.", tC.input, actualResult, tC.expectedResult)
 		}
 	}

@@ -1,6 +1,6 @@
 package maths
 
-// Max() returns the maximum int from a group of integers.
+// Max returns the maximum int from a group of integers.
 // Max() = 0
 func Max(numbers ...int) int {
 	switch len(numbers) {
@@ -24,7 +24,7 @@ func max(numbers ...int) int {
 	return numbers[0]
 }
 
-// Abs(x) returns the absolute value of x.
+// Abs returns the absolute value of x.
 // Does not handle math.MinInt64.
 func Abs(x int) int {
 	if x < 0 {

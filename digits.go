@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-// NumberOfDigits(x) returns the number of digits x has. Uses integer-string conversion.
+// NumberOfDigits returns the number of digits x has. Uses integer-string conversion.
 func NumberOfDigits(x int) int {
 	if x < 0 {
 		return len(strconv.Itoa(x)) - 1
@@ -14,7 +14,7 @@ func NumberOfDigits(x int) int {
 	return len(strconv.Itoa(x))
 }
 
-// NumberOfDigitsBig(x) returns the number of digits x has. Uses integer-string conversion.
+// NumberOfDigitsBig returns the number of digits x has. Uses integer-string conversion.
 func NumberOfDigitsBig(x *big.Int) int {
 	if x.Sign() == -1 {
 		return len(x.String()) - 1
@@ -22,21 +22,21 @@ func NumberOfDigitsBig(x *big.Int) int {
 	return len(x.String())
 }
 
-// Digits(x) returns and fills a channel with the digits of x
+// Digits returns and fills a channel with the digits of x
 // starting with the smallest magnitude numbers (right to left).
-func Digits(number int) <-chan int {
+func Digits(x int) <-chan int {
 	digitsCh := make(chan int)
 
 	go func() {
-		if number < 0 {
-			digitsCh <- -(number % 10) // Handles number = math.MinInt64
-			number /= -10
+		if x < 0 {
+			digitsCh <- -(x % 10) // Handles number = math.MinInt64
+			x /= -10
 		}
 
 		// 456/10 = 45 with int.
-		for number > 0 {
-			digitsCh <- number % 10
-			number /= 10
+		for x > 0 {
+			digitsCh <- x % 10
+			x /= 10
 		}
 
 		close(digitsCh)
@@ -45,14 +45,14 @@ func Digits(number int) <-chan int {
 	return digitsCh
 }
 
-// DigitsBig(x) fills and returns a channel with the digits of x
+// DigitsBig fills and returns a channel with the digits of x
 // starting with the smallest magnitude numbers (right to left).
-func DigitsBig(number *big.Int) <-chan int {
+func DigitsBig(x *big.Int) <-chan int {
 	digitsCh := make(chan int)
 
 	go func() {
 		// Uses altNumber so as to not change the original number.
-		altNumber := new(big.Int).Set(number)
+		altNumber := new(big.Int).Set(x)
 		altNumber.Abs(altNumber)
 
 		ten := big.NewInt(10)

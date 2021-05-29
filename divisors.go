@@ -1,6 +1,6 @@
 package maths
 
-// NumberOfDivisors(x) returns the number of (positive) divisors of x. Uses PrimeFactorisation(x).
+// NumberOfDivisors returns the number of (positive) divisors of x. Uses PrimeFactorisation(x).
 // Does not handle math.MinInt64.
 func NumberOfDivisors(x int) int {
 	x = Abs(x)
@@ -20,29 +20,29 @@ func NumberOfDivisors(x int) int {
 	return divisors
 }
 
-// Divisors(x) fills a channel with all the (positive) divisors of x. Uses PrimeFactorisation(x).
+// Divisors fills a channel with all the (positive) divisors of x. Uses PrimeFactorisation(x).
 // Does not handle math.MinInt64.
-func Divisors(number int) <-chan int {
+func Divisors(x int) <-chan int {
 	divisorCh := make(chan int)
 
 	go func() {
-		if number == 0 {
+		if x == 0 {
 			close(divisorCh)
 			return
 		}
 
 		divisorCh <- 1
 
-		number = Abs(number)
+		x = Abs(x)
 
-		if number == 1 {
+		if x == 1 {
 			close(divisorCh)
 			return
 		}
 
 		existingDivisors := []int{1}
 
-		factorisationChannel := PrimeFactorisation(number)
+		factorisationChannel := PrimeFactorisation(x)
 
 		for primeFactor := range factorisationChannel {
 			sectionLength := len(existingDivisors)
