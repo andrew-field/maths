@@ -14,7 +14,7 @@ func NumberOfDivisors(x int) int {
 	// Calculate the number of divisors.
 	divisors := 1
 	for primeFactor := range factorisationChannel {
-		divisors *= primeFactor.index + 1
+		divisors *= primeFactor.Index + 1
 	}
 
 	return divisors
@@ -48,9 +48,9 @@ func Divisors(x int) <-chan int {
 			sectionLength := len(existingDivisors)
 
 			j := 0
-			for i := 1; i <= primeFactor.index; i++ {
+			for i := 1; i <= primeFactor.Index; i++ {
 				for sectionLimit := sectionLength * i; j < sectionLimit; j++ {
-					existingDivisors = append(existingDivisors, existingDivisors[j]*primeFactor.value)
+					existingDivisors = append(existingDivisors, existingDivisors[j]*primeFactor.Value)
 					divisorCh <- existingDivisors[sectionLength+j]
 				}
 			}

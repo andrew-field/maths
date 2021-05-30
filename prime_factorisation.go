@@ -2,7 +2,7 @@ package maths
 
 // PrimeFactor is designed to hold a prime number as 'value' and the index of the prime number when it appears in a complete prime factorisation product.
 type PrimeFactor struct {
-	value, index int
+	Value, Index int
 }
 
 // PrimeFactorisation sends the prime factorisation of |x| on a channel, in ascending order.
