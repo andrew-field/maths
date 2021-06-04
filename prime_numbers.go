@@ -8,7 +8,7 @@ package maths
 import "context"
 
 // Send the sequence 2, 3, 4, ... to channel 'ch'.
-func generate(ch chan<- int, ctx context.Context) {
+func generate(ctx context.Context, ch chan<- int) {
 	for i := 2; ; i++ {
 		select {
 		case ch <- i: // Send 'i' to channel 'ch'.
@@ -20,7 +20,7 @@ func generate(ch chan<- int, ctx context.Context) {
 
 // Copy the values from channel 'in' to channel 'out',
 // removing those divisible by 'prime'.
-func filter(in <-chan int, out chan<- int, prime int, ctx context.Context) {
+func filter(ctx context.Context, in <-chan int, out chan<- int, prime int) {
 	for {
 		var i int
 		select {
@@ -44,7 +44,7 @@ func filter(in <-chan int, out chan<- int, prime int, ctx context.Context) {
 func GetPrimeNumbers() (<-chan int, chan<- bool) {
 	ch := make(chan int) // Create a new channel.
 	ctx, cancel := context.WithCancel(context.Background())
-	go generate(ch, ctx) // Launch Generate goroutine.
+	go generate(ctx, ch) // Launch Generate goroutine.
 
 	primeCh := make(chan int) // Create return channel.
 	doneCh := make(chan bool) // Create done channel.
@@ -62,7 +62,7 @@ func GetPrimeNumbers() (<-chan int, chan<- bool) {
 				return
 			}
 			ch1 := make(chan int)
-			go filter(ch, ch1, prime, ctx)
+			go filter(ctx, ch, ch1, prime)
 			ch = ch1
 		}
 	}()
