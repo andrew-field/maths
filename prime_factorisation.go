@@ -21,7 +21,7 @@ func PrimeFactorisation(x int) <-chan PrimeFactor {
 			return
 		}
 
-		primeChannel := GetPrimeNumbers()
+		primeChannel, doneCh := GetPrimeNumbers()
 
 		index := 0
 		// For each prime, see if it is a factor and if so, how many times/the index with which it appears.
@@ -36,6 +36,7 @@ func PrimeFactorisation(x int) <-chan PrimeFactor {
 				// If found all factors then finish.
 				if x == 1 {
 					close(factorisationCh)
+					doneCh <- true
 					return
 				}
 
