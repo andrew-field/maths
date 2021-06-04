@@ -1,5 +1,9 @@
 package maths
 
+import (
+	"sync"
+)
+
 // Inspiration taken from golang.org/x/tour/tree
 
 // A Tree is has a value and two sub trees.
@@ -62,11 +66,48 @@ func createTree(isPyramid bool, values ...int) *Tree {
 }
 
 // MaxPath returns the largest of all the possible summations from top to bottom of a tree.
-// MaxPath(<nil>) returns 0
+// The execution works up from the bottom of the pyramid. The maximum path to a node is the value of the node
+// plus the maximum of the maximum paths to each child node.
+// There is a natural recursive function but it fails when a pyramid tree gets too large and the function runs out of resources.
+// MaxPath(<nil>) returns 0.
 func MaxPath(t *Tree) int {
 	if t == nil {
 		return 0
 	}
 
-	return Max(MaxPath(t.Left), MaxPath(t.Right)) + t.Value
+	maximumPaths := new(sync.Map)
+
+	for _, totalSumExists := maximumPaths.Load(t); !totalSumExists; _, totalSumExists = maximumPaths.Load(t) {
+		generateMaximumPaths(t, maximumPaths, new(sync.Map))
+	}
+
+	sum, _ := maximumPaths.Load(t)
+	return sum.(int)
+}
+
+func generateMaximumPaths(t *Tree, maximumPaths *sync.Map, channelsMap *sync.Map) {
+	_, ok := channelsMap.LoadOrStore(t, true) // Prevents duplicate generating paths.
+	if ok {
+		return
+	}
+
+	var leftMax, rightMax interface{} = 0, 0
+	leftMaxExists, rightMaxExists := true, true
+	if t.Left != nil {
+		leftMax, leftMaxExists = maximumPaths.Load(t.Left)
+	}
+	if !leftMaxExists {
+		go generateMaximumPaths(t.Left, maximumPaths, channelsMap)
+	}
+
+	if t.Right != nil {
+		rightMax, rightMaxExists = maximumPaths.Load(t.Right)
+	}
+	if !rightMaxExists {
+		go generateMaximumPaths(t.Right, maximumPaths, channelsMap)
+	}
+
+	if leftMaxExists && rightMaxExists {
+		maximumPaths.Store(t, Max(leftMax.(int), rightMax.(int))+t.Value)
+	}
 }
