@@ -3,25 +3,21 @@ package maths
 // Max returns the maximum int from a group of integers.
 // Max() = 0
 func Max(numbers ...int) int {
-	switch len(numbers) {
-	case 0:
+	if len(numbers) == 0 {
 		return 0
-	case 1:
-		return numbers[0]
-	default:
-		return max(numbers...)
 	}
+	return max(numbers...)
 }
 
 func max(numbers ...int) int {
-	if len(numbers) > 2 {
-		return max(numbers[0], max(numbers[1:]...))
+	if len(numbers) == 1 {
+		return numbers[0]
 	}
 
-	if numbers[0] < numbers[1] {
-		return numbers[1]
+	if numbers[0] > numbers[1] {
+		numbers[1] = numbers[0]
 	}
-	return numbers[0]
+	return max(numbers[1:]...)
 }
 
 // Abs returns the |x|.

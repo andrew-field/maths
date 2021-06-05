@@ -1,10 +1,8 @@
 package maths
 
-import (
-	"testing"
-)
+import "testing"
 
-func TestNumberOfDivisors(t *testing.T) {
+func TestNumberOfDivisors2(t *testing.T) {
 	testCases := []struct {
 		input          int
 		expectedResult int
@@ -30,13 +28,13 @@ func TestNumberOfDivisors(t *testing.T) {
 	}
 
 	for _, tC := range testCases {
-		if actualResult := NumberOfDivisors(tC.input); actualResult != tC.expectedResult {
+		if actualResult := NumberOfDivisors2(tC.input); actualResult != tC.expectedResult {
 			t.Errorf("Input in test: %v. Actual number of divisors: %v. Expected number of divisors: %v.", tC.input, actualResult, tC.expectedResult)
 		}
 	}
 }
 
-func TestSumOfDivisors(t *testing.T) {
+func TestSumOfDivisors2(t *testing.T) {
 	testCases := []struct {
 		input          int
 		expectedResult int
@@ -62,18 +60,18 @@ func TestSumOfDivisors(t *testing.T) {
 	}
 
 	for _, tC := range testCases {
-		if actualResult := SumOfDivisors(tC.input); actualResult != tC.expectedResult {
+		if actualResult := SumOfDivisors2(tC.input); actualResult != tC.expectedResult {
 			t.Errorf("Input in test: %v. Actual sum of divisors: %v. Expected sum of divisors: %v.", tC.input, actualResult, tC.expectedResult)
 		}
 	}
 }
 
-func TestDivisors(t *testing.T) {
+func TestDivisors2(t *testing.T) {
 	testCases := []struct {
 		input          int
 		expectedResult []int
 	}{
-		{-4, []int{1, 2, 4}},
+		{-4, []int{1, 4, 2}},
 		{-3, []int{1, 3}},
 		{-2, []int{1, 2}},
 		{-1, []int{1}},
@@ -81,21 +79,21 @@ func TestDivisors(t *testing.T) {
 		{1, []int{1}},
 		{2, []int{1, 2}},
 		{3, []int{1, 3}},
-		{4, []int{1, 2, 4}},
+		{4, []int{1, 4, 2}},
 		{5, []int{1, 5}},
-		{6, []int{1, 2, 3, 6}},
+		{6, []int{1, 6, 2, 3}},
 		{7, []int{1, 7}},
-		{8, []int{1, 2, 4, 8}},
-		{9, []int{1, 3, 9}},
-		{10, []int{1, 2, 5, 10}},
-		{100, []int{1, 2, 4, 5, 10, 20, 25, 50, 100}},
-		{500, []int{1, 2, 4, 5, 10, 20, 25, 50, 100, 125, 250, 500}},
-		{45664, []int{1, 2, 4, 8, 16, 32, 1427, 2854, 5708, 11416, 22832, 45664}},
-		{7931265, []int{1, 3, 5, 15, 17, 51, 85, 255, 19, 57, 95, 285, 323, 969, 1615, 4845, 1637, 4911, 8185, 24555, 27829, 83487, 139145, 417435, 31103, 93309, 155515, 466545, 528751, 1586253, 2643755, 7931265}},
+		{8, []int{1, 8, 2, 4}},
+		{9, []int{1, 9, 3}},
+		{10, []int{1, 10, 2, 5}},
+		{100, []int{1, 100, 2, 50, 4, 25, 5, 20, 10}},
+		{500, []int{1, 500, 2, 250, 4, 125, 5, 100, 10, 50, 20, 25}},
+		{45664, []int{1, 45664, 2, 22832, 4, 11416, 8, 5708, 16, 2854, 32, 1427}},
+		{7931265, []int{1, 7931265, 3, 2643755, 5, 1586253, 15, 528751, 17, 466545, 19, 417435, 51, 155515, 57, 139145, 85, 93309, 95, 83487, 255, 31103, 285, 27829, 323, 24555, 969, 8185, 1615, 4911, 1637, 4845}},
 	}
 
 	for _, tC := range testCases {
-		divisorChannel := Divisors(tC.input)
+		divisorChannel := Divisors2(tC.input)
 
 		for _, expectedResult := range tC.expectedResult {
 			if actualResult := <-divisorChannel; actualResult != expectedResult {
