@@ -1,5 +1,9 @@
 package maths
 
+import (
+	"math"
+)
+
 // NumberOfDivisors returns the number of (positive) divisors of x. Uses PrimeFactorisation(x).
 // Does not handle math.MinInt64.
 func NumberOfDivisors(x int) int {
@@ -12,12 +16,37 @@ func NumberOfDivisors(x int) int {
 	factorisationChannel := PrimeFactorisation(x)
 
 	// Calculate the number of divisors.
-	divisors := 1
+	numberOfDivisors := 1
 	for primeFactor := range factorisationChannel {
-		divisors *= primeFactor.Index + 1
+		numberOfDivisors *= primeFactor.Index + 1
 	}
 
-	return divisors
+	return numberOfDivisors
+}
+
+// NumberOfDivisors2 returns the number of (positive) divisors of x. Uses a brute force method.
+func NumberOfDivisors2(x int) int {
+	if x == 0 {
+		return 0
+	}
+	x = Abs(x)
+
+	limit := int(math.Sqrt(float64(x)))
+
+	numberOfDivisors := 0
+	for i := 1; i <= limit; i++ {
+		if x%i == 0 {
+			numberOfDivisors++
+		}
+	}
+
+	numberOfDivisors *= 2
+
+	if limit*limit == x {
+		numberOfDivisors -= 1
+	}
+
+	return numberOfDivisors
 }
 
 // SumOfDivisors returns the sum of all (positive) divisors of x. Uses PrimeFactorisation(x).
