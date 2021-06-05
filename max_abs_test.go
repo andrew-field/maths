@@ -51,8 +51,8 @@ func TestAbs(t *testing.T) {
 	}
 
 	for _, tC := range testCases {
-		if actualAbsoluteValue := Abs(tC.input); actualAbsoluteValue != tC.expectedResult {
-			t.Errorf("Input in test: %v. Actual absolute value: %v. Expected absolute value: %v.", tC.input, actualAbsoluteValue, tC.expectedResult)
+		if actualValue := Abs(tC.input); actualValue != tC.expectedResult {
+			t.Errorf("Input in test: %v. Actual value: %v. Expected value: %v.", tC.input, actualValue, tC.expectedResult)
 		}
 	}
 }

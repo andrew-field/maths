@@ -36,6 +36,38 @@ func TestNumberOfDivisors(t *testing.T) {
 	}
 }
 
+func TestSumOfDivisors(t *testing.T) {
+	testCases := []struct {
+		input          int
+		expectedResult int
+	}{
+		{-3, 4},
+		{-2, 3},
+		{-1, 1},
+		{0, 0},
+		{1, 1},
+		{2, 3},
+		{3, 4},
+		{4, 7},
+		{5, 6},
+		{6, 12},
+		{7, 8},
+		{8, 15},
+		{9, 13},
+		{10, 18},
+		{100, 217},
+		{500, 1092},
+		{45664, 89964},
+		{7931265, 14152320},
+	}
+
+	for _, tC := range testCases {
+		if actualResult := SumOfDivisors(tC.input); actualResult != tC.expectedResult {
+			t.Errorf("Input in test: %v. Actual number of divisors: %v. Expected number of divisors: %v.", tC.input, actualResult, tC.expectedResult)
+		}
+	}
+}
+
 func TestDivisors(t *testing.T) {
 	testCases := []struct {
 		input          int

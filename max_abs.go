@@ -24,7 +24,7 @@ func max(numbers ...int) int {
 	return numbers[0]
 }
 
-// Abs returns the absolute value of x.
+// Abs returns the |x|.
 // Does not handle math.MinInt64.
 func Abs(x int) int {
 	if x < 0 {

@@ -20,6 +20,26 @@ func NumberOfDivisors(x int) int {
 	return divisors
 }
 
+// SumOfDivisors returns the sum of all (positive) divisors of x. Uses PrimeFactorisation(x).
+// Does not handle math.MinInt64.
+func SumOfDivisors(x int) int {
+	x = Abs(x)
+
+	if x == 0 || x == 1 {
+		return x
+	}
+
+	factorisationChannel := PrimeFactorisation(x)
+
+	// Calculate the number of divisors.
+	sumOfDivisors := 1
+	for primeFactor := range factorisationChannel {
+		sumOfDivisors *= (Pow(primeFactor.Value, primeFactor.Index+1) - 1) / (primeFactor.Value - 1)
+	}
+
+	return sumOfDivisors
+}
+
 // Divisors fills a channel with all the (positive) divisors of x. Uses PrimeFactorisation(x).
 // Does not handle math.MinInt64.
 func Divisors(x int) <-chan int {
