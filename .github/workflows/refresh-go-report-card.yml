@@ -4,9 +4,10 @@ on:
   push:
     branches: [ master ]
   schedule:
-    - cron: '0 12 1 * *'
+    - cron: '40 12 1 * *'
 
 jobs:
 
   post-request:
+    name: Call refresh go report card action
     uses: andrew-field/reusable-workflows/.github/workflows/refresh-go-report-card.yml@master
