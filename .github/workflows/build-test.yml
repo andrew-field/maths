@@ -9,4 +9,7 @@ on:
 jobs:
 
   build_test:
+    name: Call build and test action
     uses: andrew-field/reusable-workflows/.github/workflows/build-test.yml@master
+    with:
+      test_flags: -race 
