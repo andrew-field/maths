@@ -5,3 +5,4 @@
 [![CodeQL](https://github.com/andrew-field/maths/actions/workflows/codeql.yml/badge.svg)](https://github.com/andrew-field/maths/actions/workflows/codeql.yml)
 
 Extension library
+
