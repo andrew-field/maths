@@ -39,11 +39,11 @@ func LCM(numbers ...int) int {
 
 func lcm(numbers ...int) int {
 	if len(numbers) == 2 {
-		// Base case: compute LCM for two numbers
+		// Base case: compute LCM for two numbers.
 		return (numbers[0] / GCD(numbers[0], numbers[1])) * numbers[1]
 	}
 
-	// Recursively compute LCM for the list
+	// Recursively compute LCM.
 	return lcm(numbers[0], lcm(numbers[1:]...))
 }
 
@@ -66,12 +66,14 @@ func LCMBig(numbers ...*big.Int) *big.Int {
 }
 
 func lcmBig(numbers ...*big.Int) *big.Int {
-	if len(numbers) > 2 {
-		return lcmBig(numbers[0], lcmBig(numbers[1:]...))
+	if len(numbers) == 2 {
+		// Base case: compute LCM for two numbers.
+		gcd := new(big.Int).GCD(nil, nil, numbers[0], numbers[1])
+		x, y := new(big.Int).Set(numbers[0]), new(big.Int).Set(numbers[1])
+
+		return y.Mul(y, x.Div(x, gcd))
 	}
 
-	gcd := new(big.Int).GCD(nil, nil, numbers[0], numbers[1])
-	x, y := new(big.Int).Set(numbers[0]), new(big.Int).Set(numbers[1])
-
-	return y.Mul(y, x.Div(x, gcd))
+	// Recursively compute LCM.
+	return lcmBig(numbers[0], lcmBig(numbers[1:]...))
 }
