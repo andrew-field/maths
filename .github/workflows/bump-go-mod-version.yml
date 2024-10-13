@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  pull-requests: write
+  contents: write
 
 jobs:
   bump_go_mod_version:
