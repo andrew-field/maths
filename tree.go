@@ -6,7 +6,7 @@ import (
 
 // Inspiration taken from golang.org/x/tour/tree
 
-// A Tree is has a value and two sub trees.
+// A Tree has a value and two sub trees.
 type Tree struct {
 	Left  *Tree
 	Value int
@@ -47,13 +47,14 @@ func createTree(isPyramid bool, values ...int) *Tree {
 		trees[i].Left = trees[j]
 		j++
 		trees[i].Right = trees[j]
-		if !isPyramid {
+		switch {
+		case !isPyramid:
 			j++
-		} else if pyramidSet == pyramidLimit {
+		case pyramidSet == pyramidLimit:
 			j++
 			pyramidSet = 0
 			pyramidLimit++
-		} else {
+		default:
 			pyramidSet++
 		}
 	}

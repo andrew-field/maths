@@ -38,6 +38,10 @@ func LCM(numbers ...int) int {
 }
 
 func lcm(numbers ...int) int {
+	if len(numbers) < 2 {
+		panic("lcm requires at least two numbers")
+	}
+
 	if len(numbers) > 2 {
 		return lcm(numbers[0], lcm(numbers[1:]...))
 	}
