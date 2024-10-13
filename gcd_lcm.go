@@ -38,15 +38,13 @@ func LCM(numbers ...int) int {
 }
 
 func lcm(numbers ...int) int {
-	if len(numbers) < 2 {
-		return 0
+	if len(numbers) == 2 {
+		// Base case: compute LCM for two numbers
+		return (numbers[0] / GCD(numbers[0], numbers[1])) * numbers[1]
 	}
 
-	if len(numbers) > 2 {
-		return lcm(numbers[0], lcm(numbers[1:]...))
-	}
-
-	return (numbers[0] / GCD(numbers...)) * numbers[1]
+	// Recursively compute LCM for the list
+	return lcm(numbers[0], lcm(numbers[1:]...))
 }
 
 // LCMBig returns the least common multiple of a group of integers. This method uses (*Int) GCD().
