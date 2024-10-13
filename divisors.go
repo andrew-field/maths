@@ -36,9 +36,9 @@ func SumOfDivisors(x int) int {
 	return sumOfDivisors
 }
 
-// Divisors fills a channel with all the (positive) divisors of x, unsorted. Uses PrimeFactorisation(x).
+// GetDivisors fills a channel with all the (positive) divisors of x, unsorted. Uses PrimeFactorisation(x).
 // Does not handle math.MinInt64.
-func Divisors(x int) <-chan int {
+func GetDivisors(x int) <-chan int {
 	divisorCh := make(chan int)
 
 	go func() {

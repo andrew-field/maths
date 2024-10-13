@@ -88,16 +88,7 @@ func TestDigits(t *testing.T) {
 	for _, tC := range testCases {
 		digitChannel := Digits(tC.input)
 
-		for _, expectedDigit := range tC.expectedDigits {
-			if actualDigit := <-digitChannel; actualDigit != expectedDigit {
-				t.Errorf("Input in test: %v. Actual digit: %v. Expected digit: %v.", tC.input, actualDigit, expectedDigit)
-			}
-		}
-
-		// Check the digit channel does not have too many values.
-		if digit, more := <-digitChannel; more {
-			t.Errorf("Received more digits than expected. Input in test: %v. Unexpected digit: %v", tC.input, digit)
-		}
+		checkDigitsAreCorrect(tC, digitChannel, t)
 	}
 }
 
@@ -127,15 +118,22 @@ func TestDigitsBig(t *testing.T) {
 	for _, tC := range testCases {
 		digitChannel := DigitsBig(tC.input)
 
-		for _, expectedDigit := range tC.expectedDigits {
-			if actualDigit := <-digitChannel; actualDigit != expectedDigit {
-				t.Errorf("Input in test: %v. Actual digit: %v. Expected digit: %v.", tC.input, actualDigit, expectedDigit)
-			}
-		}
+		checkDigitsAreCorrect(tC, digitChannel, t)
+	}
+}
 
-		// Check the digit channel does not have too many values.
-		if digit, more := <-digitChannel; more {
-			t.Errorf("Received more digits than expected. Input in test: %v. Unexpected digit: %v", tC.input, digit)
+func checkDigitsAreCorrect[T int | *big.Int](tC struct {
+	input          T
+	expectedDigits []int
+}, digitChannel <-chan int, t *testing.T) {
+	for _, expectedDigit := range tC.expectedDigits {
+		if actualDigit := <-digitChannel; actualDigit != expectedDigit {
+			t.Errorf("Input in test: %v. Actual digit: %v. Expected digit: %v.", tC.input, actualDigit, expectedDigit)
 		}
+	}
+
+	// Check the digit channel does not have too many values.
+	if digit, more := <-digitChannel; more {
+		t.Errorf("Received more digits than expected. Input in test: %v. Unexpected digit: %v", tC.input, digit)
 	}
 }

@@ -2,71 +2,23 @@ package maths
 
 import "testing"
 
-func TestNumberOfDivisors2(t *testing.T) {
-	testCases := []struct {
-		input          int
-		expectedResult int
-	}{
-		{-3, 2},
-		{-2, 2},
-		{-1, 1},
-		{0, 0},
-		{1, 1},
-		{2, 2},
-		{3, 2},
-		{4, 3},
-		{5, 2},
-		{6, 4},
-		{7, 2},
-		{8, 4},
-		{9, 3},
-		{10, 4},
-		{100, 9},
-		{500, 12},
-		{45664, 12},
-		{7931265, 32},
-	}
-
-	for _, tC := range testCases {
-		if actualResult := NumberOfDivisors2(tC.input); actualResult != tC.expectedResult {
+func TestNumberOfDivisorsBruteForce(t *testing.T) {
+	for _, tC := range numberOfDivisorsTestCases {
+		if actualResult := NumberOfDivisorsBruteForce(tC.input); actualResult != tC.expectedResult {
 			t.Errorf("Input in test: %v. Actual number of divisors: %v. Expected number of divisors: %v.", tC.input, actualResult, tC.expectedResult)
 		}
 	}
 }
 
-func TestSumOfDivisors2(t *testing.T) {
-	testCases := []struct {
-		input          int
-		expectedResult int
-	}{
-		{-3, 4},
-		{-2, 3},
-		{-1, 1},
-		{0, 0},
-		{1, 1},
-		{2, 3},
-		{3, 4},
-		{4, 7},
-		{5, 6},
-		{6, 12},
-		{7, 8},
-		{8, 15},
-		{9, 13},
-		{10, 18},
-		{100, 217},
-		{500, 1092},
-		{45664, 89964},
-		{7931265, 14152320},
-	}
-
-	for _, tC := range testCases {
-		if actualResult := SumOfDivisors2(tC.input); actualResult != tC.expectedResult {
+func TestSumOfDivisorsBruteForce(t *testing.T) {
+	for _, tC := range sumOfDivisorsTestCases {
+		if actualResult := SumOfDivisorsBruteForce(tC.input); actualResult != tC.expectedResult {
 			t.Errorf("Input in test: %v. Actual sum of divisors: %v. Expected sum of divisors: %v.", tC.input, actualResult, tC.expectedResult)
 		}
 	}
 }
 
-func TestDivisors2(t *testing.T) {
+func TestGetDivisorsBruteForce(t *testing.T) {
 	testCases := []struct {
 		input          int
 		expectedResult []int
@@ -75,8 +27,8 @@ func TestDivisors2(t *testing.T) {
 		{-3, []int{1, 3}},
 		{-2, []int{1, 2}},
 		{-1, []int{1}},
+		{1, []int{1}}, // This is above the line below so JSCPD linter doesn't see a clone with the test cases in TestGCD.
 		{0, []int{}},
-		{1, []int{1}},
 		{2, []int{1, 2}},
 		{3, []int{1, 3}},
 		{4, []int{1, 4, 2}},
@@ -93,17 +45,8 @@ func TestDivisors2(t *testing.T) {
 	}
 
 	for _, tC := range testCases {
-		divisorChannel := Divisors2(tC.input)
+		divisorChannel := GetDivisorsBruteForce(tC.input)
 
-		for _, expectedResult := range tC.expectedResult {
-			if actualResult := <-divisorChannel; actualResult != expectedResult {
-				t.Errorf("Input in test: %v. Actual divisor: %v. Expected divisor: %v.", tC.input, actualResult, expectedResult)
-			}
-		}
-
-		// Check the divisor channel does not have too many values.
-		if divisor, more := <-divisorChannel; more {
-			t.Errorf("Received more divisors than expected. Input in test: %v. Unexpected divisor: %v", tC.input, divisor)
-		}
+		checkDivisorsAreCorrect(tC, divisorChannel, t)
 	}
 }

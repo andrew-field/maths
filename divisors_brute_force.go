@@ -2,8 +2,8 @@ package maths
 
 import "math"
 
-// NumberOfDivisors2 returns the number of (positive) divisors of x. Uses a brute force method.
-func NumberOfDivisors2(x int) int {
+// NumberOfDivisorsBruteForce returns the number of (positive) divisors of x. Uses a brute force method.
+func NumberOfDivisorsBruteForce(x int) int {
 	if x == 0 {
 		return 0
 	}
@@ -27,18 +27,18 @@ func NumberOfDivisors2(x int) int {
 	return numberOfDivisors
 }
 
-// SumOfDivisors2 returns the sum of all (positive) divisors of x. Uses a brute force method.
-func SumOfDivisors2(x int) int {
+// SumOfDivisorsBruteForce returns the sum of all (positive) divisors of x. Uses a brute force method.
+func SumOfDivisorsBruteForce(x int) int {
 	sumOfDivisors := 0
-	for divisor := range Divisors2(x) {
+	for divisor := range GetDivisorsBruteForce(x) {
 		sumOfDivisors += divisor
 	}
 
 	return sumOfDivisors
 }
 
-// Divisors2 fills a channel with all the (positive) divisors of x, unsorted. Uses a brute force method.
-func Divisors2(x int) <-chan int {
+// GetDivisorsBruteForce fills a channel with all the (positive) divisors of x, unsorted. Uses a brute force method.
+func GetDivisorsBruteForce(x int) <-chan int {
 	divisorCh := make(chan int)
 
 	go func() {

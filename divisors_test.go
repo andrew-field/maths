@@ -4,32 +4,56 @@ import (
 	"testing"
 )
 
-func TestNumberOfDivisors(t *testing.T) {
-	testCases := []struct {
-		input          int
-		expectedResult int
-	}{
-		{-3, 2},
-		{-2, 2},
-		{-1, 1},
-		{0, 0},
-		{1, 1},
-		{2, 2},
-		{3, 2},
-		{4, 3},
-		{5, 2},
-		{6, 4},
-		{7, 2},
-		{8, 4},
-		{9, 3},
-		{10, 4},
-		{100, 9},
-		{500, 12},
-		{45664, 12},
-		{7931265, 32},
-	}
+var numberOfDivisorsTestCases = []struct {
+	input          int
+	expectedResult int
+}{
+	{-3, 2},
+	{-2, 2},
+	{-1, 1},
+	{0, 0},
+	{1, 1},
+	{2, 2},
+	{3, 2},
+	{4, 3},
+	{5, 2},
+	{6, 4},
+	{7, 2},
+	{8, 4},
+	{9, 3},
+	{10, 4},
+	{100, 9},
+	{500, 12},
+	{45664, 12},
+	{7931265, 32},
+}
 
-	for _, tC := range testCases {
+var sumOfDivisorsTestCases = []struct {
+	input          int
+	expectedResult int
+}{
+	{-3, 4},
+	{-2, 3},
+	{-1, 1},
+	{0, 0},
+	{1, 1},
+	{2, 3},
+	{3, 4},
+	{4, 7},
+	{5, 6},
+	{6, 12},
+	{7, 8},
+	{8, 15},
+	{9, 13},
+	{10, 18},
+	{100, 217},
+	{500, 1092},
+	{45664, 89964},
+	{7931265, 14152320},
+}
+
+func TestNumberOfDivisors(t *testing.T) {
+	for _, tC := range numberOfDivisorsTestCases {
 		if actualResult := NumberOfDivisors(tC.input); actualResult != tC.expectedResult {
 			t.Errorf("Input in test: %v. Actual number of divisors: %v. Expected number of divisors: %v.", tC.input, actualResult, tC.expectedResult)
 		}
@@ -37,38 +61,14 @@ func TestNumberOfDivisors(t *testing.T) {
 }
 
 func TestSumOfDivisors(t *testing.T) {
-	testCases := []struct {
-		input          int
-		expectedResult int
-	}{
-		{-3, 4},
-		{-2, 3},
-		{-1, 1},
-		{0, 0},
-		{1, 1},
-		{2, 3},
-		{3, 4},
-		{4, 7},
-		{5, 6},
-		{6, 12},
-		{7, 8},
-		{8, 15},
-		{9, 13},
-		{10, 18},
-		{100, 217},
-		{500, 1092},
-		{45664, 89964},
-		{7931265, 14152320},
-	}
-
-	for _, tC := range testCases {
+	for _, tC := range sumOfDivisorsTestCases {
 		if actualResult := SumOfDivisors(tC.input); actualResult != tC.expectedResult {
 			t.Errorf("Input in test: %v. Actual sum of divisors: %v. Expected sum of divisors: %v.", tC.input, actualResult, tC.expectedResult)
 		}
 	}
 }
 
-func TestDivisors(t *testing.T) {
+func TestGetDivisors(t *testing.T) {
 	testCases := []struct {
 		input          int
 		expectedResult []int
@@ -95,17 +95,24 @@ func TestDivisors(t *testing.T) {
 	}
 
 	for _, tC := range testCases {
-		divisorChannel := Divisors(tC.input)
+		divisorChannel := GetDivisors(tC.input)
 
-		for _, expectedResult := range tC.expectedResult {
-			if actualResult := <-divisorChannel; actualResult != expectedResult {
-				t.Errorf("Input in test: %v. Actual divisor: %v. Expected divisor: %v.", tC.input, actualResult, expectedResult)
-			}
-		}
+		checkDivisorsAreCorrect(tC, divisorChannel, t)
+	}
+}
 
-		// Check the divisor channel does not have too many values.
-		if divisor, more := <-divisorChannel; more {
-			t.Errorf("Received more divisors than expected. Input in test: %v. Unexpected divisor: %v", tC.input, divisor)
+func checkDivisorsAreCorrect(tC struct {
+	input          int
+	expectedResult []int
+}, divisorChannel <-chan int, t *testing.T) {
+	for _, expectedResult := range tC.expectedResult {
+		if actualResult := <-divisorChannel; actualResult != expectedResult {
+			t.Errorf("Input in test: %v. Actual divisor: %v. Expected divisor: %v.", tC.input, actualResult, expectedResult)
 		}
+	}
+
+	// Check the divisor channel does not have too many values.
+	if divisor, more := <-divisorChannel; more {
+		t.Errorf("Received more divisors than expected. Input in test: %v. Unexpected divisor: %v", tC.input, divisor)
 	}
 }
