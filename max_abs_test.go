@@ -1,6 +1,8 @@
 package maths
 
 import (
+	"errors"
+	"fmt"
 	"math"
 	"testing"
 )
@@ -30,29 +32,45 @@ func TestMax(t *testing.T) {
 	}
 
 	for _, tC := range testCases {
-		if actualMax := Max(tC.input...); actualMax != tC.expectedResult {
-			t.Errorf("Input in test: %v. Actual max: %v. Expected max: %v.", tC.input, actualMax, tC.expectedResult)
-		}
+		testName := fmt.Sprintf("Input: %v", tC.input)
+		t.Run(testName, func(t *testing.T) {
+			// Check if the actual result matches the expected result.
+			if actualResult := Max(tC.input...); actualResult != tC.expectedResult {
+				t.Errorf("Expected result: %d, got result: %d", tC.expectedResult, actualResult)
+			}
+		})
 	}
 }
 
 func TestAbs(t *testing.T) {
 	testCases := []struct {
-		input          int
-		expectedResult int
+		input, expectedResult int
+		expectedError         error
 	}{
-		{math.MinInt64 + 1, math.MaxInt64},
-		{-100, 100},
-		{-1, 1},
-		{0, 0},
-		{1, 1},
-		{100, 100},
-		{math.MaxInt64, math.MaxInt64},
+		{math.MinInt + 1, math.MaxInt, nil},
+		{-100, 100, nil},
+		{-1, 1, nil},
+		{0, 0, nil},
+		{1, 1, nil},
+		{100, 100, nil},
+		{math.MaxInt, math.MaxInt, nil},
+		{math.MinInt, 0, ErrAbsoluteValueOfMinInt},
 	}
 
 	for _, tC := range testCases {
-		if actualValue := Abs(tC.input); actualValue != tC.expectedResult {
-			t.Errorf("Input in test: %v. Actual value: %v. Expected value: %v.", tC.input, actualValue, tC.expectedResult)
-		}
+		testName := fmt.Sprintf("Input: %d", tC.input)
+		t.Run(testName, func(t *testing.T) {
+			actualResult, actualError := Abs(tC.input)
+
+			// Check if the actual error matches the expected error.
+			if !errors.Is(actualError, tC.expectedError) {
+				t.Errorf("Expected error: %v, got error: %v", tC.expectedError, actualError)
+			}
+
+			// Check if the actual result matches the expected result.
+			if actualResult != tC.expectedResult {
+				t.Errorf("Expected result: %d, got result: %d", tC.expectedResult, actualResult)
+			}
+		})
 	}
 }

@@ -1,6 +1,8 @@
 package maths
 
 import (
+	"fmt"
+	"math"
 	"testing"
 )
 
@@ -9,6 +11,7 @@ func TestPrimeFactorisation(t *testing.T) {
 		input          int
 		expectedResult []PrimeFactor
 	}{
+		{math.MinInt, []PrimeFactor{{2, 63}}},
 		{-5, []PrimeFactor{{5, 1}}},
 		{-4, []PrimeFactor{{2, 2}}},
 		{-3, []PrimeFactor{{3, 1}}},
@@ -30,19 +33,23 @@ func TestPrimeFactorisation(t *testing.T) {
 		{1000, []PrimeFactor{{2, 3}, {5, 3}}},
 		{4561356, []PrimeFactor{{2, 2}, {3, 1}, {593, 1}, {641, 1}}},
 		{600851475143, []PrimeFactor{{71, 1}, {839, 1}, {1471, 1}, {6857, 1}}},
+		{math.MaxInt, []PrimeFactor{{7, 2}, {73, 1}, {127, 1}, {337, 1}, {92737, 1}, {649657, 1}}},
 	}
 
 	for _, tC := range testCases {
-		primeFactorisationCh := PrimeFactorisation(tC.input)
+		testName := fmt.Sprintf("Input: %d", tC.input)
+		t.Run(testName, func(t *testing.T) {
+			primeFactorisationCh := PrimeFactorisation(tC.input)
 
-		for _, expectedPrimeFactor := range tC.expectedResult {
-			if actualPrimeFactor := <-primeFactorisationCh; actualPrimeFactor != expectedPrimeFactor {
-				t.Errorf("Input in test: %v. Actual factor: %v. Expected factor: %v.", tC.input, actualPrimeFactor, expectedPrimeFactor)
+			for _, expectedPrimeFactor := range tC.expectedResult {
+				if actualPrimeFactor := <-primeFactorisationCh; actualPrimeFactor != expectedPrimeFactor {
+					t.Errorf("Actual factor: %v. Expected factor: %v.", actualPrimeFactor, expectedPrimeFactor)
+				}
 			}
-		}
 
-		if factor, more := <-primeFactorisationCh; more {
-			t.Errorf("Received more prime factors than expected. Input in test: %v. Unexpected prime factor: %v", tC.input, factor)
-		}
+			if factor, more := <-primeFactorisationCh; more {
+				t.Errorf("Received more prime factors than expected. Unexpected prime factor: %v", factor)
+			}
+		})
 	}
 }

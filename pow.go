@@ -1,17 +1,31 @@
 package maths
 
+import (
+	"fmt"
+	"math"
+)
+
 // Pow returns the x^|y|.
-func Pow(x, y int) int {
-	if y == 0 {
-		return 1
-	}
-	return pow(x, Abs(y), x)
-}
-
-func pow(x, y, product int) int {
-	if y == 1 {
-		return product
+// Returns 1, nil for all x and y when y is 0 or x is 1.
+// If an overflow error is detected when the numbers get too large, the function returns 0, ErrOverflowDetected.
+// In this case, use *bigInt.Exp() from the math/big package.
+func Pow(x, y int) (int, error) {
+	if y == 0 || x == 1 {
+		return 1, nil
 	}
 
-	return pow(x, y-1, product*x)
+	absY, err := Abs(y)
+	if err != nil {
+		return 0, fmt.Errorf("failed to get Abs(%d): %w", y, err)
+	}
+
+	for i := 1; i < absY; i++ {
+		// Check for overflow before multiplication. x could be positive or negative.
+		if !(x < math.MaxInt/x || x < math.MinInt/x) {
+			return 0, fmt.Errorf("failed to calculate %d * %d. The result is too large to hold in an int variable: %w", x, x, ErrOverflowDetected)
+		}
+		x *= x
+	}
+
+	return x, nil
 }

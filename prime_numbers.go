@@ -5,32 +5,71 @@
 
 package maths
 
-import "context"
+import (
+	"context"
+	"math"
+)
 
-// GetPrimeNumbersBelow fills a channel with the prime numbers below |n|. Uses a euclidean sieve.
-func GetPrimeNumbersBelow(n int) <-chan int {
-	n = Abs(n)
+// GetPrimeNumbersBelowAndIncluding fills a channel with the prime numbers below and including |n|, in order. Uses a euclidean sieve.
+func GetPrimeNumbersBelowAndIncluding(n int) <-chan int {
+	// Special case when n is equal to math.MinInt.
+	// In this case, getting the absolute value would return an error, but the prime numbers below |math.MinInt| and math.MaxInt are the same.
+	// (i.e. math.MaxInt, 2⁶³ - 1, is not a prime itself).
+	if n == math.MinInt {
+		n = math.MaxInt
+	}
+
+	if n < 0 { // Because math.MinInt case is checked above, this can not panic with an error.
+		n = -n
+	}
 
 	primeChannel := make(chan int)
 	go func() {
-		if n < 3 {
+		if n < 2 {
 			close(primeChannel)
 			return
 		}
-		// Make slice ready for primes, starting from 2.
-		numbers := make([]int, n-2)
-		for ind := range numbers {
-			numbers[ind] = ind + 2
-		}
 
-		// Euclidean sieve.
-		for ind, val := range numbers {
-			if val != 1 {
-				primeChannel <- val
-				for j := ind + val; j < n-2; j += val {
-					if numbers[j] != 1 {
-						numbers[j] = 1
-					}
+		maxPrime := int(math.Sqrt(float64(n)))
+		// Step 1: All composite numbers below and including n must have a prime factor p such that p <= SQRT(n).
+		// Hence to find all composite numbers, and therefore all prime numbers, generate all primes up to SQRT(n).
+		smallPrimes := getPrimesUpTo(maxPrime)
+
+		// Split the range [2, n] into 4 equal (or nearly equal) segments.
+		// Each segment is processed separately, reducing the maximum memory usage at any point.
+		// Memory usage is roughly proportional to n / numSegments.
+		numSegments := 4
+		segmentSize := (n - 1) / numSegments
+
+		for segment := 0; segment < numSegments; segment++ {
+			start := 2 + segment*segmentSize
+			var end int
+			if segment == numSegments-1 {
+				end = n + 1
+			} else {
+				end = start + segmentSize
+			}
+
+			// Step 2: Create a slice, isComposite, for the current segment to track whether numbers in this segment are composite.
+			isComposite := make([]bool, end-start)
+
+			// Step 3: Mark composites within the segment using smallPrimes
+			for _, p := range smallPrimes {
+				// Find the minimum number in [start, end) that is a multiple of p
+				minMultiple := ((start + p - 1) / p) * p
+				if minMultiple < p*p {
+					minMultiple = p * p
+				}
+				// Mark all multiples of p within the segment.
+				for j := minMultiple; j < end; j += p {
+					isComposite[j-start] = true
+				}
+			}
+
+			// Step 4: Iterate over isComposite and send any number that is not marked as composite (i.e., false) to primeChannel.
+			for i := 0; i < len(isComposite); i++ {
+				if !isComposite[i] {
+					primeChannel <- start + i
 				}
 			}
 		}
@@ -39,6 +78,23 @@ func GetPrimeNumbersBelow(n int) <-chan int {
 	}()
 
 	return primeChannel
+}
+
+func getPrimesUpTo(n int) []int {
+	isComposite := make([]bool, n+1)
+	primes := []int{}
+
+	for i := 2; i <= n; i++ {
+		if !isComposite[i] {
+			primes = append(primes, i)
+			if i*i <= n {
+				for j := i * i; j <= n; j += i {
+					isComposite[j] = true
+				}
+			}
+		}
+	}
+	return primes
 }
 
 // GetPrimeNumbers returns a channel from which to siphon off the prime numbers in order, as needed.
