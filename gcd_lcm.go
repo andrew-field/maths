@@ -86,7 +86,7 @@ func LCMBig(numbers ...*big.Int) *big.Int {
 	// If there are no numbers or if one of the numbers is zero, return 0, nil.
 	// There is an argument to be made that LCMBig(a, 0), for a != 0, should return an error. However, a decision has been made that it will return 0, nil instead.
 	if len(numbers) == 0 || slices.ContainsFunc(numbers, func(n *big.Int) bool { // If there are no numbers or if one of the numbers is zero, return 0, nil.
-		return n == zero // Can use == and != for *big.Int.
+		return n.Cmp(zero) == 0 // Can use == and != for *big.Int.
 	}) {
 		return zero
 	}

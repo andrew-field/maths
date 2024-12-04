@@ -87,10 +87,10 @@ func TestLCM(t *testing.T) {
 		{[]int{-2, -3, 4, 0}, 0, false},
 		{[]int{2, 3, 4, 0}, 0, false},
 		{[]int{1, 0}, 0, false},
-		{[]int{math.MinInt, 2}, 0, true}, // Fail GCD.
-		{[]int{math.MinInt}, 0, true},    // Fail Abs.
-		{[]int{math.MaxInt}, 2, true},    // Overflow.
-		{[]int{math.MaxInt}, -3, true},   // Overflow.
+		{[]int{math.MinInt, 2}, 0, true},         // Fail GCD.
+		{[]int{math.MinInt}, 0, true},            // Fail Abs.
+		{[]int{math.MaxInt}, math.MaxInt, false}, // Overflow.
+		{[]int{math.MaxInt, 2}, 0, true},         // Overflow.
 	}
 
 	for _, tC := range testCases {
@@ -138,7 +138,7 @@ func TestLCMBig(t *testing.T) {
 		{[]*big.Int{big.NewInt(2), big.NewInt(3), big.NewInt(4), big.NewInt(0)}, big.NewInt(0)},
 		{[]*big.Int{big.NewInt(1), big.NewInt(0)}, big.NewInt(0)},
 		{[]*big.Int{big.NewInt(math.MinInt), big.NewInt(2)}, big.NewInt(0).Abs(big.NewInt(math.MinInt))},
-		{[]*big.Int{big.NewInt(math.MinInt), big.NewInt(0).Abs(big.NewInt(math.MinInt))}, big.NewInt(0)},
+		{[]*big.Int{big.NewInt(math.MinInt), big.NewInt(0).Abs(big.NewInt(math.MinInt))}, big.NewInt(0).Abs(big.NewInt(math.MinInt))},
 		{[]*big.Int{big.NewInt(math.MaxInt), big.NewInt(2)}, big.NewInt(0).Mul(big.NewInt(math.MaxInt), big.NewInt(2))},
 	}
 
@@ -146,7 +146,7 @@ func TestLCMBig(t *testing.T) {
 		testName := fmt.Sprintf("Input: %v", tC.input)
 		t.Run(testName, func(t *testing.T) {
 			// Check if the actual result matches the expected result.
-			if actualResult := LCMBig(tC.input...); actualResult != tC.expectedResult { // Can use == and != for big.Int.
+			if actualResult := LCMBig(tC.input...); actualResult.Cmp(tC.expectedResult) != 0 {
 				t.Errorf("Expected LCM: %v, actual LCM: %v", tC.expectedResult, actualResult) // Can print the big.Int values OK.
 			}
 		})

@@ -16,16 +16,16 @@ type Tree struct {
 // CreateBinaryTree returns a (mostly) symmetric binary tree, filling with values from top to bottom, left to right.
 // CreateBinaryTree() returns <nil>
 func CreateBinaryTree(values ...int) *Tree {
-	return createTree(false, values...)
+	return createTree(true, values...)
 }
 
 // CreatePyramidTree returns a (mostly) symmetric pyramid tree, filling with values from top to bottom, left to right.
 // CreatePyramidTree() returns <nil>
 func CreatePyramidTree(values ...int) *Tree {
-	return createTree(true, values...)
+	return createTree(false, values...)
 }
 
-func createTree(isPyramid bool, values ...int) *Tree {
+func createTree(isBinaryTree bool, values ...int) *Tree {
 	if len(values) == 0 {
 		return nil
 	}
@@ -48,7 +48,7 @@ func createTree(isPyramid bool, values ...int) *Tree {
 		j++
 		trees[i].Right = trees[j]
 		switch {
-		case !isPyramid:
+		case isBinaryTree:
 			j++
 		case pyramidSet == pyramidLimit:
 			j++

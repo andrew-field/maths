@@ -27,10 +27,10 @@ func TestPow(t *testing.T) {
 		{3, 3, 27, false},
 		{math.MaxInt, 1, math.MaxInt, false},
 		{math.MinInt, 1, math.MinInt, false},
-		{-2, 63, 0, true},         // Same an math.MinInt.
-		{2, math.MinInt, 0, true}, // Fail to get Abs().
-		{math.MaxInt, 2, 0, true}, // Overflow
-		{2, 70, 0, true},          // Overflow
+		{-2, 63, math.MinInt, false}, // Same an math.MinInt.
+		{2, math.MinInt, 0, true},    // Fail to get Abs().
+		{math.MaxInt, 2, 0, true},    // Overflow
+		{2, 70, 0, true},             // Overflow
 	}
 
 	for _, tC := range testCases {

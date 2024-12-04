@@ -35,11 +35,12 @@ func GetPrimeNumbersBelowAndIncluding(n int) <-chan int {
 		// Hence to find all composite numbers, and therefore all prime numbers, generate all primes up to SQRT(n).
 		smallPrimes := getPrimesUpTo(maxPrime)
 
-		// Split the range [2, n] into 4 equal (or nearly equal) segments.
+		// Split the range [2, n] into numSegments equal (or nearly equal) segments.
 		// Each segment is processed separately, reducing the maximum memory usage at any point.
 		// Memory usage is roughly proportional to n / numSegments.
-		numSegments := 4
-		segmentSize := (n - 1) / numSegments
+		// An easy way to implement the number of segments is to have it proportional (in this case set) to maxPrime.
+		numSegments := maxPrime
+		segmentSize := n / numSegments
 
 		for segment := 0; segment < numSegments; segment++ {
 			start := 2 + segment*segmentSize

@@ -7,7 +7,7 @@ import (
 
 // NumberOfDigits returns the number of digits of an integer. Uses integer-string conversion.
 func NumberOfDigits(x int) int {
-	if x < 0 {
+	if x < 0 { // Can not write x = -x because x is an int and math.MinInt is not representable as a positive int.
 		return len(strconv.Itoa(x)) - 1
 	}
 

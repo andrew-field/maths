@@ -12,24 +12,25 @@ type PrimeFactor struct {
 func PrimeFactorisation(x int) <-chan PrimeFactor {
 	factorisationCh := make(chan PrimeFactor)
 
-	if x == math.MinInt { // Special case when x is equal to math.MinInt. In this case, getting the absolute value would return an error, but the prime factorisation of |math.MinInt|, 2⁶³, is known.
-		factorisationCh <- PrimeFactor{2, 63}
-		close(factorisationCh)
-		return factorisationCh
-	}
-
-	if x < 0 { // Because math.MinInt case is checked above, this can not panic with an error.
-		x = -x
-	}
-
-	// Special case for 0 and 1.
-	if x == 0 || x == 1 {
-		factorisationCh <- PrimeFactor{x, 1}
-		close(factorisationCh)
-		return factorisationCh
-	}
-
 	go func() {
+		// These special cases are handled inside the go function to avoid blocking the thread.
+		if x == math.MinInt { // Special case when x is equal to math.MinInt. In this case, getting the absolute value would return an error, but the prime factorisation of |math.MinInt|, 2⁶³, is known.
+			factorisationCh <- PrimeFactor{2, 63}
+			close(factorisationCh)
+			return
+		}
+
+		if x < 0 { // Because math.MinInt case is checked above, this can not panic with an error.
+			x = -x
+		}
+
+		// Special case for 0 and 1.
+		if x == 0 || x == 1 {
+			factorisationCh <- PrimeFactor{x, 1}
+			close(factorisationCh)
+			return
+		}
+
 		primeCh := GetPrimeNumbersBelowAndIncluding(x)
 
 		index := 0

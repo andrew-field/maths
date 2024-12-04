@@ -19,13 +19,14 @@ func Pow(x, y int) (int, error) {
 		return 0, fmt.Errorf("failed to get Abs(%d): %w", y, err)
 	}
 
+	result := x
 	for i := 1; i < absY; i++ {
 		// Check for overflow before multiplication. x could be positive or negative.
-		if !(x < math.MaxInt/x || x < math.MinInt/x) {
-			return 0, fmt.Errorf("failed to calculate %d * %d. The result is too large to hold in an int variable: %w", x, x, ErrOverflowDetected)
+		if result > math.MaxInt/x && result > math.MinInt/x {
+			return 0, fmt.Errorf("failed to calculate %d * %d. The result is too large to hold in an int variable: %w", result, x, ErrOverflowDetected)
 		}
-		x *= x
+		result *= x
 	}
 
-	return x, nil
+	return result, nil
 }
