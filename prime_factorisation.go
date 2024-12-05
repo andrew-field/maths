@@ -45,8 +45,8 @@ func PrimeFactorisation(x int) <-chan PrimeFactor {
 
 				// If found all factors then finish.
 				if x == 1 {
-					go func() { // Drain the primeCh in case there are values left.
-						for range primeCh {
+					go func() {
+						for range primeCh { // Drain the primeCh in case there are values left.
 						}
 					}()
 					close(factorisationCh)

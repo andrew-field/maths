@@ -93,11 +93,15 @@ var sumOfDivisorsTestCases = []struct {
 }
 
 func TestNumberOfDivisors(t *testing.T) {
+	testNumberOfDivisorsHelper(t, NumberOfDivisors)
+}
+
+func testNumberOfDivisorsHelper(t *testing.T, f func(int) int) {
 	for _, tC := range numberOfDivisorsTestCases {
 		testName := fmt.Sprintf("Input: %d", tC.input)
 		t.Run(testName, func(t *testing.T) {
 			// Check if the actual result matches the expected result.
-			if actualResult := NumberOfDivisors(tC.input); actualResult != tC.expectedResult {
+			if actualResult := f(tC.input); actualResult != tC.expectedResult {
 				t.Errorf("Expected number of divisors: %d, actual number of divisors: %d", tC.expectedResult, actualResult)
 			}
 		})
@@ -105,10 +109,14 @@ func TestNumberOfDivisors(t *testing.T) {
 }
 
 func TestGetDivisors(t *testing.T) {
+	testGetDivisorsHelper(t, GetDivisors)
+}
+
+func testGetDivisorsHelper(t *testing.T, f func(int) (<-chan int, error)) {
 	for _, tC := range getDivisorsTestCases {
 		testName := fmt.Sprintf("Input: %d", tC.input)
 		t.Run(testName, func(t *testing.T) {
-			divisorCh, actualError := GetDivisors(tC.input)
+			divisorCh, actualError := f(tC.input)
 
 			// Check if an error was returned and matches if an error was expected.
 			if gotError := actualError != nil; gotError != tC.expectedError {
@@ -130,10 +138,14 @@ func TestGetDivisors(t *testing.T) {
 }
 
 func TestSumOfDivisors(t *testing.T) {
+	testSumOfDivisorsHelper(t, SumOfDivisors)
+}
+
+func testSumOfDivisorsHelper(t *testing.T, f func(int) (int, error)) {
 	for _, tC := range sumOfDivisorsTestCases {
 		testName := fmt.Sprintf("Input: %d", tC.input)
 		t.Run(testName, func(t *testing.T) {
-			actualResult, actualError := SumOfDivisors(tC.input)
+			actualResult, actualError := f(tC.input)
 
 			// Check if an error was returned and matches if an error was expected.
 			if gotError := actualError != nil; gotError != tC.expectedError {
