@@ -28,15 +28,7 @@ func TestFactorial(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			actualResult, actualError := Factorial(tC.input)
 
-			// Check if an error was returned and matches if an error was expected.
-			if gotError := actualError != nil; gotError != tC.expectedError {
-				t.Errorf("Expected error: %t, got error: %t, error: %v", tC.expectedError, gotError, actualError)
-			}
-
-			// Check if the actual result matches the expected result
-			if actualResult != tC.expectedResult {
-				t.Errorf("Expected result: %d, got result: %d", tC.expectedResult, actualResult)
-			}
+			checkResults(t, tC.expectedResult, tC.expectedError, actualResult, actualError)
 		})
 	}
 }
@@ -70,15 +62,19 @@ func TestBinomial(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			actualResult, actualError := Binomial(tC.n, tC.k)
 
-			// Check if an error was returned and matches if an error was expected.
-			if gotError := actualError != nil; gotError != tC.expectedError {
-				t.Errorf("Expected error: %t, got error: %t, error: %v", tC.expectedError, gotError, actualError)
-			}
-
-			// Check if the actual result matches the expected result
-			if actualResult != tC.expectedResult {
-				t.Errorf("Expected result: %d, got result: %d", tC.expectedResult, actualResult)
-			}
+			checkResults(t, tC.expectedResult, tC.expectedError, actualResult, actualError)
 		})
+	}
+}
+
+func checkResults(t *testing.T, expectedResult int, expectedError bool, actualResult int, actualError error) {
+	// Check if an error was returned and matches if an error was expected.
+	if gotError := actualError != nil; gotError != expectedError {
+		t.Errorf("Expected error: %t, got error: %t, error: %v", expectedError, gotError, actualError)
+	}
+
+	// Check if the actual result matches the expected result
+	if actualResult != expectedResult {
+		t.Errorf("Expected result: %d, got result: %d", expectedResult, actualResult)
 	}
 }

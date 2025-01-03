@@ -98,17 +98,7 @@ func TestGetDigits(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			digitCh := GetDigits(tC.input)
 
-			// Check if the each actual digit matches the expected digit.
-			for index, expectedDigit := range tC.expectedDigits {
-				if actualDigit := <-digitCh; actualDigit != expectedDigit {
-					t.Errorf("Actual digit: %d. Expected digit: %d at index %d", actualDigit, expectedDigit, index)
-				}
-			}
-
-			// Check the digit channel does not have too many values.
-			if digit, more := <-digitCh; more {
-				t.Errorf("Received more digits than expected. Unexpected digit: %d", digit)
-			}
+			checkDigitResults(t, tC.expectedDigits, digitCh)
 		})
 	}
 }
@@ -141,17 +131,21 @@ func TestGetDigitsBig(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			digitCh := GetDigitsBig(tC.input)
 
-			// Check if the each actual digit matches the expected digit.
-			for index, expectedDigit := range tC.expectedDigits {
-				if actualDigit := <-digitCh; actualDigit != expectedDigit {
-					t.Errorf("Actual digit: %d. Expected digit: %d at index %d", actualDigit, expectedDigit, index)
-				}
-			}
-
-			// Check the digit channel does not have too many values.
-			if digit, more := <-digitCh; more {
-				t.Errorf("Received more digits than expected. Unexpected digit: %d", digit)
-			}
+			checkDigitResults(t, tC.expectedDigits, digitCh)
 		})
+	}
+}
+
+func checkDigitResults(t *testing.T, expectedDigits []int, digitCh <-chan int) {
+	// Check if the each actual digit matches the expected digit.
+	for index, expectedDigit := range expectedDigits {
+		if actualDigit := <-digitCh; actualDigit != expectedDigit {
+			t.Errorf("Actual digit: %d. Expected digit: %d at index %d", actualDigit, expectedDigit, index)
+		}
+	}
+
+	// Check the digit channel does not have too many values.
+	if digit, more := <-digitCh; more {
+		t.Errorf("Received more digits than expected. Unexpected digit: %d", digit)
 	}
 }
