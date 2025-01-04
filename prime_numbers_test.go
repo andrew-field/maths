@@ -72,7 +72,7 @@ func TestGetPrimeNumbersBelowAndIncluding(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
-			primeCh := GetPrimeNumbersBelowAndIncluding(tC.input, ctx)
+			primeCh := GetPrimeNumbersBelowAndIncluding(ctx, tC.input)
 
 			for _, expectedPrime := range tC.expectedResult {
 				if actualPrime := <-primeCh; actualPrime != expectedPrime {

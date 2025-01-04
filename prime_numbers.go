@@ -12,7 +12,7 @@ import (
 
 // GetPrimeNumbersBelowAndIncluding fills a channel with the prime numbers below and including |n|, in order. Uses a euclidean sieve.
 // Cancel the context when the calling function has finished with the return values and does not care about further possible values.
-func GetPrimeNumbersBelowAndIncluding(n int, ctx context.Context) <-chan int {
+func GetPrimeNumbersBelowAndIncluding(ctx context.Context, n int) <-chan int {
 	// Special case when n is equal to math.MinInt.
 	// In this case, getting the absolute value would return an error, but the prime numbers below |math.MinInt| and math.MaxInt are the same.
 	// (i.e. math.MaxInt, 2⁶³ - 1, is not a prime itself).
@@ -86,19 +86,41 @@ func GetPrimeNumbersBelowAndIncluding(n int, ctx context.Context) <-chan int {
 }
 
 func getPrimesUpTo(n int) []int {
-	isComposite := make([]bool, n+1)
-	primes := []int{}
-
-	for i := 2; i <= n; i++ {
-		if !isComposite[i] {
-			primes = append(primes, i)
-			if i*i <= n {
-				for j := i * i; j <= n; j += i {
-					isComposite[j] = true
-				}
-			}
+	if n < 2 {
+		return []int{}
+	}
+	if n <= 5 {
+		switch n {
+		case 2:
+			return []int{2}
+		case 3:
+			return []int{2, 3}
+		case 4, 5:
+			return []int{2, 3, 5}
 		}
 	}
+
+	// Wheel factorization for 2, 3, 5.
+	wheel := []int{4, 2, 4, 2, 4, 6, 2, 6}
+	wIndex := 0
+	candidate := 7
+
+	// isComposite[i] represents whether candidate + i is composite.
+	isComposite := make([]bool, n+1)
+
+	primes := []int{2, 3, 5}
+	for candidate <= n {
+		if !isComposite[candidate] {
+			primes = append(primes, candidate)
+			// Mark multiples of candidate as composite
+			for j := candidate * candidate; j <= n; j += candidate {
+				isComposite[j] = true
+			}
+		}
+		candidate += wheel[wIndex]
+		wIndex = (wIndex + 1) % len(wheel)
+	}
+
 	return primes
 }
 
