@@ -1,6 +1,7 @@
 package maths
 
 import (
+	"context"
 	"fmt"
 	"testing"
 )
@@ -69,7 +70,9 @@ func TestGetPrimeNumbersBelowAndIncluding(t *testing.T) {
 	for _, tC := range testCases {
 		testName := fmt.Sprintf("Input: %d", tC.input)
 		t.Run(testName, func(t *testing.T) {
-			primeCh := GetPrimeNumbersBelowAndIncluding(tC.input)
+			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
+			primeCh := GetPrimeNumbersBelowAndIncluding(tC.input, ctx)
 
 			for _, expectedPrime := range tC.expectedResult {
 				if actualPrime := <-primeCh; actualPrime != expectedPrime {

@@ -1,6 +1,9 @@
 package maths
 
-import "math"
+import (
+	"context"
+	"math"
+)
 
 // PrimeFactor is designed to hold a prime number as 'value' and the index of the prime number as it appears in a complete prime factorisation product.
 type PrimeFactor struct {
@@ -13,10 +16,11 @@ func PrimeFactorisation(x int) <-chan PrimeFactor {
 	factorisationCh := make(chan PrimeFactor)
 
 	go func() {
+		defer close(factorisationCh)
+
 		// These special cases are handled inside the go function to avoid blocking the thread.
 		if x == math.MinInt { // Special case when x is equal to math.MinInt. In this case, getting the absolute value would return an error, but the prime factorisation of |math.MinInt|, 2⁶³, is known.
 			factorisationCh <- PrimeFactor{2, 63}
-			close(factorisationCh)
 			return
 		}
 
@@ -27,11 +31,12 @@ func PrimeFactorisation(x int) <-chan PrimeFactor {
 		// Special case for 0 and 1.
 		if x == 0 || x == 1 {
 			factorisationCh <- PrimeFactor{x, 1}
-			close(factorisationCh)
 			return
 		}
 
-		primeCh := GetPrimeNumbersBelowAndIncluding(x)
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
+		primeCh := GetPrimeNumbersBelowAndIncluding(x, ctx)
 
 		index := 0
 		// For each prime, see if it is a factor and if so, how many times/the index with which it appears.
@@ -45,11 +50,6 @@ func PrimeFactorisation(x int) <-chan PrimeFactor {
 
 				// If found all factors then finish.
 				if x == 1 {
-					go func() {
-						for range primeCh { // Drain the primeCh in case there are values left.
-						}
-					}()
-					close(factorisationCh)
 					return
 				}
 

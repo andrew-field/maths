@@ -11,7 +11,8 @@ import (
 )
 
 // GetPrimeNumbersBelowAndIncluding fills a channel with the prime numbers below and including |n|, in order. Uses a euclidean sieve.
-func GetPrimeNumbersBelowAndIncluding(n int) <-chan int {
+// Cancel the context when the calling function has finished with the return values and does not care about further possible values.
+func GetPrimeNumbersBelowAndIncluding(n int, ctx context.Context) <-chan int {
 	// Special case when n is equal to math.MinInt.
 	// In this case, getting the absolute value would return an error, but the prime numbers below |math.MinInt| and math.MaxInt are the same.
 	// (i.e. math.MaxInt, 2⁶³ - 1, is not a prime itself).
@@ -19,14 +20,15 @@ func GetPrimeNumbersBelowAndIncluding(n int) <-chan int {
 		n = math.MaxInt
 	}
 
-	if n < 0 { // Because math.MinInt case is checked above, this can not panic with an error.
-		n = -n
+	if n < 0 {
+		n = -n // Because math.MinInt case is checked above, this can not panic with an error.
 	}
 
 	primeChannel := make(chan int)
 	go func() {
+		defer close(primeChannel)
+
 		if n < 2 {
-			close(primeChannel)
 			return
 		}
 
@@ -70,12 +72,14 @@ func GetPrimeNumbersBelowAndIncluding(n int) <-chan int {
 			// Step 4: Iterate over isComposite and send any number that is not marked as composite (i.e., false) to primeChannel.
 			for i := 0; i < len(isComposite); i++ {
 				if !isComposite[i] {
-					primeChannel <- start + i
+					select {
+					case primeChannel <- start + i:
+					case <-ctx.Done():
+						return
+					}
 				}
 			}
 		}
-
-		close(primeChannel)
 	}()
 
 	return primeChannel
