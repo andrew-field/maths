@@ -14,17 +14,9 @@ permissions: {}
 jobs:
   build_test:
     name: Call build and test action
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    uses: andrew-field/reusable-workflows/.github/workflows/build-test.yml@master
+    with:
+      test_flags: -race
 
-      - name: Run build and test
-        uses: andrew-field/reusable-workflows/.github/workflows/build-test.yml@master
-        with:
-          test_flags: -race
-
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        # Codecov secret used by the build-test action. Codecov token needs to be added as a secret.
+    secrets: inherit
+    # Codecov secret used by the build-test action. Codecov token needs to be added as a secret.
