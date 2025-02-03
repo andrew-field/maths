@@ -35,8 +35,12 @@ func GetPrimeNumbersBelowAndIncluding(ctx context.Context, n int) <-chan int {
 		// Split the range [2, n] into numSegments equal (or nearly equal) segments.
 		// Each segment is processed separately, reducing the maximum memory usage at any point.
 		// Memory usage is roughly proportional to n / numSegments.
-		// An easy way to implement the number of segments is to have it proportional (in this case set) to maxPrime.
-		numSegments := maxPrime
+		// An easy way to implement the number of segments is to have it proportional to maxPrime.
+		numSegments := maxPrime * 10
+		if numSegments < 100 {
+			numSegments = 1
+		}
+
 		segmentSize := n / numSegments
 
 		for segment := 0; segment < numSegments; segment++ {
