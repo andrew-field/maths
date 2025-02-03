@@ -1,8 +1,3 @@
-// Copied and adapted from: tinyurl.com/gosieve
-// https://youtu.be/f6kdp27TYZs
-
-// A concurrent prime sieve
-
 package maths
 
 import (
@@ -56,16 +51,22 @@ func GetPrimeNumbersBelowAndIncluding(ctx context.Context, n int) <-chan int {
 			// Step 2: Create a slice, isComposite, for the current segment to track whether numbers in this segment are composite.
 			isComposite := make([]bool, end-start)
 
-			// Step 3: Mark composites within the segment using smallPrimes
+			// Step 3: Mark composites within the segment using smallPrimes.
+			wheel := []int{4, 2, 4, 2, 4, 6, 2, 6} // Wheel factorization for 2, 3, 5.
 			for _, p := range smallPrimes {
-				// Find the minimum number in [start, end) that is a multiple of p
+				// Find the minimum number in [start, end) that is a multiple of p.
 				minMultiple := ((start + p - 1) / p) * p
 				if minMultiple < p*p {
 					minMultiple = p * p
 				}
+
+				wIndex := 0
 				// Mark all multiples of p within the segment.
+				// Use the wheel to skip some multiples that are guaranteed to be composite.
 				for j := minMultiple; j < end; j += p {
 					isComposite[j-start] = true
+					j += p * wheel[wIndex]
+					wIndex = (wIndex + 1) % 8 // len(wheel)
 				}
 			}
 
@@ -118,11 +119,14 @@ func getPrimesUpTo(n int) []int {
 			}
 		}
 		candidate += wheel[wIndex]
-		wIndex = (wIndex + 1) % len(wheel)
+		wIndex = (wIndex + 1) % 8 // len(wheel)
 	}
 
 	return primes
 }
+
+// Copied and adapted from: tinyurl.com/gosieve
+// https://youtu.be/f6kdp27TYZs
 
 // GetPrimeNumbers returns a channel from which to siphon off the prime numbers in order, as needed.
 // Send a boolean to the Done channel when finished.
