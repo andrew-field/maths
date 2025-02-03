@@ -13,10 +13,12 @@ permissions: {}
 
 jobs:
   build_test:
-    name: Call build and test action
-    uses: andrew-field/reusable-workflows/.github/workflows/build-test.yml@master
-    with:
-      test_flags: -race
-
-    secrets: inherit
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Call build and test action
+        uses: andrew-field/reusable-workflows/.github/workflows/build-test.yml@master
+        with:
+          test_flags: -race
+          secrets: inherit
     # Codecov secret used by the build-test action. Codecov token needs to be added as a secret.
