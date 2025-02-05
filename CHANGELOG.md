@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.1](https://github.com/andrew-field/maths/compare/v2.0.0...v2.0.1) (2025-02-05)
+
+### Bugfixes
+
+- Format changelog ([2337b1f](https://github.com/andrew-field/maths/commit/2337b1fc2cb42608032f61a889ad6961807b8116))
+
 ## [2.0.0](https://github.com/andrew-field/maths/compare/v1.1.1...v2.0.0) (2025-02-05)
 
 ### ⚠ BREAKING CHANGES
@@ -22,9 +28,9 @@
 - update go test flag ([677ea87](https://github.com/andrew-field/maths/commit/677ea87daa9ebcbb54f8ca8ec2fb95e2e046ab94))
 - update repeated code ([cd03508](https://github.com/andrew-field/maths/commit/cd03508267ca85df7908f668c3eea2f924fa9d3f))
 - update sieve and refactor ([32b7323](https://github.com/andrew-field/maths/commit/32b7323aaa4dc23ad2328c0d26232ce15d8883f3))
-- update yaml ([e312cc5](https://github.com/andrew-field/maths/commit/e312cc57a0d0ab42304c46bdd2429b60354c0981))
+- update YAML ([e312cc5](https://github.com/andrew-field/maths/commit/e312cc57a0d0ab42304c46bdd2429b60354c0981))
 - use context ([8f3243b](https://github.com/andrew-field/maths/commit/8f3243b2dbb7e7f00b84f707853fe12a317ff18d))
 
-### Bug Fixes
+### Bugfixes
 
-- revert yaml change ([5a3bf63](https://github.com/andrew-field/maths/commit/5a3bf633401d9a89c264e035930b9efb824800ac))
+- revert YAML change ([5a3bf63](https://github.com/andrew-field/maths/commit/5a3bf633401d9a89c264e035930b9efb824800ac))
