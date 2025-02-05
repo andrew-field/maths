@@ -137,9 +137,9 @@ func TestLCMBig(t *testing.T) {
 		{[]*big.Int{big.NewInt(-2), big.NewInt(-3), big.NewInt(4), big.NewInt(0)}, big.NewInt(0)},
 		{[]*big.Int{big.NewInt(2), big.NewInt(3), big.NewInt(4), big.NewInt(0)}, big.NewInt(0)},
 		{[]*big.Int{big.NewInt(1), big.NewInt(0)}, big.NewInt(0)},
-		{[]*big.Int{big.NewInt(math.MinInt), big.NewInt(2)}, big.NewInt(0).Abs(big.NewInt(math.MinInt))},
-		{[]*big.Int{big.NewInt(math.MinInt), big.NewInt(0).Abs(big.NewInt(math.MinInt))}, big.NewInt(0).Abs(big.NewInt(math.MinInt))},
-		{[]*big.Int{big.NewInt(math.MaxInt), big.NewInt(2)}, big.NewInt(0).Mul(big.NewInt(math.MaxInt), big.NewInt(2))},
+		{[]*big.Int{big.NewInt(math.MinInt), big.NewInt(2)}, new(big.Int).Abs(big.NewInt(math.MinInt))},
+		{[]*big.Int{big.NewInt(math.MinInt), new(big.Int).Abs(big.NewInt(math.MinInt))}, new(big.Int).Abs(big.NewInt(math.MinInt))},
+		{[]*big.Int{big.NewInt(math.MaxInt), big.NewInt(2)}, new(big.Int).Mul(big.NewInt(math.MaxInt), big.NewInt(2))},
 	}
 
 	for _, tC := range testCases {

@@ -27,17 +27,21 @@ func GetPrimeNumbersBelowAndIncluding(ctx context.Context, n int) <-chan int {
 			return
 		}
 
-		maxPrime := int(math.Sqrt(float64(n)))
 		// Step 1: All composite numbers below and including n must have a prime factor p such that p <= SQRT(n).
 		// Hence to find all composite numbers, and therefore all prime numbers, generate all primes up to SQRT(n).
+		maxPrime := int(math.Sqrt(float64(n)))
 		smallPrimes := getPrimesUpTo(maxPrime)
 
 		// Split the range [2, n] into numSegments equal (or nearly equal) segments.
 		// Each segment is processed separately, reducing the maximum memory usage at any point.
 		// Memory usage is roughly proportional to n / numSegments.
-		// An easy way to implement the number of segments is to have it proportional (in this case set) to maxPrime.
-		numSegments := maxPrime
-		segmentSize := n / numSegments
+		// An easy way to implement the number of segments is to have it proportional to maxPrime.
+		numSegments := maxPrime / 100
+		if numSegments < 10 {
+			numSegments = 1
+		}
+
+		segmentSize := (n - 1) / numSegments // n - 1 because that is the range or [2 n] (we are excluding 1).
 
 		for segment := 0; segment < numSegments; segment++ {
 			start := 2 + segment*segmentSize
@@ -52,7 +56,6 @@ func GetPrimeNumbersBelowAndIncluding(ctx context.Context, n int) <-chan int {
 			isComposite := make([]bool, end-start)
 
 			// Step 3: Mark composites within the segment using smallPrimes.
-			wheel := []int{4, 2, 4, 2, 4, 6, 2, 6} // Wheel factorization for 2, 3, 5.
 			for _, p := range smallPrimes {
 				// Find the minimum number in [start, end) that is a multiple of p.
 				minMultiple := ((start + p - 1) / p) * p
@@ -60,13 +63,9 @@ func GetPrimeNumbersBelowAndIncluding(ctx context.Context, n int) <-chan int {
 					minMultiple = p * p
 				}
 
-				wIndex := 0
 				// Mark all multiples of p within the segment.
-				// Use the wheel to skip some multiples that are guaranteed to be composite.
 				for j := minMultiple; j < end; j += p {
 					isComposite[j-start] = true
-					j += p * wheel[wIndex]
-					wIndex = (wIndex + 1) % 8 // len(wheel)
 				}
 			}
 
