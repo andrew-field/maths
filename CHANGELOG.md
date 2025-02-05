@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/andrew-field/maths/compare/v2.0.0...v2.0.1) (2025-02-05)
+
+
+### Bug Fixes
+
+* Format change log ([2337b1f](https://github.com/andrew-field/maths/commit/2337b1fc2cb42608032f61a889ad6961807b8116))
+
 ## [2.0.0](https://github.com/andrew-field/maths/compare/v1.1.1...v2.0.0) (2025-02-05)
 
 ### ⚠ BREAKING CHANGES
