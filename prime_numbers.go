@@ -41,7 +41,7 @@ func GetPrimeNumbersBelowAndIncluding(ctx context.Context, n int) <-chan int {
 			numSegments = 1
 		}
 
-		segmentSize := n / numSegments
+		segmentSize := (n - 1) / numSegments // n - 1 because that is the range or [2 n] (we are excluding 1).
 
 		for segment := 0; segment < numSegments; segment++ {
 			start := 2 + segment*segmentSize
@@ -56,7 +56,6 @@ func GetPrimeNumbersBelowAndIncluding(ctx context.Context, n int) <-chan int {
 			isComposite := make([]bool, end-start)
 
 			// Step 3: Mark composites within the segment using smallPrimes.
-			wheel := []int{4, 2, 4, 2, 4, 6, 2, 6} // Wheel factorization for 2, 3, 5.
 			for _, p := range smallPrimes {
 				// Find the minimum number in [start, end) that is a multiple of p.
 				minMultiple := ((start + p - 1) / p) * p
@@ -64,13 +63,9 @@ func GetPrimeNumbersBelowAndIncluding(ctx context.Context, n int) <-chan int {
 					minMultiple = p * p
 				}
 
-				wIndex := 0
 				// Mark all multiples of p within the segment.
-				// Use the wheel to skip some multiples that are guaranteed to be composite.
-				for j := minMultiple; j < end; {
+				for j := minMultiple; j < end; j += p {
 					isComposite[j-start] = true
-					j += p * wheel[wIndex]
-					wIndex = (wIndex + 1) % 8 // len(wheel)
 				}
 			}
 
