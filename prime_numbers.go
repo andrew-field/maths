@@ -27,17 +27,17 @@ func GetPrimeNumbersBelowAndIncluding(ctx context.Context, n int) <-chan int {
 			return
 		}
 
-		maxPrime := int(math.Sqrt(float64(n)))
 		// Step 1: All composite numbers below and including n must have a prime factor p such that p <= SQRT(n).
 		// Hence to find all composite numbers, and therefore all prime numbers, generate all primes up to SQRT(n).
+		maxPrime := int(math.Sqrt(float64(n)))
 		smallPrimes := getPrimesUpTo(maxPrime)
 
 		// Split the range [2, n] into numSegments equal (or nearly equal) segments.
 		// Each segment is processed separately, reducing the maximum memory usage at any point.
 		// Memory usage is roughly proportional to n / numSegments.
 		// An easy way to implement the number of segments is to have it proportional to maxPrime.
-		numSegments := maxPrime * 10
-		if numSegments < 100 {
+		numSegments := maxPrime / 100
+		if numSegments < 10 {
 			numSegments = 1
 		}
 
@@ -67,7 +67,7 @@ func GetPrimeNumbersBelowAndIncluding(ctx context.Context, n int) <-chan int {
 				wIndex := 0
 				// Mark all multiples of p within the segment.
 				// Use the wheel to skip some multiples that are guaranteed to be composite.
-				for j := minMultiple; j < end; j += p {
+				for j := minMultiple; j < end; {
 					isComposite[j-start] = true
 					j += p * wheel[wIndex]
 					wIndex = (wIndex + 1) % 8 // len(wheel)

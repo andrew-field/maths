@@ -36,7 +36,7 @@ func PrimeFactorisation(x int) <-chan PrimeFactor {
 
 		ctx, cancel := context.WithCancel(context.Background())
 		defer cancel()
-		primeCh := GetPrimeNumbersBelowAndIncluding(ctx, x)
+		primeCh := GetPrimeNumbersBelowAndIncluding(ctx, int(math.Sqrt(float64(x))))
 
 		index := 0
 		// For each prime, see if it is a factor and if so, how many times/the index with which it appears.
@@ -48,13 +48,17 @@ func PrimeFactorisation(x int) <-chan PrimeFactor {
 			if index != 0 {
 				factorisationCh <- PrimeFactor{val, index}
 
-				// If found all factors then finish.
+				// If found all factors then finish immediately.
 				if x == 1 {
 					return
 				}
 
 				index = 0
 			}
+		}
+
+		if x > 1 {
+			factorisationCh <- PrimeFactor{x, 1} // Remaining x is prime.
 		}
 	}()
 
