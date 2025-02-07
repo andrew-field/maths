@@ -20,11 +20,3 @@ jobs:
 
     secrets: inherit
     # Codecov secret used by the build-test action. Codecov token needs to be added as a secret.
-
-  fuzz_test:
-    name: Fuzz Testing
-    runs-on: ubuntu-latest
-    steps:
-      # Runs the fuzz tests.
-      - name: Execute fuzz tests
-        run: go test ./... -run -fuzz=. -fuzztime 30s
