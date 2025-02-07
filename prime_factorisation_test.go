@@ -53,3 +53,27 @@ func TestPrimeFactorisation(t *testing.T) {
 		})
 	}
 }
+
+func FuzzPrimeFactorisation(f *testing.F) {
+	testcases := []int{2, 5, 10, 20, 50, 100}
+	for _, tc := range testcases {
+		f.Add(tc) // Use f.Add to provide a seed corpus
+	}
+	f.Fuzz(func(t *testing.T, orig int) {
+		resultCh := PrimeFactorisation(orig)
+
+		result := 1
+		for factor := range resultCh {
+			for i := 0; i < factor.Index; i++ {
+				result *= factor.Value
+			}
+		}
+		absOrig, err := Abs(orig)
+		if err != nil {
+			t.Skip("Failed to get Abs of input")
+		}
+		if result != absOrig {
+			t.Errorf("Expected %d, got %d", orig, result)
+		}
+	})
+}
