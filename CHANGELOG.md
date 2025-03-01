@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/andrew-field/maths/compare/v2.0.1...v2.1.0) (2025-03-01)
+
+
+### Features
+
+* Added a fuzzing test ([e6520eb](https://github.com/andrew-field/maths/commit/e6520eb2f37ee05b84094159227e280e785e2f25))
+
 ## [2.0.1](https://github.com/andrew-field/maths/compare/v2.0.0...v2.0.1) (2025-02-05)
 
 ### Bugfixes
