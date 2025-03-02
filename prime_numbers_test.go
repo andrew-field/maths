@@ -9,7 +9,7 @@ import (
 // TestGetPrimeNumbers checks the first few prime numbers.
 func TestGetPrimeNumbers(t *testing.T) {
 	expectedPrimes := []int{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101}
-	primeChannel, doneCh, wg := GetPrimeNumbers()
+	primeChannel, doneCh := GetPrimeNumbers()
 
 	for _, expectedPrime := range expectedPrimes {
 		if actualPrime := <-primeChannel; actualPrime != expectedPrime {
@@ -17,11 +17,7 @@ func TestGetPrimeNumbers(t *testing.T) {
 		}
 	}
 
-	println("Before Done")
 	doneCh <- true
-	println("After Done")
-	wg.Wait()
-	// time.Sleep(10 * time.Second)
 }
 
 func TestGetPrimeNumbersBelowAndIncluding(t *testing.T) {
