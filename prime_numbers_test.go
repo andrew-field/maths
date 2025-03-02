@@ -21,7 +21,7 @@ func TestGetPrimeNumbers(t *testing.T) {
 	doneCh <- true
 	println("After Done")
 	wg.Wait()
-	//time.Sleep(10 * time.Second)
+	// time.Sleep(10 * time.Second)
 }
 
 func TestGetPrimeNumbersBelowAndIncluding(t *testing.T) {
