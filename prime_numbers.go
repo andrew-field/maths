@@ -3,6 +3,7 @@ package maths
 import (
 	"context"
 	"math"
+	"sync"
 )
 
 // GetPrimeNumbersBelowAndIncluding fills a channel with the prime numbers below and including |n|, in order. Uses a euclidean sieve.
@@ -130,10 +131,14 @@ func getPrimesUpTo(n int) []int {
 // GetPrimeNumbers returns a channel from which to siphon off the prime numbers in order, as needed.
 // Send a boolean to the Done channel when finished.
 // The prime sieve: Daisy-chain Filter processes.
-func GetPrimeNumbers() (<-chan int, chan<- bool) {
+func GetPrimeNumbers() (<-chan int, chan<- bool, *sync.WaitGroup) {
 	ch := make(chan int) // Create a new channel.
 	ctx, cancel := context.WithCancel(context.Background())
-	go generate(ctx, ch) // Launch Generate goroutine.
+
+	var wg sync.WaitGroup
+	wg.Add(1)
+
+	go generate(ctx, ch, &wg) // Launch Generate goroutine.
 
 	primeCh := make(chan int) // Create return channel.
 	doneCh := make(chan bool) // Create done channel.
@@ -142,29 +147,36 @@ func GetPrimeNumbers() (<-chan int, chan<- bool) {
 		cancel()
 	}()
 
+	wg.Add(1)
 	go func() {
+		defer wg.Done()
+		var prime int
 		for {
-			prime := <-ch
 			select {
-			case primeCh <- prime:
+			case prime = <-ch:
+				primeCh <- prime
 			case <-ctx.Done():
+				println("Exited go in prime function")
 				return
 			}
 			ch1 := make(chan int)
-			go filter(ctx, ch, ch1, prime)
+			wg.Add(1)
+			go filter(ctx, ch, ch1, prime, &wg)
 			ch = ch1
 		}
 	}()
 
-	return primeCh, doneCh
+	return primeCh, doneCh, &wg
 }
 
 // Send the sequence 2, 3, 4, ... to channel 'ch'.
-func generate(ctx context.Context, ch chan<- int) {
+func generate(ctx context.Context, ch chan<- int, wg *sync.WaitGroup) {
+	defer wg.Done()
 	for i := 2; ; i++ {
 		select {
 		case ch <- i: // Send 'i' to channel 'ch'.
 		case <-ctx.Done():
+			println("Exited go in generate function. i: ", i)
 			return
 		}
 	}
@@ -172,12 +184,14 @@ func generate(ctx context.Context, ch chan<- int) {
 
 // Copy the values from channel 'in' to channel 'out',
 // removing those divisible by 'prime'.
-func filter(ctx context.Context, in <-chan int, out chan<- int, prime int) {
+func filter(ctx context.Context, in <-chan int, out chan<- int, prime int, wg *sync.WaitGroup) {
+	defer wg.Done()
 	for {
 		var i int
 		select {
 		case i = <-in: // Receive value from 'in'.
 		case <-ctx.Done():
+			println("Exited go in filter function 1. Prime: ", prime)
 			return
 		}
 
@@ -185,6 +199,7 @@ func filter(ctx context.Context, in <-chan int, out chan<- int, prime int) {
 			select {
 			case out <- i: // Send 'i' to 'out'.
 			case <-ctx.Done():
+				println("Exited go in filter function 2. Prime: ", prime)
 				return
 			}
 		}
