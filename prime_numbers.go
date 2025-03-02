@@ -154,7 +154,12 @@ func GetPrimeNumbers() (<-chan int, chan<- bool, *sync.WaitGroup) {
 		for {
 			select {
 			case prime = <-ch:
-				primeCh <- prime
+				select {
+				case primeCh <- prime:
+				case <-ctx.Done():
+					println("Exited go in second prime function")
+					return
+				}
 			case <-ctx.Done():
 				println("Exited go in prime function")
 				return
