@@ -143,7 +143,7 @@ func GetPrimeNumbers() (<-chan int, chan<- bool) {
 		cancel()
 
 		for range primeCh {
-		}
+		} // Drain the primeCh channel to make sure the go routine can exit cleanly.
 	}()
 
 	go func() {
