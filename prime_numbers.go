@@ -141,18 +141,19 @@ func GetPrimeNumbers() (<-chan int, chan<- bool) {
 	go func() {
 		<-doneCh
 		cancel()
+
+		for range primeCh {
+		}
 	}()
 
 	go func() {
+		defer close(primeCh)
+
 		var prime int
 		for {
 			select {
 			case prime = <-ch:
-				select {
-				case primeCh <- prime:
-				case <-ctx.Done():
-					return
-				}
+				primeCh <- prime
 			case <-ctx.Done():
 				return
 			}
