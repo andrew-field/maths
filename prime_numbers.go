@@ -133,6 +133,7 @@ func getPrimesUpTo(n int) []int {
 func GetPrimeNumbers() (<-chan int, chan<- bool) {
 	ch := make(chan int) // Create a new channel.
 	ctx, cancel := context.WithCancel(context.Background())
+
 	go generate(ctx, ch) // Launch Generate goroutine.
 
 	primeCh := make(chan int) // Create return channel.
@@ -140,13 +141,19 @@ func GetPrimeNumbers() (<-chan int, chan<- bool) {
 	go func() {
 		<-doneCh
 		cancel()
+
+		for range primeCh {
+		} // Drain the primeCh channel to make sure the go routine can exit cleanly.
 	}()
 
 	go func() {
+		defer close(primeCh)
+
+		var prime int
 		for {
-			prime := <-ch
 			select {
-			case primeCh <- prime:
+			case prime = <-ch:
+				primeCh <- prime
 			case <-ctx.Done():
 				return
 			}

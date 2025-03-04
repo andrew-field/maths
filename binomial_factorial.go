@@ -1,3 +1,4 @@
+// Package maths provides basic mathematical functions and acts a supplement to the math package.
 package maths
 
 import (
