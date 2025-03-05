@@ -131,35 +131,36 @@ func getPrimesUpTo(n int) []int {
 // Send a boolean to the Done channel when finished.
 // The prime sieve: Daisy-chain Filter processes.
 func GetPrimeNumbers() (<-chan int, chan<- bool) {
-	ch := make(chan int) // Create a new channel.
+	ch := make(chan int) // Initial channel to send all the numbers on.
 	ctx, cancel := context.WithCancel(context.Background())
 
-	go generate(ctx, ch) // Launch Generate goroutine.
+	go generate(ctx, ch) // Launch Generate goroutine to send all the numbers.
 
-	primeCh := make(chan int) // Create return channel.
-	doneCh := make(chan bool) // Create done channel.
+	primeCh := make(chan int) // Create main prime return channel.
+	doneCh := make(chan bool) // Create the done channel.
+
+	// Wait for the done signal to cancel the context.
 	go func() {
 		<-doneCh
 		cancel()
 
 		for range primeCh {
-		} // Drain the primeCh channel to make sure the go routine can exit cleanly.
+		} // Drain the primeCh channel to make sure the main go routine can exit cleanly.
 	}()
 
 	go func() {
 		defer close(primeCh)
 
-		var prime int
+		// The flow of numbers is: Generate function -> filter for '2' -> filter for '3' -> filter for '5' -> ... -> prime channel.
 		for {
-			select {
-			case prime = <-ch:
-				primeCh <- prime
-			case <-ctx.Done():
+			prime, ok := <-ch // Receive a prime number from the last 'out' channel.
+			if !ok {          // If the channel is closed, exit the loop.
 				return
 			}
-			ch1 := make(chan int)
-			go filter(ctx, ch, ch1, prime)
-			ch = ch1
+			primeCh <- prime          // Send the prime number to the main prime channel. The main blocking operation.
+			ch1 := make(chan int)     // Create a new 'out' channel.
+			go filter(ch, ch1, prime) // Append a new filter to the end of the chain, using the input of the last filter and the new out channel.
+			ch = ch1                  // Output of this filter is the input of the next filter.
 		}
 	}()
 
@@ -168,6 +169,7 @@ func GetPrimeNumbers() (<-chan int, chan<- bool) {
 
 // Send the sequence 2, 3, 4, ... to channel 'ch'.
 func generate(ctx context.Context, ch chan<- int) {
+	defer close(ch)
 	for i := 2; ; i++ {
 		select {
 		case ch <- i: // Send 'i' to channel 'ch'.
@@ -179,21 +181,11 @@ func generate(ctx context.Context, ch chan<- int) {
 
 // Copy the values from channel 'in' to channel 'out',
 // removing those divisible by 'prime'.
-func filter(ctx context.Context, in <-chan int, out chan<- int, prime int) {
-	for {
-		var i int
-		select {
-		case i = <-in: // Receive value from 'in'.
-		case <-ctx.Done():
-			return
-		}
-
+func filter(in <-chan int, out chan<- int, prime int) {
+	defer close(out)
+	for i := range in {
 		if i%prime != 0 {
-			select {
-			case out <- i: // Send 'i' to 'out'.
-			case <-ctx.Done():
-				return
-			}
+			out <- i // Send 'i' to 'out'.
 		}
 	}
 }
