@@ -128,43 +128,33 @@ func getPrimesUpTo(n int) []int {
 // https://youtu.be/f6kdp27TYZs
 
 // GetPrimeNumbers returns a channel from which to siphon off the prime numbers in order, as needed.
-// Send a boolean to the Done channel when finished.
+// Cancel the context when the calling function has finished with the return values and does not care about further possible values.
 // The prime sieve: Daisy-chain Filter processes.
-func GetPrimeNumbers() (<-chan int, chan<- bool) {
+func GetPrimeNumbers(ctx context.Context) <-chan int {
 	ch := make(chan int) // Initial channel to send all the numbers on.
-	ctx, cancel := context.WithCancel(context.Background())
 
 	go generate(ctx, ch) // Launch Generate goroutine to send all the numbers.
 
-	primeCh := make(chan int) // Create main prime return channel.
-	doneCh := make(chan bool) // Create the done channel.
-
-	// Wait for the done signal to cancel the context.
-	go func() {
-		<-doneCh
-		cancel()
-
-		for range primeCh {
-		} // Drain the primeCh channel to make sure the main go routine can exit cleanly.
-	}()
+	primeCh := make(chan int) // Create the main prime channel to return.
 
 	go func() {
 		defer close(primeCh)
 
 		// The flow of numbers is: Generate function -> filter for '2' -> filter for '3' -> filter for '5' -> ... -> prime channel.
 		for {
-			prime, ok := <-ch // Receive a prime number from the last 'out' channel.
-			if !ok {          // If the channel is closed, exit the loop.
+			prime := <-ch // Receive a prime number from the last 'out' channel. (Will succeed immediately is the channel is closed so it will not block.)
+			select {
+			case primeCh <- prime: // Send the prime number to the main prime channel. The main blocking operation.
+			case <-ctx.Done():
 				return
 			}
-			primeCh <- prime          // Send the prime number to the main prime channel. The main blocking operation.
 			ch1 := make(chan int)     // Create a new 'out' channel.
 			go filter(ch, ch1, prime) // Append a new filter to the end of the chain, using the input of the last filter and the new out channel.
 			ch = ch1                  // Output of this filter is the input of the next filter.
 		}
 	}()
 
-	return primeCh, doneCh
+	return primeCh
 }
 
 // Send the sequence 2, 3, 4, ... to channel 'ch'.
