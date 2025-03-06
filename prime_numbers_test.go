@@ -4,21 +4,45 @@ import (
 	"context"
 	"fmt"
 	"testing"
+	"time"
 )
 
-// TestGetPrimeNumbers checks the first few prime numbers.
+// TestGetPrimeNumbers checks generating some of the first prime numbers.
 func TestGetPrimeNumbers(t *testing.T) {
-	expectedPrimes := []int{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101}
-	ctx, cancel := context.WithCancel(context.Background())
-	primeChannel := GetPrimeNumbers(ctx)
+	t.Run("first 25 prime numbers are correct", func(t *testing.T) {
+		expectedPrimes := []int{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97}
+		ctx, cancel := context.WithCancel(context.Background())
+		primeChannel := GetPrimeNumbers(ctx)
 
-	for _, expectedPrime := range expectedPrimes {
-		if actualPrime := <-primeChannel; actualPrime != expectedPrime {
-			t.Errorf("Actual prime: %d. Expected prime: %d.", actualPrime, expectedPrime)
+		for _, expectedPrime := range expectedPrimes {
+			if actualPrime := <-primeChannel; actualPrime != expectedPrime {
+				t.Errorf("Actual prime: %d. Expected prime: %d.", actualPrime, expectedPrime)
+			}
 		}
-	}
 
-	cancel()
+		cancel()
+	})
+
+	t.Run("cancel context half way through calculation", func(t *testing.T) {
+		ctx, cancel := context.WithCancel(context.Background())
+		primeChannel := GetPrimeNumbers(ctx)
+
+		done := make(chan bool)
+		go func() {
+			for range primeChannel {
+			}
+			done <- true
+		}()
+
+		cancel()
+
+		select {
+		case <-done:
+			t.Log("Channel closed as expected")
+		case <-time.After(1 * time.Second):
+			t.Error("Channel did not close as expected within a reasonable time")
+		}
+	})
 }
 
 func TestGetPrimeNumbersBelowAndIncluding(t *testing.T) {
