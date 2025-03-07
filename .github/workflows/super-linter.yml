@@ -12,6 +12,20 @@ on:
 permissions: {}
 
 jobs:
+  prettier:
+    if: github.ref == 'release-please--branches--master'
+    name: Prettify code base # Mainly the automaic change log file created by release-please, which is on the release-please branch.
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prettify code
+        uses: creyD/prettier_action@v4
+        with:
+          prettier_options: --write
   lint:
+    needs: prettier
     name: Lint code base
     uses: andrew-field/reusable-workflows/.github/workflows/super-linter.yml@master
