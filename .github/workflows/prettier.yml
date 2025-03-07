@@ -3,7 +3,7 @@ name: Super Linter
 on:
   push:
     branches:
-      - "!release-please--branches--master" # Only trigger for the release-please branch.
+      - "fix-prettier-action" # Only trigger for the release-please branch.
 
 permissions: {}
 
