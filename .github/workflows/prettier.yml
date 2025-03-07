@@ -26,7 +26,7 @@ jobs:
         with:
           prettier_options: . --write # Prettify all files in the repository.
           github_token: ${{ secrets.PRETTIER_TOKEN }} # Set custom token.
-          
+
       - run: gh workflow run super-linter.yml --ref "$REF"
         env:
           GH_TOKEN: ${{ secrets.PRETTIER_TOKEN }}
