@@ -5,7 +5,7 @@ on:
     branches:
       - "fix-prettier-action" # Only trigger for the release-please branch.
 
-#permissions: {}
+permissions: {} # Permissions for the GITHUB_TOKEN.
 
 jobs:
   prettier:
@@ -25,8 +25,8 @@ jobs:
         uses: creyD/prettier_action@v4.3
         with:
           prettier_options: . --write # Prettify all files in the repository.
-          github_token: ${{ secrets.GITHUB_TOKEN }} # Set custom token.
-  
+          github_token: ${{ secrets.PRETTIER_TOKEN }} # Set custom token. The Github can not acquire enough permissions.
+
   # Run the super linter.
   lint:
     name: Lint code base
