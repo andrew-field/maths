@@ -13,8 +13,8 @@ permissions: {}
 
 jobs:
   prettier:
-    if: github.head_ref != 'release-please--branches--master'
-    name: Prettify code base # Mainly the automaic change log file created by release-please, which is on the release-please branch.
+    if: github.head_ref == 'release-please--branches--master'
+    name: Prettify code base # Mainly lint the automaic change log file created by release-please, which is on the release-please branch.
     runs-on: ubuntu-latest
 
     steps:
