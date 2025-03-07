@@ -13,7 +13,7 @@ permissions: {}
 
 jobs:
   prettier:
-    if: github.head_ref == 'release-please--branches--master'
+    if: github.head_ref != 'release-please--branches--master'
     name: Prettify code base # Mainly lint the automaic change log file created by release-please, which is on the release-please branch.
     runs-on: ubuntu-latest
 
@@ -23,11 +23,15 @@ jobs:
         with:
           # Make sure the actual branch is checked out when running on pull requests
           ref: ${{ github.head_ref }}
+          # Make sure the value of GITHUB_TOKEN will not be persisted in repo's config
+          persist-credentials: false
+
 
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
           prettier_options: . --write # Prettify all files in the repository.
+          github_token: ${{ secrets.PRETTIER_TOKEN }} # Set custom token.
   lint:
     if: ${{ always() }} # This job will always run after the prettier job, regardless of the outcome. https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/using-jobs-in-a-workflow#defining-prerequisite-jobs
     needs: prettier
