@@ -15,6 +15,6 @@ jobs:
   lint:
     # If the branch is from the release please workflow, trigger the linter only from the prettier workflow.
     # No current way to filter on pull request triggers using the source branch as well as the target branch.
-    if: github.head_ref != 'fix-prettier-action'
+    if: github.head_ref != 'fix-prettier-action' || github.event_name == 'workflow_dispatch'
     name: Lint code base
     uses: andrew-field/reusable-workflows/.github/workflows/super-linter.yml@master
