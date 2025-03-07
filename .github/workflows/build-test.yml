@@ -13,6 +13,9 @@ permissions: {}
 
 jobs:
   build_test:
+    # If the branch is from the release please workflow, no need to trigger the build and test action.
+    # No current way to filter on pull request triggers using the source branch as well as the target branch.
+    if: github.head_ref != 'fix-prettier-action'
     name: Call build and test action
     uses: andrew-field/reusable-workflows/.github/workflows/build-test.yml@master
     with:
