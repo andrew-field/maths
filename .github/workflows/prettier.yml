@@ -25,8 +25,8 @@ jobs:
         uses: creyD/prettier_action@v4.3
         with:
           prettier_options: . --write # Prettify all files in the repository.
-          github_token: ${{ secrets.PRETTIER_TOKEN }} # Set custom token.
-
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Set custom token.
+  
   # Run the super linter.
   lint:
     name: Lint code base
