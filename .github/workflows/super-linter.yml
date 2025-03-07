@@ -24,7 +24,7 @@ jobs:
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          prettier_options: --write
+          prettier_options: --write **/*.{md} # Prettify all markdown files
   lint:
     if: ${{ always() }} # This job will always run after the prettier job, regardless of the outcome. https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/using-jobs-in-a-workflow#defining-prerequisite-jobs
     needs: prettier
