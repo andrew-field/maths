@@ -1,43 +1,5 @@
-# name: prettier-lint
-# # The super linter has some fix mode options available but it did not work, too complicated.
-
-# on:
-#   push:
-#     branches:
-#       - "fix-prettier-action" # Only trigger for the release-please branch.
-
-# # Permissions for the GITHUB_TOKEN.
-# permissions:
-#   contents: write
-
-# jobs:
-#   prettier:
-#     name: Prettify code base # Mainly lint the automaic change log file created by release-please, which is on the release-please branch.
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-#         with:
-#           # Make sure the actual branch is checked out when running on pull requests
-#           ref: ${{ github.head_ref }}
-
-#       - name: Prettify code
-#         uses: creyD/prettier_action@v4.3
-#         with:
-#           # Prettify these files. It uses the default GITHUB_TOKEN which has enough permissions, at least for this command.
-#           # Pushing code using the GITHUB_TOKEN will not trigger any workflows relying on push events.
-#           prettier_options: --write **/*.{md}
-#   lint:
-#     # The reusable workflow calls checkout again so the latest code with the prettier changes is checked out.
-#     name: Call super linter
-#     needs: prettier
-#     uses: andrew-field/reusable-workflows/.github/workflows/super-linter.yml@master
-#     with:
-#       # Includes the latest commit from the prettier action. Using github.head_ref would just give the branch name and the latest commit would not be available.
-#       checkout_ref: ${{ github.ref }}
-
-name: prettier
+name: prettier-lint
+# The super linter has some fix mode options available but it did not work, too complicated.
 
 on:
   push:
@@ -47,42 +9,6 @@ on:
 # Permissions for the GITHUB_TOKEN.
 permissions:
   contents: write
-
-# jobs:
-#   prettier:
-#     name: Prettify code base # Mainly lint the automaic change log file created by release-please, which is on the release-please branch.
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-#         with:
-#           # Make sure the actual branch is checked out when running on pull requests
-#           ref: ${{ github.head_ref }}
-#           # Make sure the value of the GITHUB_TOKEN will not be persisted in the repository's config.
-#           persist-credentials: false
-
-#       - name: Prettify code
-#         uses: creyD/prettier_action@v4.3
-#         with:
-#           prettier_options: . --write # Prettify all files in the repository.
-#           github_token: ${{ secrets.PRETTIER_TOKEN }} # Set custom token, github_token can not acquire enough permissions.
-#   lint:
-#     name: Call super linter
-#     needs: prettier
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4
-#         with:
-#           # Make sure the actual branch is checked out when running on pull requests
-#           ref: ${{ github.head_ref }}
-
-#       - name: Call linter # Can also trigger with the GitHub API.
-#         run: gh workflow run super-linter.yml # Can also trigger with the GitHub API.
-#         env:
-#           GH_TOKEN: ${{ secrets.PRETTIER_TOKEN }}
 
 jobs:
   prettier:
@@ -106,27 +32,9 @@ jobs:
           prettier_options: --write **/*.md
   lint:
     # The reusable workflow calls checkout again so the latest code with the prettier changes is checked out.
-    # name: Call super linter
-    # needs: prettier
-    # uses: andrew-field/reusable-workflows/.github/workflows/super-linter.yml@master
-    name: Lint Code Base
-    runs-on: ubuntu-latest
-
-    steps:
-      # Get the code.
-      - name: Checkout Code
-        uses: actions/checkout@v4
-        with:
-          # Full git history is needed to get a proper
-          # list of changed files within `super-linter`
-          fetch-depth: 0
-          ref: ${{ github.ref }}
-
-      # Run the super linter.
-      - name: Super-Linter
-        uses: super-linter/super-linter/slim@v7 # Slimmed down version but still has al the main go, markdown etc. linters.
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VALIDATE_GO_RELEASER: false
-          VALIDATE_GO: false # This is false because VALIDATE_GO_MODULES does all the go linting.
-
+    name: Call super linter
+    needs: prettier
+    uses: andrew-field/reusable-workflows/.github/workflows/super-linter.yml@master
+    with:
+      # Includes the latest commit from the prettier action. Using github.head_ref would just give the branch name and the latest commit would not be available.
+      checkout_ref: ${{ github.ref }}
