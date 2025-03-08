@@ -84,6 +84,6 @@ jobs:
       - name: Super-Linter
         uses: super-linter/super-linter/slim@v7 # Slimmed down version but still has al the main go, markdown etc. linters.
         env:
-          GITHUB_TOKEN: ${{ github.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_GO_RELEASER: false
           VALIDATE_GO: false # This is false because VALIDATE_GO_MODULES does all the go linting.
