@@ -13,6 +13,7 @@ on:
 permissions:
   contents: write # To write linting fixes
   statuses: write # To write Super-linter status checks
+  packages: read
 
 jobs:
   lint:
