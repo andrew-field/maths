@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-        run: gh workflow run super-linter.yml --ref $REF
+      - run: gh workflow run super-linter.yml --ref $REF
         env:
           GH_TOKEN: ${{ secrets.PRETTIER_TOKEN }}
           REF: ${{ github.head_ref }}
