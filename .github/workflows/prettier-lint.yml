@@ -99,7 +99,9 @@ jobs:
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          # Prettify these files. It uses the default GITHUB_TOKEN which has enough permissions, at least for this command.
+          # Prettify the markdown files.
+          # It uses the default GITHUB_TOKEN which has enough permissions for this command, but would fail if trying to alter the yml files
+          # in the .github/workflows directory which requires workflows privileges.
           # Pushing code using the GITHUB_TOKEN will not trigger any workflows relying on push events.
           prettier_options: --write **/*.md
   lint:
