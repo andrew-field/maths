@@ -79,7 +79,7 @@ jobs:
           # Full git history is needed to get a proper
           # list of changed files within `super-linter`
           fetch-depth: 0
-          ref: ${{ github.head_ref }}
+          ref: ${{ github.ref }}
 
       # Run the super linter.
       - name: Super-Linter
