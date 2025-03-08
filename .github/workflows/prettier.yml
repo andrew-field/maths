@@ -28,6 +28,7 @@ jobs:
           github_token: ${{ secrets.PRETTIER_TOKEN }} # Set custom token.
   lint:
     name: Call super linter
+    needs: prettier
     runs-on: ubuntu-latest
 
     steps:
