@@ -101,7 +101,7 @@ jobs:
         with:
           # Prettify these files. It uses the default GITHUB_TOKEN which has enough permissions, at least for this command.
           # Pushing code using the GITHUB_TOKEN will not trigger any workflows relying on push events.
-          prettier_options: --write **/*.{md}
+          prettier_options: --write **/*.{js,md}
   lint:
     # The reusable workflow calls checkout again so the latest code with the prettier changes is checked out.
     # name: Call super linter
