@@ -7,14 +7,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Permissions for the GITHUB_TOKEN.
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   release-please:
     name: Call release please
     uses: andrew-field/reusable-workflows/.github/workflows/release-please.yml@master
 
-    secrets: inherit
+    secrets: inherit # Needs to inherit more than the GITHUB_TOKEN to trigger Github Actions CI checks.

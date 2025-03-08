@@ -10,12 +10,14 @@ on:
   workflow_dispatch:
 
 # Permissions for the GITHUB_TOKEN.
-permissions: {}
+permissions:
+  contents: write # To write linting fixes
+  statuses: write # To write Super-linter status checks
 
 jobs:
   lint:
-    # If the branch is from the release please workflow, trigger the linter only from the prettier workflow.
-    # No current way to filter on pull request triggers using the source branch as well as the target branch.
-    if: ${{ github.head_ref != 'fix-prettier-action' || github.event_name == 'workflow_dispatch' }} # Access using the github context. Curly braces are technically optional in if expressions.
+    # If the branch is from the release please workflow, don't trigger the linter. It is handled in the prettier workflow.
+    # No current other way to filter on pull request triggers using the source branch as well as the target branch.
+    if: ${{ github.head_ref != 'release-please--branches--master' }} # Access using the github context. Curly braces are technically optional in if expressions.
     name: Lint code base
     uses: andrew-field/reusable-workflows/.github/workflows/super-linter.yml@master

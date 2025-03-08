@@ -3,7 +3,7 @@ name: prettier
 on:
   push:
     branches:
-      - "fix-prettier-action" # Only trigger for the release-please branch.
+      - "jhghfix-prettier-action" # Only trigger for the release-please branch.
 
 # Permissions for the GITHUB_TOKEN.
 permissions:
