@@ -5,11 +5,47 @@ on:
     branches:
       - "fix-prettier-action" # Only trigger for the release-please branch.
 
-permissions: {}
+# Permissions for the GITHUB_TOKEN.
+# permissions: {}
+
+# jobs:
+#   prettier:
+#     name: Prettify code base # Mainly lint the automaic change log file created by release-please, which is on the release-please branch.
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+#         with:
+#           # Make sure the actual branch is checked out when running on pull requests
+#           ref: ${{ github.head_ref }}
+#           # Make sure the value of the GITHUB_TOKEN will not be persisted in the repository's config.
+#           persist-credentials: false
+
+#       - name: Prettify code
+#         uses: creyD/prettier_action@v4.3
+#         with:
+#           prettier_options: . --write # Prettify all files in the repository.
+#           github_token: ${{ secrets.PRETTIER_TOKEN }} # Set custom token, github_token can not acquire enough permissions.
+#   lint:
+#     name: Call super linter
+#     needs: prettier
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v4
+#         with:
+#           # Make sure the actual branch is checked out when running on pull requests
+#           ref: ${{ github.head_ref }}
+
+#       - name: Call linter # Can also trigger with the GitHub API.
+#         run: gh workflow run super-linter.yml # Can also trigger with the GitHub API.
+#         env:
+#           GH_TOKEN: ${{ secrets.PRETTIER_TOKEN }}
 
 jobs:
   prettier:
-    name: Prettify code base # Mainly lint the automaic change log file created by release-please, which is on the release-please branch.
     runs-on: ubuntu-latest
 
     steps:
@@ -18,22 +54,12 @@ jobs:
         with:
           # Make sure the actual branch is checked out when running on pull requests
           ref: ${{ github.head_ref }}
-          # Make sure the value of the GITHUB_TOKEN will not be persisted in the repository's config.
-          persist-credentials: false
+          # This is important to fetch the changes to the previous commit
+          fetch-depth: 0
 
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          prettier_options: . --write # Prettify all files in the repository.
-          github_token: ${{ secrets.PRETTIER_TOKEN }} # Set custom token.
-  lint:
-    name: Call super linter
-    needs: prettier
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Call linter
-        run: gh workflow run super-linter.yml #--ref ${{ env.BRANCH }}
-        env:
-          GH_TOKEN: ${{ secrets.PRETTIER_TOKEN }}
-          #BRANCH: ${{ github.head_ref }}
+          # This part is also where you can pass other options, for example:
+          prettier_options: --write **/*.{js,md,yml}
+          only_changed: True
