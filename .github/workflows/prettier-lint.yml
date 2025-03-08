@@ -129,4 +129,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VALIDATE_GO_RELEASER: false
           VALIDATE_GO: false # This is false because VALIDATE_GO_MODULES does all the go linting.
-    
+
