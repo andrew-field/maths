@@ -47,6 +47,7 @@ permissions:
 
 jobs:
   prettier:
+    name: Prettify code base # Mainly lint the automaic change log file created by release-please, which is on the release-please branch.
     runs-on: ubuntu-latest
 
     steps:
@@ -55,11 +56,15 @@ jobs:
         with:
           # Make sure the actual branch is checked out when running on pull requests
           ref: ${{ github.head_ref }}
-          # This is important to fetch the changes to the previous commit
-          #fetch-depth: 0
 
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
         with:
-          # This part is also where you can pass other options, for example:
+          # Prettify these files. It uses the default GITHUB_TOKEN which has enough permissions, at least for this command.
+          # Pushing code using the GITHUB_TOKEN will not trigger any workflows relying on push events.
           prettier_options: --write **/*.{md,yml}
+  lint:
+    # The reusable workflow calls checkout again so the latest code with the prettier changes is checked out.
+    name: Call super linter
+    needs: prettier
+    uses: andrew-field/reusable-workflows/.github/workflows/super-linter.yml@master
