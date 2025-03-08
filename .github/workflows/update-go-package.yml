@@ -1,0 +1,21 @@
+name: Update pkg.go.dev
+
+on:
+  release: [published]
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  update-pkg-go-dev:
+    name: Update pkg.go.dev
+    runs-on: ubuntu-latest
+    steps:
+      # see https://pkg.go.dev/about#adding-a-package
+      - name: Update pkg.go.dev
+        run: |
+          echo "https://pkg.go.dev/github.com/$REPO/@v/@$TAG.info"
+        env:
+          REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
+          # curl https://proxy.golang.org/github.com/$REPO/@v/$TAG.info
