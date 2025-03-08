@@ -17,6 +17,7 @@
 
 
 
+
 - add release please action ([#28](https://github.com/andrew-field/maths/issues/28)) ([aef4071](https://github.com/andrew-field/maths/commit/aef407131924d11893aa36188e203fa782ec558b))
 - fix prime numbers below function ([266d947](https://github.com/andrew-field/maths/commit/266d947efd8c2b6492ef65a9be6636719548d37e))
 - increase number of segments ([780db0b](https://github.com/andrew-field/maths/commit/780db0bddaf256a491601003188ac9ef8b80be2e))
