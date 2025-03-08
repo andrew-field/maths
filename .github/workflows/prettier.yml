@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - name: Call linter
-        run: gh workflow run super-linter.yml --ref "$REF"
+        run: gh workflow run super-linter.yml #--ref ${{ env.BRANCH }}
         env:
           GH_TOKEN: ${{ secrets.PRETTIER_TOKEN }}
-          REF: ${{ github.head_ref }}
+          #BRANCH: ${{ github.head_ref }}
