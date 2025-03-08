@@ -1,4 +1,4 @@
-name: Super Linter
+name: prettier
 
 on:
   push:
@@ -27,13 +27,12 @@ jobs:
           prettier_options: . --write # Prettify all files in the repository.
           github_token: ${{ secrets.PRETTIER_TOKEN }} # Set custom token.
   lint:
-    name: Call super linter
+    name: ${{ github.head_ref }}
     needs: prettier
     runs-on: ubuntu-latest
 
     steps:
-      - name: ${{ github.head_ref }}
-        run: gh workflow run super-linter.yml --ref ${{ github.head_ref }}
+        run: gh workflow run super-linter.yml --ref $REF
         env:
           GH_TOKEN: ${{ secrets.PRETTIER_TOKEN }}
           REF: ${{ github.head_ref }}
