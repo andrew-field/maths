@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [master]
 
-  # Allows you to run this workflow manually from the Actions tab
+  # Allows you to run this workflow manually from the Actions tab.
   workflow_dispatch:
 
 # Permissions for the GITHUB_TOKEN.
@@ -15,7 +15,7 @@ permissions: {}
 jobs:
   lint:
     # If the branch is from the release please workflow, don't trigger the linter. It is handled in the prettier workflow.
-    # No current other way to filter on pull request triggers using the source branch as well as the target branch.
-    if: ${{ github.head_ref != 'fix-prettier-action' }} # Access using the github context. Curly braces are technically optional in if expressions.
+    # No other way currently to filter on pull request triggers using the source branch as well as the target branch.
+    if: ${{ github.head_ref != 'release-please--branches--master' }} # Access using the github context. Curly braces are technically optional in if expressions.
     name: Lint code base
     uses: andrew-field/reusable-workflows/.github/workflows/super-linter.yml@master

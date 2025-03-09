@@ -4,7 +4,7 @@ name: prettier-lint
 on:
   push:
     branches:
-      - "fix-prettier-action" # Only trigger for the release-please branch.
+      - "release-please--branches--master" # Only trigger for the release-please branch.
 
 # Permissions for the GITHUB_TOKEN.
 permissions:
@@ -19,14 +19,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Make sure the actual branch is checked out when running on pull requests
+          # Make sure the actual branch is checked out when running on pull requests.
           ref: ${{ github.head_ref }}
 
       - name: "Import GPG key" # Import the GPG key to sign the commits.
         id: import-gpg
         uses: crazy-max/ghaction-import-gpg@v6
         with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }} # Accessed via the secrets context. Needs to be added as a secret.
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
           git_user_signingkey: true
           git_commit_gpgsign: true
@@ -39,7 +39,7 @@ jobs:
           # in the .github/workflows directory which requires workflows privileges.
           # Pushing code using the GITHUB_TOKEN will not trigger any workflows relying on push events.
           prettier_options: --write **/*.md
-          commit_options: -S
+          commit_options: -S # Sign the commit with the GPG key.
   lint:
     # The reusable workflow calls checkout again so the latest code with the prettier changes is checked out.
     name: Call super linter
