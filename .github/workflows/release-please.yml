@@ -15,4 +15,4 @@ jobs:
     name: Call release please
     uses: andrew-field/reusable-workflows/.github/workflows/release-please.yml@master
 
-    secrets: inherit # Needs to inherit more than the GITHUB_TOKEN to trigger Github Actions CI checks. RELEASE_PLEASE needs to be added as a secret.
+    secrets: inherit # Needs to inherit more than the GITHUB_TOKEN to trigger Github Actions CI checks. RELEASE_PLEASE_TOKEN needs to be added as a secret.
