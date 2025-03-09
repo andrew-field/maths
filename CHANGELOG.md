@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.1.0](https://github.com/andrew-field/maths/compare/v2.0.1...v2.1.0) (2025-03-09)
+
+
+### Features
+
+* Add prettier step to workflow before linting for better release preparation ([#36](https://github.com/andrew-field/maths/issues/36)) ([e186097](https://github.com/andrew-field/maths/commit/e1860979a580739d198f3453094395cae427a15e))
+* Add text lint rules ([#38](https://github.com/andrew-field/maths/issues/38)) ([49f79dc](https://github.com/andrew-field/maths/commit/49f79dc1ae40c0ce65cc39366a95fef4dfaceaa4))
+* Add update go package information workflow ([#40](https://github.com/andrew-field/maths/issues/40)) ([d531ab2](https://github.com/andrew-field/maths/commit/d531ab26da8089b92261361fccdf905e1615af46))
+* Added a fuzzing test ([e6520eb](https://github.com/andrew-field/maths/commit/e6520eb2f37ee05b84094159227e280e785e2f25))
+* Remove unnecessary workflows ([#39](https://github.com/andrew-field/maths/issues/39)) ([6839a18](https://github.com/andrew-field/maths/commit/6839a18f21564817ca6364821a67afd9fd272545))
+* remove update go package workflow ([#42](https://github.com/andrew-field/maths/issues/42)) ([e47e85c](https://github.com/andrew-field/maths/commit/e47e85c7bcedab9f3e114bbde44db7c7e9ffa6eb))
+* update go mod version to 1.24.0 ([#33](https://github.com/andrew-field/maths/issues/33)) ([780dcf9](https://github.com/andrew-field/maths/commit/780dcf93b613aff4b4057f26b5e45dd7c663c10d))
+
+
+### Bug Fixes
+
+* add major version to the module path ([#41](https://github.com/andrew-field/maths/issues/41)) ([48b1c72](https://github.com/andrew-field/maths/commit/48b1c72515ba62267933413d1100b71ab52c4a36))
+* Prettier action to write to files ([#37](https://github.com/andrew-field/maths/issues/37)) ([327aec4](https://github.com/andrew-field/maths/commit/327aec42b29506dda28767561757e24474fe24f5))
+
 ## [2.0.1](https://github.com/andrew-field/maths/compare/v2.0.0...v2.0.1) (2025-02-05)
 
 
