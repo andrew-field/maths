@@ -6,30 +6,13 @@ on:
   pull_request:
     branches: [master]
 
-  # Allows you to run this workflow manually from the Actions tab
+  # Allows you to run this workflow manually from the Actions tab.
   workflow_dispatch:
 
+# Permissions for the GITHUB_TOKEN.
 permissions: {}
 
 jobs:
-  prettier:
-    if: github.head_ref == 'release-please--branches--master'
-    name: Prettify code base # Mainly lint the automaic change log file created by release-please, which is on the release-please branch.
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          # Make sure the actual branch is checked out when running on pull requests
-          ref: ${{ github.head_ref }}
-
-      - name: Prettify code
-        uses: creyD/prettier_action@v4.3
-        with:
-          prettier_options: . --write # Prettify all files in the repository.
   lint:
-    if: ${{ always() }} # This job will always run after the prettier job, regardless of the outcome. https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/using-jobs-in-a-workflow#defining-prerequisite-jobs
-    needs: prettier
     name: Lint code base
     uses: andrew-field/reusable-workflows/.github/workflows/super-linter.yml@master
