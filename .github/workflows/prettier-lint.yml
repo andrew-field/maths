@@ -19,10 +19,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Make sure the actual branch is checked out when running on pull requests.
+          # Make sure the actual branch is checked out when running on pull requests
           ref: ${{ github.head_ref }}
-          # This is important to fetch the changes to the previous commit, to use the same commit option in the prettier step.
-          fetch-depth: 0
+
+      - name: "Import GPG key" # Import the GPG key to sign the commits.
+        id: import-gpg
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
 
       - name: Prettify code
         uses: creyD/prettier_action@v4.3
@@ -32,7 +39,7 @@ jobs:
           # in the .github/workflows directory which requires workflows privileges.
           # Pushing code using the GITHUB_TOKEN will not trigger any workflows relying on push events.
           prettier_options: --write **/*.md
-          same_commit: true # Commit the changes to the same commit as the previous commit.
+          commit_options: -S
   lint:
     # The reusable workflow calls checkout again so the latest code with the prettier changes is checked out.
     name: Call super linter
