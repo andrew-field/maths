@@ -1,18 +1,15 @@
 package maths
 
 import (
+	"cmp"
 	"errors"
 	"fmt"
 	"math"
 	"slices"
 )
 
-// Max returns the maximum int from a group of integers.
-// Max() = 0.
-func Max(numbers ...int) int {
-	if len(numbers) == 0 {
-		return 0
-	}
+// Max returns the maximal value in a group of comparable values. It is a wrapper for the builtin slices.Max function.
+func Max[T cmp.Ordered](numbers ...T) T {
 	return slices.Max(numbers)
 }
 
