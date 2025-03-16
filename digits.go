@@ -2,6 +2,7 @@ package maths
 
 import (
 	"math/big"
+	"slices"
 	"strconv"
 )
 
@@ -22,52 +23,47 @@ func NumberOfDigitsBig(x *big.Int) int {
 	return len(x.String())
 }
 
-// GetDigits returns and fills a channel with the digits of x
-// starting with the smallest magnitude numbers (right to left).
-func GetDigits(x int) <-chan int {
-	digitsCh := make(chan int)
+// GetDigits returns a slice filled with the digits of x in the same order (starting with the largest magnitude numbers, left to right).
+func GetDigits(x int) []int {
+	digits := make([]int, 0)
+	if x == 0 {
+		digits = append(digits, 0)
+	}
 
-	go func() {
-		if x < 0 {
-			digitsCh <- -(x % 10) // Can successfully handle math.MinInt
-			x /= -10
-		}
+	if x < 0 {
+		digits = slices.Insert(digits, 0, -(x % 10)) // Can successfully handle math.MinInt
+		x /= -10
+	}
 
-		// 456/10 = 45 with int.
-		for x > 0 {
-			digitsCh <- x % 10
-			x /= 10
-		}
+	// 456/10 = 45 with int.
+	for x > 0 {
+		digits = slices.Insert(digits, 0, x%10)
+		x /= 10
+	}
 
-		close(digitsCh)
-	}()
-
-	return digitsCh
+	return digits
 }
 
-// GetDigitsBig fills and returns a channel with the digits of x
-// starting with the smallest magnitude numbers (right to left).
-func GetDigitsBig(x *big.Int) <-chan int {
-	digitsCh := make(chan int)
+// GetDigitsBig returns a slice filled with the digits of x in the same order (starting with the largest magnitude numbers, left to right).
+func GetDigitsBig(x *big.Int) []int {
+	digits := make([]int, 0)
+	if x.Sign() == 0 {
+		digits = append(digits, 0)
+	}
 
-	go func() {
-		// Uses a new variable, altNumber, so as to not change the original number.
-		altNumber := new(big.Int).Set(x)
+	// Uses a new variable, altNumber, so as to not change the original number.
+	altNumber := new(big.Int)
 
-		// Make number positive.
-		altNumber.Abs(altNumber)
+	// Make number positive.
+	altNumber.Abs(x)
 
-		ten := big.NewInt(10)
-		var digit big.Int
+	ten := big.NewInt(10)
+	var digit big.Int
 
-		// Dividing these Ints by 10 truncates the decimal places.
-		for altNumber.Sign() == 1 { // For altNumber > 0
-			altNumber.QuoRem(altNumber, ten, &digit) // Go has this handy function. Sets altNumber to altNumber / 10 and sets digit to altNumber mod 10 (the last digit).
-			digitsCh <- int(digit.Int64())
-		}
+	for altNumber.Sign() == 1 { // For altNumber > 0.
+		altNumber.QuoRem(altNumber, ten, &digit) // Go has this handy function. Sets altNumber to altNumber / 10 and sets digit to altNumber mod 10 (the last digit).
+		digits = slices.Insert(digits, 0, int(digit.Int64()))
+	}
 
-		close(digitsCh)
-	}()
-
-	return digitsCh
+	return digits
 }

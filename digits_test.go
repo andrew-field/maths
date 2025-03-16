@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math"
 	"math/big"
+	"slices"
 	"testing"
 )
 
@@ -78,27 +79,27 @@ func TestGetDigits(t *testing.T) {
 		input          int
 		expectedDigits []int
 	}{
-		{math.MinInt, []int{8, 0, 8, 5, 7, 7, 4, 5, 8, 6, 3, 0, 2, 7, 3, 3, 2, 2, 9}},
-		{-10, []int{0, 1}},
+		{math.MinInt, []int{9, 2, 2, 3, 3, 7, 2, 0, 3, 6, 8, 5, 4, 7, 7, 5, 8, 0, 8}},
+		{-10, []int{1, 0}},
 		{-9, []int{9}},
 		{-1, []int{1}},
 		{0, []int{0}},
 		{1, []int{1}},
 		{9, []int{9}},
-		{10, []int{0, 1}},
+		{10, []int{1, 0}},
 		{99, []int{9, 9}},
-		{100, []int{0, 0, 1}},
-		{500, []int{0, 0, 5}},
-		{4563198, []int{8, 9, 1, 3, 6, 5, 4}},
-		{math.MaxInt, []int{7, 0, 8, 5, 7, 7, 4, 5, 8, 6, 3, 0, 2, 7, 3, 3, 2, 2, 9}},
+		{100, []int{1, 0, 0}},
+		{500, []int{5, 0, 0}},
+		{4563198, []int{4, 5, 6, 3, 1, 9, 8}},
+		{math.MaxInt, []int{9, 2, 2, 3, 3, 7, 2, 0, 3, 6, 8, 5, 4, 7, 7, 5, 8, 0, 7}},
 	}
 
 	for _, tC := range testCases {
 		testName := fmt.Sprintf("Input: %d", tC.input)
 		t.Run(testName, func(t *testing.T) {
-			digitCh := GetDigits(tC.input)
-
-			checkDigitResults(t, tC.expectedDigits, digitCh)
+			if digits := GetDigits(tC.input); !slices.Equal(digits, tC.expectedDigits) {
+				t.Errorf("Actual digits: %v Expected digits: %v", digits, tC.expectedDigits)
+			}
 		})
 	}
 }
@@ -108,44 +109,30 @@ func TestGetDigitsBig(t *testing.T) {
 		input          *big.Int
 		expectedDigits []int
 	}{
-		{new(big.Int).Exp(big.NewInt(-10), big.NewInt(21), nil), []int{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}},
-		{big.NewInt(math.MinInt), []int{8, 0, 8, 5, 7, 7, 4, 5, 8, 6, 3, 0, 2, 7, 3, 3, 2, 2, 9}},
-		{big.NewInt(-10), []int{0, 1}},
+		{new(big.Int).Exp(big.NewInt(-10), big.NewInt(21), nil), []int{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+		{big.NewInt(math.MinInt), []int{9, 2, 2, 3, 3, 7, 2, 0, 3, 6, 8, 5, 4, 7, 7, 5, 8, 0, 8}},
+		{big.NewInt(-10), []int{1, 0}},
 		{big.NewInt(-9), []int{9}},
 		{big.NewInt(-1), []int{1}},
 		{big.NewInt(0), []int{0}},
 		{big.NewInt(1), []int{1}},
 		{big.NewInt(9), []int{9}},
-		{big.NewInt(10), []int{0, 1}},
+		{big.NewInt(10), []int{1, 0}},
 		{big.NewInt(99), []int{9, 9}},
-		{big.NewInt(100), []int{0, 0, 1}},
-		{big.NewInt(500), []int{0, 0, 5}},
-		{big.NewInt(4563198), []int{8, 9, 1, 3, 6, 5, 4}},
-		{big.NewInt(math.MaxInt), []int{7, 0, 8, 5, 7, 7, 4, 5, 8, 6, 3, 0, 2, 7, 3, 3, 2, 2, 9}},
-		{new(big.Int).Exp(big.NewInt(10), big.NewInt(20), nil), []int{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}},
-		{new(big.Int).Exp(big.NewInt(2), big.NewInt(100), nil), []int{6, 7, 3, 5, 0, 2, 3, 0, 7, 6, 9, 4, 1, 0, 4, 9, 2, 2, 8, 2, 2, 0, 0, 6, 0, 5, 6, 7, 6, 2, 1}},
+		{big.NewInt(100), []int{1, 0, 0}},
+		{big.NewInt(500), []int{5, 0, 0}},
+		{big.NewInt(4563198), []int{4, 5, 6, 3, 1, 9, 8}},
+		{big.NewInt(math.MaxInt), []int{9, 2, 2, 3, 3, 7, 2, 0, 3, 6, 8, 5, 4, 7, 7, 5, 8, 0, 7}},
+		{new(big.Int).Exp(big.NewInt(10), big.NewInt(20), nil), []int{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
+		{new(big.Int).Exp(big.NewInt(2), big.NewInt(100), nil), []int{1, 2, 6, 7, 6, 5, 0, 6, 0, 0, 2, 2, 8, 2, 2, 9, 4, 0, 1, 4, 9, 6, 7, 0, 3, 2, 0, 5, 3, 7, 6}},
 	}
 
 	for _, tC := range testCases {
 		testName := fmt.Sprintf("Input: %v", tC.input)
 		t.Run(testName, func(t *testing.T) {
-			digitCh := GetDigitsBig(tC.input)
-
-			checkDigitResults(t, tC.expectedDigits, digitCh)
+			if digits := GetDigitsBig(tC.input); !slices.Equal(digits, tC.expectedDigits) {
+				t.Errorf("Actual digits: %v Expected digits: %v", digits, tC.expectedDigits)
+			}
 		})
-	}
-}
-
-func checkDigitResults(t *testing.T, expectedDigits []int, digitCh <-chan int) {
-	// Check if the each actual digit matches the expected digit.
-	for index, expectedDigit := range expectedDigits {
-		if actualDigit := <-digitCh; actualDigit != expectedDigit {
-			t.Errorf("Actual digit: %d. Expected digit: %d at index %d", actualDigit, expectedDigit, index)
-		}
-	}
-
-	// Check the digit channel does not have too many values.
-	if digit, more := <-digitCh; more {
-		t.Errorf("Received more digits than expected. Unexpected digit: %d", digit)
 	}
 }
