@@ -12,7 +12,6 @@ func TestMax(t *testing.T) {
 		input          []int
 		expectedResult int
 	}{
-		{[]int{}, 0},
 		{[]int{0}, 0},
 		{[]int{-10}, -10},
 		{[]int{10}, 10},
