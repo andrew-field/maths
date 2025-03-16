@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.2.0](https://github.com/andrew-field/maths/compare/v2.1.0...v2.2.0) (2025-03-16)
+
+
+### Features
+
+* Change get digits function to return a slice instead of a channel ([#46](https://github.com/andrew-field/maths/issues/46)) ([d6474f9](https://github.com/andrew-field/maths/commit/d6474f984dbf3cb0e8637f0bae9d1a515b2e5499))
+* update max function to wrap the slices max function ([#43](https://github.com/andrew-field/maths/issues/43)) ([37f501c](https://github.com/andrew-field/maths/commit/37f501c2a7f67b8d985c1940e06f4f89f39616f4))
+
+
+### Bug Fixes
+
+* expand lcm and gcd comments ([#45](https://github.com/andrew-field/maths/issues/45)) ([c600888](https://github.com/andrew-field/maths/commit/c6008885a67c5f76e384a017acc3fa3324b82882))
+
 ## [2.1.0](https://github.com/andrew-field/maths/compare/v2.0.1...v2.1.0) (2025-03-09)
 
 
