@@ -7,7 +7,7 @@ import (
 	"slices"
 )
 
-// GCD returns the greatest common divisor of a group of integers.
+// GCD returns the greatest common divisor of a group of integers i.e. the largest positive integer that divides each of the integers. This method uses the Euclidean algorithm.
 // GCD() = GCD(0) = 0, nil.
 // GCD(a, 0) = |a|, nil.
 // If an overflow error is detected when  get too large, the function returns 0, ErrAbsoluteValueOfMinInt.
@@ -35,7 +35,7 @@ func GCD(numbers ...int) (int, error) {
 	return absY, nil
 }
 
-// LCM returns the least common multiple of a group of integers. This method uses GCD().
+// LCM returns the least common multiple of a group of integers i.e. the smallest positive integer that is divisible by each integer. This method uses GCD().
 // LCM() = LCM(0, 0, ...) = 0, nil.
 // LCM(a, 0) = 0, nil.
 // If an overflow error is detected when the numbers get too large, the function returns 0, ErrOverflowDetected.
