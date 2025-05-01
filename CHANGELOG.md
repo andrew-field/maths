@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.3.0](https://github.com/andrew-field/maths/compare/v2.2.0...v2.3.0) (2025-05-01)
+
+
+### Features
+
+* Update go mod version to 1.24.1 ([#48](https://github.com/andrew-field/maths/issues/48)) ([264278e](https://github.com/andrew-field/maths/commit/264278e0f67cee42053c7af9e27fb3be5b4419ad))
+* Update go mod version to 1.24.2 ([#49](https://github.com/andrew-field/maths/issues/49)) ([3b3c164](https://github.com/andrew-field/maths/commit/3b3c164277550c76ce6df34ba08d74131fdbb49d))
+* Use context as a parameter in GetPrimeNumbers and use range over channels instead of multiple selects ([#35](https://github.com/andrew-field/maths/issues/35)) ([f4aad17](https://github.com/andrew-field/maths/commit/f4aad178606b234241d894b7ecd5a69f2c4a83a8))
+
 ## [2.2.0](https://github.com/andrew-field/maths/compare/v2.1.0...v2.2.0) (2025-03-16)
 
 
