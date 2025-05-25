@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.1](https://github.com/andrew-field/maths/compare/v2.3.0...v2.3.1) (2025-05-25)
+
+
+### Bug Fixes
+
+* Update golang linter confguration for V2 ([#50](https://github.com/andrew-field/maths/issues/50)) ([a70fcc5](https://github.com/andrew-field/maths/commit/a70fcc5638abef94ced3b8f449c1f308bac00559))
+
 ## [2.3.0](https://github.com/andrew-field/maths/compare/v2.2.0...v2.3.0) (2025-05-01)
 
 
