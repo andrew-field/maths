@@ -19,11 +19,11 @@ linters:
         - shadow
     # Below is the custom configuration I have added. This is because there is currently a bug in revive. https://github.com/mgechev/revive/issues/386
     # If this issue has been resolved, this section can be removed (and probably this whole file).
-    # revive:
-    #   rules:
-    #     # https://github.com/mgechev/revive/blob/HEAD/RULES_DESCRIPTIONS.md#empty-block
-    #     - name: empty-block
-    #       disabled: true
+    revive:
+      rules:
+        # https://github.com/mgechev/revive/blob/HEAD/RULES_DESCRIPTIONS.md#empty-block
+        - name: empty-block
+          disabled: true
 
   exclusions:
     generated: lax
