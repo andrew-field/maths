@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.4.0](https://github.com/andrew-field/maths/compare/v2.3.0...v2.4.0) (2025-06-01)
+
+
+### Features
+
+* Update go mod version to 1.24.3 ([#53](https://github.com/andrew-field/maths/issues/53)) ([2b81be5](https://github.com/andrew-field/maths/commit/2b81be50516db94fe02aea590585526ac68a7ffb))
+
+
+### Bug Fixes
+
+* Update bump-go-mod-version.yml comments ([#54](https://github.com/andrew-field/maths/issues/54)) ([92b3a3d](https://github.com/andrew-field/maths/commit/92b3a3db0e5a69b94400bced3081142e6e399bdc))
+* Update golang linter confguration for V2 ([#50](https://github.com/andrew-field/maths/issues/50)) ([a70fcc5](https://github.com/andrew-field/maths/commit/a70fcc5638abef94ced3b8f449c1f308bac00559))
+
 ## [2.3.0](https://github.com/andrew-field/maths/compare/v2.2.0...v2.3.0) (2025-05-01)
 
 
