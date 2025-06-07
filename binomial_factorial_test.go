@@ -67,14 +67,59 @@ func TestBinomial(t *testing.T) {
 	}
 }
 
-func checkResults(t *testing.T, expectedResult int, expectedError bool, actualResult int, actualError error) {
+func checkResults(t testing.TB, expectedResult int, expectedError bool, actualResult int, actualError error) {
+	t.Helper()
 	// Check if an error was returned and matches if an error was expected.
 	if gotError := actualError != nil; gotError != expectedError {
 		t.Errorf("Expected error: %t, got error: %t, error: %v", expectedError, gotError, actualError)
 	}
 
-	// Check if the actual result matches the expected result
+	// Check if the actual result matches the expected result.
 	if actualResult != expectedResult {
 		t.Errorf("Expected result: %d, got result: %d", expectedResult, actualResult)
 	}
+}
+
+func ExampleFactorial() {
+	n := 10
+	p, err := Factorial(n)
+	if err != nil {
+		fmt.Printf("Error calculating the factorial of %d: %v\n", n, err)
+	} else {
+		fmt.Printf("The factorial of %d is %d\n", n, p)
+	}
+
+	n = 21
+	p, err = Factorial(n)
+	if err != nil {
+		fmt.Printf("Error calculating the factorial of %d: %v\n", n, err)
+	} else {
+		fmt.Printf("The factorial of %d is %d\n", n, p)
+	}
+
+	// Output:
+	// The factorial of 10 is 3628800
+	// Error calculating the factorial of 21: failed to get fact(21): failed to calculate 21 * 2432902008176640000. The result is too large to hold in an int variable: arithmetic overflow detected
+}
+
+func ExampleBinomial() {
+	n, k := 10, 3
+	p, err := Binomial(n, k)
+	if err != nil {
+		fmt.Printf("Error calculating the binomial coeffcient of %d choose %d: %v\n", n, k, err)
+	} else {
+		fmt.Printf("The binomial coeffcient of %d choose %d is %d\n", n, k, p)
+	}
+
+	n, k = 22, 5
+	p, err = Binomial(n, k)
+	if err != nil {
+		fmt.Printf("Error calculating the binomial coeffcient of %d choose %d: %v\n", n, k, err)
+	} else {
+		fmt.Printf("The binomial coeffcient of %d choose %d is %d\n", n, k, p)
+	}
+
+	// Output:
+	// The binomial coeffcient of 10 choose 3 is 120
+	// Error calculating the binomial coeffcient of 22 choose 5: failed to get fact(22): failed to calculate 21 * 2432902008176640000. The result is too large to hold in an int variable: arithmetic overflow detected
 }

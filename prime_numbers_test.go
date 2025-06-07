@@ -944,3 +944,33 @@ func TestGetPrimeNumbersBelowAndIncluding(t *testing.T) {
 		})
 	}
 }
+
+func ExampleGetPrimeNumbersBelowAndIncluding() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	n := 50
+	primeCh := GetPrimeNumbersBelowAndIncluding(ctx, n)
+
+	fmt.Printf("The prime numbers below and including %d are: ", n)
+	for prime := range primeCh {
+		fmt.Printf("%d ", prime)
+	}
+
+	// Output:
+	// The prime numbers below and including 50 are: 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47
+}
+
+func ExampleGetPrimeNumbers() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	n := 40
+
+	primeCh := GetPrimeNumbers(ctx)
+	fmt.Printf("The first %d prime numbers are: ", n)
+	for range n {
+		fmt.Printf("%d ", <-primeCh)
+	}
+
+	// Output:
+	// The first 40 prime numbers are: 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97 101 103 107 109 113 127 131 137 139 149 151 157 163 167 173
+}

@@ -159,3 +159,51 @@ func testSumOfDivisorsHelper(t *testing.T, f func(int) (int, error)) {
 		})
 	}
 }
+
+func ExampleNumberOfDivisors() {
+	n := 28
+	numDivisors := NumberOfDivisors(n)
+	fmt.Println("Number of divisors of", n, "is", numDivisors)
+
+	// Output: Number of divisors of 28 is 6
+}
+
+func ExampleGetDivisors() {
+	n := 28
+	divCh, err := GetDivisors(n)
+	if err != nil {
+		fmt.Printf("Error calculating the divisors of %d: %v", n, err)
+		return
+	}
+
+	divisors := make([]int, 0)
+	for d := range divCh {
+		divisors = append(divisors, d)
+	}
+	slices.Sort(divisors)
+	fmt.Println("Divisors of", n, "are", divisors)
+
+	// Output: Divisors of 28 are [1 2 4 7 14 28]
+}
+
+func ExampleSumOfDivisors() {
+	n := 28
+	sumDivisors, err := SumOfDivisors(n)
+	if err != nil {
+		fmt.Printf("Error calculating sum of the divisors of %d: %v", n, err)
+	} else {
+		fmt.Println("Sum of the divisors of", n, "is", sumDivisors)
+	}
+
+	n = 3598428716789018112
+	sumDivisors, err = SumOfDivisors(n)
+	if err != nil {
+		fmt.Printf("Error calculating the sum of the divisors of %d: %v", n, err)
+	} else {
+		fmt.Println("Sum of the divisors of", n, "is", sumDivisors)
+	}
+
+	// Output:
+	// Sum of the divisors of 28 is 56
+	// Error calculating the sum of the divisors of 3598428716789018112: failed to calculate 444879189109555200 * 42. The result is too large to hold in an int variable: arithmetic overflow detected
+}

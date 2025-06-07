@@ -93,7 +93,7 @@ func SumOfDivisors(x int) (int, error) {
 	for primeFactor := range PrimeFactorisation(x) {
 		primeFactorPow, err := Pow(primeFactor.Value, primeFactor.Index+1)
 		if err != nil {
-			return 0, fmt.Errorf("failed to get Pow(%d, %d): %w", primeFactor.Value, primeFactor.Index, err)
+			return 0, fmt.Errorf("failed to get Pow(%d, %d): %w", primeFactor.Value, primeFactor.Index+1, err)
 		}
 
 		// Check for overflow before multiplication. Partial can only be positive here.

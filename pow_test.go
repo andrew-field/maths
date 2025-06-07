@@ -50,3 +50,15 @@ func TestPow(t *testing.T) {
 		})
 	}
 }
+
+func ExamplePow() {
+	m, n := 3, 5
+	result, err := Pow(m, n)
+	if err != nil {
+		fmt.Printf("Error calculating %d^%d: %v", m, n, err)
+	} else {
+		fmt.Printf("%d^%d = %d", m, n, result)
+	}
+
+	// Output: 3^5 = 243
+}

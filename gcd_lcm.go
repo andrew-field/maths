@@ -10,7 +10,7 @@ import (
 // GCD returns the greatest common divisor of a group of integers i.e. the largest positive integer that divides each of the integers. This method uses the Euclidean algorithm.
 // GCD() = GCD(0) = 0, nil.
 // GCD(a, 0) = |a|, nil.
-// If an overflow error is detected when  get too large, the function returns 0, ErrAbsoluteValueOfMinInt.
+// If an overflow error is detected when the result gets too large, the function returns 0, ErrAbsoluteValueOfMinInt.
 // In this case, use *bigInt.GCD() from the math/big package.
 func GCD(numbers ...int) (int, error) {
 	if len(numbers) == 0 || !slices.ContainsFunc(numbers, func(n int) bool { // If there are no numbers or no non-zero numbers (all zeroes), return 0, nil.
@@ -90,7 +90,7 @@ func LCMBig(numbers ...*big.Int) *big.Int {
 		return big.NewInt(0)
 	}
 
-	lcmResult := numbers[0]
+	lcmResult := new(big.Int).Set(numbers[0]) // Start with the first number as the initial LCM result.
 	if len(numbers) != 1 {
 		for _, v := range numbers[1:] { // Calculate the LCM by repeatedly calculating the LCM of each pair of numbers.
 			gcd := new(big.Int).GCD(nil, nil, lcmResult, v) // Calculate the GCD.

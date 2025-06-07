@@ -136,3 +136,66 @@ func TestGetDigitsBig(t *testing.T) {
 		})
 	}
 }
+
+func ExampleNumberOfDigits() {
+	numbers := []int{12345, -12345, math.MaxInt, math.MinInt, 0, 1000000000, -1000000000, 99999999999999}
+
+	for _, v := range numbers {
+		fmt.Printf("Number of digits in %d: %d\n", v, NumberOfDigits(v))
+	}
+
+	// Output:
+	// Number of digits in 12345: 5
+	// Number of digits in -12345: 5
+	// Number of digits in 9223372036854775807: 19
+	// Number of digits in -9223372036854775808: 19
+	// Number of digits in 0: 1
+	// Number of digits in 1000000000: 10
+	// Number of digits in -1000000000: 10
+	// Number of digits in 99999999999999: 14
+}
+
+var numbers = []*big.Int{
+	big.NewInt(12345),
+	new(big.Int).Exp(big.NewInt(10), big.NewInt(20), nil),
+	new(big.Int).Exp(big.NewInt(2), big.NewInt(100), nil),
+}
+
+func ExampleNumberOfDigitsBig() {
+	for _, v := range numbers {
+		fmt.Printf("Number of digits in %s: %d\n", v.String(), NumberOfDigitsBig(v))
+	}
+
+	// Output:
+	// Number of digits in 12345: 5
+	// Number of digits in 100000000000000000000: 21
+	// Number of digits in 1267650600228229401496703205376: 31
+}
+
+func ExampleGetDigits() {
+	numbers := []int{12345, -12345, math.MaxInt, math.MinInt, 0}
+
+	for _, v := range numbers {
+		digits := GetDigits(v)
+		fmt.Printf("The last digit of %d is %d\n", v, digits[len(digits)-1])
+	}
+
+	// Output:
+	// The last digit of 12345 is 5
+	// The last digit of -12345 is 5
+	// The last digit of 9223372036854775807 is 7
+	// The last digit of -9223372036854775808 is 8
+	// The last digit of 0 is 0
+}
+
+func ExampleGetDigitsBig() {
+	for _, v := range numbers {
+		digits := GetDigitsBig(v)
+		fmt.Printf("The last digit of %s is %d\n", v.String(), digits[len(digits)-1])
+	}
+
+	// Output:
+	// The last digit of 12345 is 5
+	// The last digit of 100000000000000000000 is 0
+	// The last digit of 1267650600228229401496703205376 is 6
+}
