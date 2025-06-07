@@ -77,3 +77,15 @@ func FuzzPrimeFactorisation(f *testing.F) {
 		}
 	})
 }
+
+func ExamplePrimeFactorisation() {
+	input := 360
+	resultCh := PrimeFactorisation(input)
+
+	fmt.Printf("Prime factorisation of %d: ", input)
+	for factor := range resultCh {
+		fmt.Printf("%d^%d ", factor.Value, factor.Index)
+	}
+
+	// Output: Prime factorisation of 360: 2^3 3^2 5^1
+}
