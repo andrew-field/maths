@@ -27,7 +27,7 @@ func ExampleNumberOfDivisorsBruteForce() {
 }
 
 func ExampleGetDivisorsBruteForce() {
-	n := 28
+	n := 30
 	divCh, err := GetDivisorsBruteForce(n)
 	if err != nil {
 		fmt.Printf("Error calculating the divisors of %d: %v", n, err)
@@ -39,9 +39,9 @@ func ExampleGetDivisorsBruteForce() {
 		divisors = append(divisors, d)
 	}
 	slices.Sort(divisors)
-	fmt.Println("Divisors of", n, "are", divisors)
+	fmt.Printf("Divisors of %d are %v", n, divisors)
 
-	// Output: Divisors of 28 are [1 2 4 7 14 28]
+	// Output: Divisors of 30 are [1 2 3 5 6 10 15 30]
 }
 
 func ExampleSumOfDivisorsBruteForce() {

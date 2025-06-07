@@ -155,13 +155,13 @@ func ExampleNumberOfDigits() {
 	// Number of digits in 99999999999999: 14
 }
 
-func ExampleNumberOfDigitsBig() {
-	numbers := []*big.Int{
-		big.NewInt(12345),
-		new(big.Int).Exp(big.NewInt(10), big.NewInt(20), nil),
-		new(big.Int).Exp(big.NewInt(2), big.NewInt(100), nil),
-	}
+var numbers = []*big.Int{
+	big.NewInt(12345),
+	new(big.Int).Exp(big.NewInt(10), big.NewInt(20), nil),
+	new(big.Int).Exp(big.NewInt(2), big.NewInt(100), nil),
+}
 
+func ExampleNumberOfDigitsBig() {
 	for _, v := range numbers {
 		fmt.Printf("Number of digits in %s: %d\n", v.String(), NumberOfDigitsBig(v))
 	}
@@ -189,12 +189,6 @@ func ExampleGetDigits() {
 }
 
 func ExampleGetDigitsBig() {
-	numbers := []*big.Int{
-		big.NewInt(12345),
-		new(big.Int).Exp(big.NewInt(10), big.NewInt(20), nil),
-		new(big.Int).Exp(big.NewInt(2), big.NewInt(100), nil),
-	}
-
 	for _, v := range numbers {
 		digits := GetDigitsBig(v)
 		fmt.Printf("The last digit of %s is %d\n", v.String(), digits[len(digits)-1])
