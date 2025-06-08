@@ -106,17 +106,17 @@ func ExampleBinomial() {
 	n, k := 10, 3
 	p, err := Binomial(n, k)
 	if err != nil {
-		fmt.Printf("Error calculating the binomial coeffcient of %d choose %d: %v\n", n, k, err)
+		fmt.Printf("Error calculating the binomial coefficient of %d choose %d: %v\n", n, k, err)
 	} else {
-		fmt.Printf("The binomial coeffcient of %d choose %d is %d\n", n, k, p)
+		fmt.Printf("The binomial coefficient of %d choose %d is %d\n", n, k, p)
 	}
 
 	n, k = 22, 5
 	p, err = Binomial(n, k)
 	if err != nil {
-		fmt.Printf("Error calculating the binomial coeffcient of %d choose %d: %v\n", n, k, err)
+		fmt.Printf("Error calculating the binomial coefficient of %d choose %d: %v\n", n, k, err)
 	} else {
-		fmt.Printf("The binomial coeffcient of %d choose %d is %d\n", n, k, p)
+		fmt.Printf("The binomial coefficient of %d choose %d is %d\n", n, k, p)
 	}
 
 	// Output:
