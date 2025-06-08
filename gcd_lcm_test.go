@@ -189,13 +189,19 @@ func ExampleLCMBig() {
 
 func BenchmarkGCD(b *testing.B) {
 	for b.Loop() {
-		GCD(96, 48)
+		_, err := GCD(96, 48)
+		if err != nil {
+			b.Fatal(err)
+		}
 	}
 }
 
 func BenchmarkLCM(b *testing.B) {
 	for b.Loop() {
-		LCM(96, 48)
+		_, err := LCM(96, 48)
+		if err != nil {
+			b.Fatal(err)
+		}
 	}
 }
 

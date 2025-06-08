@@ -981,8 +981,7 @@ func BenchmarkGetPrimeNumbersBelowAndIncluding(b *testing.B) {
 	for _, input := range inputs {
 		b.Run(fmt.Sprintf("Input: %d", input), func(b *testing.B) {
 			for b.Loop() {
-				for range GetPrimeNumbersBelowAndIncluding(ctx, input) {
-					// Just iterating through the channel to benchmark the function.
+				for range GetPrimeNumbersBelowAndIncluding(ctx, input) { // Just iterating through the channel to benchmark the function.
 				}
 			}
 		})
@@ -996,8 +995,8 @@ func BenchmarkGetPrimeNumbers(b *testing.B) {
 		b.Run(fmt.Sprintf("Input: %d", input), func(b *testing.B) {
 			for b.Loop() {
 				primeCh := GetPrimeNumbers(ctx)
-				for range input {
-					<-primeCh // Just iterating through the channel to benchmark the function.
+				for range input { // Just iterating through the channel to benchmark the function.
+					<-primeCh
 				}
 			}
 		})

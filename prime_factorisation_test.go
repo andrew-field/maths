@@ -95,8 +95,7 @@ func BenchmarkPrimeFactorisation(b *testing.B) {
 	for _, input := range inputs {
 		b.Run(fmt.Sprintf("Input: %d", input), func(b *testing.B) {
 			for b.Loop() {
-				for range PrimeFactorisation(input) {
-					// Just iterating through the channel to benchmark the function.
+				for range PrimeFactorisation(input) { // Just iterating through the channel to benchmark the function.
 				}
 			}
 		})

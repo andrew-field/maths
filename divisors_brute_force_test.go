@@ -82,9 +82,11 @@ func BenchmarkGetDivisorsBruteForce(b *testing.B) {
 	for _, input := range divisorBenchmarkInputs {
 		b.Run(fmt.Sprintf("Input: %d", input), func(b *testing.B) {
 			for b.Loop() {
-				divCh, _ := GetDivisorsBruteForce(input)
-				for range divCh {
-					// Just iterating through the channel to benchmark the function.
+				divCh, err := GetDivisorsBruteForce(input)
+				if err != nil {
+					b.Fatal(err)
+				}
+				for range divCh { // Just iterating through the channel to benchmark the function.
 				}
 			}
 		})
@@ -95,7 +97,10 @@ func BenchmarkSumOfDivisorsBruteForce(b *testing.B) {
 	for _, input := range divisorBenchmarkInputs {
 		b.Run(fmt.Sprintf("Input: %d", input), func(b *testing.B) {
 			for b.Loop() {
-				SumOfDivisorsBruteForce(input)
+				_, err := SumOfDivisorsBruteForce(input)
+				if err != nil {
+					b.Fatal(err)
+				}
 			}
 		})
 	}

@@ -126,12 +126,18 @@ func ExampleBinomial() {
 
 func BenchmarkBinomial(b *testing.B) {
 	for b.Loop() {
-		Binomial(10, 3)
+		_, err := Binomial(10, 3)
+		if err != nil {
+			b.Fatal(err)
+		}
 	}
 }
 
 func BenchmarkFactorial(b *testing.B) {
 	for b.Loop() {
-		Factorial(10)
+		_, err := Factorial(10)
+		if err != nil {
+			b.Fatal(err)
+		}
 	}
 }
