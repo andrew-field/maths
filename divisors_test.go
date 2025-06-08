@@ -196,7 +196,6 @@ func ExampleGetDivisors() {
 	for d := range divCh {
 		divisors = append(divisors, d)
 	}
-	slices.Sort(divisors)
 	fmt.Println("Divisors of", n, "are", divisors)
 
 	// Output: Divisors of 28 are [1 2 4 7 14 28]
