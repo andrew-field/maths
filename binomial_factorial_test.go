@@ -120,6 +120,6 @@ func ExampleBinomial() {
 	}
 
 	// Output:
-	// The binomial coeffcient of 10 choose 3 is 120
-	// Error calculating the binomial coeffcient of 22 choose 5: failed to get fact(22): failed to calculate 21 * 2432902008176640000. The result is too large to hold in an int variable: arithmetic overflow detected
+	// The binomial coefficient of 10 choose 3 is 120
+	// Error calculating the binomial coefficient of 22 choose 5: failed to get fact(22): failed to calculate 21 * 2432902008176640000. The result is too large to hold in an int variable: arithmetic overflow detected
 }
