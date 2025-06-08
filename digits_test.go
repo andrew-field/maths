@@ -199,3 +199,27 @@ func ExampleGetDigitsBig() {
 	// The last digit of 100000000000000000000 is 0
 	// The last digit of 1267650600228229401496703205376 is 6
 }
+
+func BenchmarkNumberOfDigits(b *testing.B) {
+	for b.Loop() {
+		NumberOfDigits(12345678912345)
+	}
+}
+
+func BenchmarkNumberOfDigitsBig(b *testing.B) {
+	for b.Loop() {
+		NumberOfDigitsBig(big.NewInt(12345678912345))
+	}
+}
+
+func BenchmarkGetDigits(b *testing.B) {
+	for b.Loop() {
+		GetDigits(12345678912345)
+	}
+}
+
+func BenchmarkGetDigitsBig(b *testing.B) {
+	for b.Loop() {
+		GetDigitsBig(big.NewInt(12345678912345))
+	}
+}

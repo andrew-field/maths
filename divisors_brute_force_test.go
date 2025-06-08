@@ -65,3 +65,38 @@ func ExampleSumOfDivisorsBruteForce() {
 	// Sum of the divisors of 28 is 56
 	// Error calculating the sum of the divisors of 3598428716789018112: failed to calculate 9060329447629492072 + 399825412976557568. The result is too large to hold in an int variable: arithmetic overflow detected
 }
+
+var divisorBenchmarkInputs = []int{10, 100, 1000, 10000, 100000, 1000000}
+
+func BenchmarkNumberOfDivisorsBruteForce(b *testing.B) {
+	for _, input := range divisorBenchmarkInputs {
+		b.Run(fmt.Sprintf("Input: %d", input), func(b *testing.B) {
+			for b.Loop() {
+				NumberOfDivisorsBruteForce(input)
+			}
+		})
+	}
+}
+
+func BenchmarkGetDivisorsBruteForce(b *testing.B) {
+	for _, input := range divisorBenchmarkInputs {
+		b.Run(fmt.Sprintf("Input: %d", input), func(b *testing.B) {
+			for b.Loop() {
+				divCh, _ := GetDivisorsBruteForce(input)
+				for range divCh {
+					// Just iterating through the channel to benchmark the function.
+				}
+			}
+		})
+	}
+}
+
+func BenchmarkSumOfDivisorsBruteForce(b *testing.B) {
+	for _, input := range divisorBenchmarkInputs {
+		b.Run(fmt.Sprintf("Input: %d", input), func(b *testing.B) {
+			for b.Loop() {
+				SumOfDivisorsBruteForce(input)
+			}
+		})
+	}
+}
