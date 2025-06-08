@@ -152,3 +152,37 @@ func TestLCMBig(t *testing.T) {
 		})
 	}
 }
+
+func ExampleGCD() {
+	m, n := 48, 18
+	gcd, err := GCD(m, n)
+	if err != nil {
+		fmt.Printf("Error calculating the GCD of %d and %d: %v", m, n, err)
+	} else {
+		fmt.Println("GCD of", m, "and", n, "is", gcd)
+	}
+
+	// Output: GCD of 48 and 18 is 6
+}
+
+func ExampleLCM() {
+	m, n := 48, 18
+	lcm, err := LCM(m, n)
+	if err != nil {
+		fmt.Printf("Error calculating the LCM of %d and %d: %v", m, n, err)
+		return
+	} else {
+		fmt.Println("LCM of", m, "and", n, "is", lcm)
+	}
+
+	// Output: LCM of 48 and 18 is 144
+}
+
+func ExampleLCMBig() {
+	m, n := new(big.Int), big.NewInt(3)
+	m.SetString("10000000000000000000", 10)
+	lcm := LCMBig(m, n)
+	fmt.Println("LCM of", m, "and", n, "is", lcm)
+
+	// Output: LCM of 10000000000000000000 and 3 is 30000000000000000000
+}

@@ -73,3 +73,22 @@ func TestAbs(t *testing.T) {
 		})
 	}
 }
+
+func ExampleAbs() {
+	n := -10
+	absValue, err := Abs(n)
+	if err != nil {
+		fmt.Println("Error:", err)
+	} else {
+		fmt.Println("Absolute value of", n, "is", absValue)
+	}
+
+	// Output: Absolute value of -10 is 10
+}
+
+func ExampleMax() {
+	maxValue := Max(-100, -5, 0, 5, 10)
+	fmt.Println("The maximum value is", maxValue)
+
+	// Output: The maximum value is 10
+}
