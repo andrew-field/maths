@@ -123,3 +123,21 @@ func ExampleBinomial() {
 	// The binomial coefficient of 10 choose 3 is 120
 	// Error calculating the binomial coefficient of 22 choose 5: failed to get fact(22): failed to calculate 21 * 2432902008176640000. The result is too large to hold in an int variable: arithmetic overflow detected
 }
+
+func BenchmarkBinomial(b *testing.B) {
+	for b.Loop() {
+		_, err := Binomial(10, 3)
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+func BenchmarkFactorial(b *testing.B) {
+	for b.Loop() {
+		_, err := Factorial(10)
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+}

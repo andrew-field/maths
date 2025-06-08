@@ -974,3 +974,31 @@ func ExampleGetPrimeNumbers() {
 	// Output:
 	// The first 40 prime numbers are: 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97 101 103 107 109 113 127 131 137 139 149 151 157 163 167 173
 }
+
+func BenchmarkGetPrimeNumbersBelowAndIncluding(b *testing.B) {
+	ctx := b.Context()
+	inputs := []int{10, 200, 3000, 40000, 500000}
+	for _, input := range inputs {
+		b.Run(fmt.Sprintf("Input: %d", input), func(b *testing.B) {
+			for b.Loop() {
+				for range GetPrimeNumbersBelowAndIncluding(ctx, input) { // Just iterating through the channel to benchmark the function.
+				}
+			}
+		})
+	}
+}
+
+func BenchmarkGetPrimeNumbers(b *testing.B) {
+	ctx := b.Context()
+	inputs := []int{10, 200, 3000}
+	for _, input := range inputs {
+		b.Run(fmt.Sprintf("Input: %d", input), func(b *testing.B) {
+			for b.Loop() {
+				primeCh := GetPrimeNumbers(ctx)
+				for range input { // Just iterating through the channel to benchmark the function.
+					<-primeCh
+				}
+			}
+		})
+	}
+}

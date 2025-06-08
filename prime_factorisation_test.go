@@ -64,16 +64,16 @@ func FuzzPrimeFactorisation(f *testing.F) {
 
 		result := 1
 		for factor := range resultCh {
-			for i := 0; i < factor.Index; i++ {
+			for range factor.Index {
 				result *= factor.Value
 			}
 		}
 		absOrig, err := Abs(orig)
 		if err != nil {
-			t.Skip("Failed to get Abs of input")
+			t.Skipf("Failed to get Abs of %d: %v", orig, err)
 		}
 		if result != absOrig {
-			t.Errorf("Expected %d, got %d", orig, result)
+			t.Errorf("Expected %d, got %d", absOrig, result)
 		}
 	})
 }
@@ -88,4 +88,16 @@ func ExamplePrimeFactorisation() {
 	}
 
 	// Output: Prime factorisation of 360: 2^3 3^2 5^1
+}
+
+func BenchmarkPrimeFactorisation(b *testing.B) {
+	inputs := []int{10, 200, 3000, 40000, 500000, 6000000}
+	for _, input := range inputs {
+		b.Run(fmt.Sprintf("Input: %d", input), func(b *testing.B) {
+			for b.Loop() {
+				for range PrimeFactorisation(input) { // Just iterating through the channel to benchmark the function.
+				}
+			}
+		})
+	}
 }

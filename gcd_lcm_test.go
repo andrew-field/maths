@@ -186,3 +186,27 @@ func ExampleLCMBig() {
 
 	// Output: LCM of 10000000000000000000 and 3 is 30000000000000000000
 }
+
+func BenchmarkGCD(b *testing.B) {
+	for b.Loop() {
+		_, err := GCD(96, 48)
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+func BenchmarkLCM(b *testing.B) {
+	for b.Loop() {
+		_, err := LCM(96, 48)
+		if err != nil {
+			b.Fatal(err)
+		}
+	}
+}
+
+func BenchmarkLCMBig(b *testing.B) {
+	for b.Loop() {
+		LCMBig(big.NewInt(96), big.NewInt(48))
+	}
+}

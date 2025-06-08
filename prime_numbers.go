@@ -43,7 +43,7 @@ func GetPrimeNumbersBelowAndIncluding(ctx context.Context, n int) <-chan int {
 
 		segmentSize := (n - 1) / numSegments // n - 1 because that is the range or [2 n] (we are excluding 1).
 
-		for segment := 0; segment < numSegments; segment++ {
+		for segment := range numSegments {
 			start := 2 + segment*segmentSize
 			var end int
 			if segment == numSegments-1 {
@@ -58,10 +58,7 @@ func GetPrimeNumbersBelowAndIncluding(ctx context.Context, n int) <-chan int {
 			// Step 3: Mark composites within the segment using smallPrimes.
 			for _, p := range smallPrimes {
 				// Find the minimum number in [start, end) that is a multiple of p.
-				minMultiple := ((start + p - 1) / p) * p
-				if minMultiple < p*p {
-					minMultiple = p * p
-				}
+				minMultiple := max(((start+p-1)/p)*p, p*p)
 
 				// Mark all multiples of p within the segment.
 				for j := minMultiple; j < end; j += p {
@@ -70,7 +67,7 @@ func GetPrimeNumbersBelowAndIncluding(ctx context.Context, n int) <-chan int {
 			}
 
 			// Step 4: Iterate over isComposite and send any number that is not marked as composite (i.e., false) to primeChannel.
-			for i := 0; i < len(isComposite); i++ {
+			for i := range isComposite {
 				if !isComposite[i] {
 					select {
 					case primeChannel <- start + i:
