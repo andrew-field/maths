@@ -139,6 +139,22 @@ func testGetDivisorsHelper(t *testing.T, f func(int) (<-chan int, error)) {
 
 func TestSumOfDivisors(t *testing.T) {
 	testSumOfDivisorsHelper(t, SumOfDivisors)
+
+	t.Run("Sum of divisors of 2⁶². Can't calculate 2⁶³, overflow error.", func(t *testing.T) {
+		expectedError := true
+		expectedResult := 0
+		actualResult, actualError := SumOfDivisors(4611686018427387904)
+
+		// Check if an error was returned and matches if an error was expected.
+		if gotError := actualError != nil; gotError != expectedError {
+			t.Errorf("Expected error: %t, got error: %t, error: %v", expectedError, gotError, actualError)
+		}
+
+		// Check if the actual result matches the expected result.
+		if actualResult != expectedResult {
+			t.Errorf("Expected sum of divisors: %d, actual sum of divisors: %d", expectedResult, actualResult)
+		}
+	})
 }
 
 func testSumOfDivisorsHelper(t *testing.T, f func(int) (int, error)) {
