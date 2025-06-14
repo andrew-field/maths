@@ -62,3 +62,9 @@ func ExamplePow() {
 
 	// Output: 3^5 = 243
 }
+
+func BenchmarkPow(b *testing.B) {
+	for b.Loop() {
+		Pow(3, 5)
+	}
+}

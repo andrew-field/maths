@@ -45,12 +45,12 @@ func TestMax(t *testing.T) {
 		expectedResult float64
 	}{
 		{[]float64{0.0}, 0.0},
-		{[]float64{-0.999999, -1}, -0.999999},
-		{[]float64{0.999999, 1}, 1},
+		{[]float64{-0.9999, -1}, -0.9999},
+		{[]float64{0.9999, 1}, 1},
 	}
 
 	for _, tC := range testCasesFloat {
-		testName := fmt.Sprintf("Input: %v", tC.input)
+		testName := fmt.Sprintf("Input: %f", tC.input)
 		t.Run(testName, func(t *testing.T) {
 			// Check if the actual result matches the expected result.
 			if actualResult := Max(tC.input...); actualResult != tC.expectedResult {
