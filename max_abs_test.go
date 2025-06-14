@@ -50,7 +50,7 @@ func TestMax(t *testing.T) {
 	}
 
 	for _, tC := range testCasesFloat {
-		testName := fmt.Sprintf("Input: %f", tC.input)
+		testName := fmt.Sprintf("Input: %0.4f", tC.input)
 		t.Run(testName, func(t *testing.T) {
 			// Check if the actual result matches the expected result.
 			if actualResult := Max(tC.input...); actualResult != tC.expectedResult {
