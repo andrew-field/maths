@@ -195,3 +195,53 @@ func BenchmarkGetDigits(b *testing.B) {
 		GetDigits(12345678912345)
 	}
 }
+
+var testCases = []int{
+	math.MinInt, -10, -9, -1, 0, 1, 9, 10, 99, 100, 500, 4563198, math.MaxInt,
+}
+
+func FuzzNumberOfDigits(f *testing.F) {
+	for _, v := range testCases {
+		f.Add(v)
+	}
+
+	f.Fuzz(func(t *testing.T, input int) {
+		if input == 0 {
+			t.Skip()
+		}
+		n := NumberOfDigits(input)
+
+		orig := input
+		for range n - 1 {
+			input /= 10
+		}
+		if input == 0 || input/10 != 0 {
+			t.Errorf("Number of digits for %d is incorrect: got %d", orig, n)
+		}
+	})
+}
+
+func FuzzGetDigits(f *testing.F) {
+	for _, v := range testCases {
+		f.Add(v)
+	}
+
+	f.Fuzz(func(t *testing.T, input int) {
+		digits := GetDigits(input)
+
+		sum := 0
+		exponent := 1
+		for i := len(digits) - 1; i >= 0; i-- {
+			sum += exponent * digits[i]
+			exponent *= 10
+		}
+
+		if input < 0 {
+			sum = -sum
+		}
+
+		if sum != input {
+			t.Errorf("Digits of %d do not reconstruct the original number: got: %v, sum: %d", input, digits, sum)
+		}
+	})
+}
