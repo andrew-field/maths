@@ -8,19 +8,23 @@ import (
 
 // NumberOfDigits returns the number of digits of an integer. Uses integer-string conversion.
 func NumberOfDigits(x int) int {
+	s := len(strconv.Itoa(x))
+
 	if x < 0 { // Can not write x = -x because x is an int and math.MinInt is not representable as a positive int.
-		return len(strconv.Itoa(x)) - 1
+		return s - 1
 	}
 
-	return len(strconv.Itoa(x))
+	return s
 }
 
 // NumberOfDigitsBig returns the number of digits of a big.Int. Uses integer-string conversion.
 func NumberOfDigitsBig(x *big.Int) int {
+	s := len(x.String())
+
 	if x.Sign() == -1 {
-		return len(x.String()) - 1
+		return s - 1
 	}
-	return len(x.String())
+	return s
 }
 
 // GetDigits returns a slice filled with the digits of x in the same order (starting with the largest magnitude numbers, left to right).
