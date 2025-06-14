@@ -8,7 +8,7 @@ import (
 )
 
 func TestMax(t *testing.T) {
-	testCases := []struct {
+	testCasesInt := []struct {
 		input          []int
 		expectedResult int
 	}{
@@ -30,12 +30,31 @@ func TestMax(t *testing.T) {
 		{[]int{10, 5, 7, 2, 3, 6, 8, 1, 4, 9}, 10},
 	}
 
-	for _, tC := range testCases {
+	for _, tC := range testCasesInt {
 		testName := fmt.Sprintf("Input: %v", tC.input)
 		t.Run(testName, func(t *testing.T) {
 			// Check if the actual result matches the expected result.
 			if actualResult := Max(tC.input...); actualResult != tC.expectedResult {
 				t.Errorf("Expected result: %d, got result: %d", tC.expectedResult, actualResult)
+			}
+		})
+	}
+
+	testCasesFloat := []struct {
+		input          []float64
+		expectedResult float64
+	}{
+		{[]float64{0.0}, 0.0},
+		{[]float64{-0.999999, -1}, -0.999999},
+		{[]float64{0.999999, 1}, 1},
+	}
+
+	for _, tC := range testCasesFloat {
+		testName := fmt.Sprintf("Input: %v", tC.input)
+		t.Run(testName, func(t *testing.T) {
+			// Check if the actual result matches the expected result.
+			if actualResult := Max(tC.input...); actualResult != tC.expectedResult {
+				t.Errorf("Expected result: %f, got result: %f", tC.expectedResult, actualResult)
 			}
 		})
 	}
