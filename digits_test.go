@@ -29,11 +29,7 @@ func TestNumberOfDigits(t *testing.T) {
 
 	for _, tC := range testCasesInt {
 		testName := fmt.Sprintf("Input int: %d", tC.input)
-		t.Run(testName, func(t *testing.T) {
-			if actualNumberOfDigits := NumberOfDigits(tC.input); actualNumberOfDigits != tC.expectedResult {
-				t.Errorf("Actual number of digits: %d. Expected number of digits: %d", actualNumberOfDigits, tC.expectedResult)
-			}
-		})
+		checkNumberOfDigits(tC.input, testName, tC.expectedResult, t)
 	}
 
 	testCasesBigInt := []struct {
@@ -62,12 +58,16 @@ func TestNumberOfDigits(t *testing.T) {
 
 	for _, tC := range testCasesBigInt {
 		testName := fmt.Sprintf("Input big.Int: %d", tC.input)
-		t.Run(testName, func(t *testing.T) {
-			if actualNumberOfDigits := NumberOfDigits(tC.input); actualNumberOfDigits != tC.expectedResult {
-				t.Errorf("Actual number of digits: %d. Expected number of digits: %d", actualNumberOfDigits, tC.expectedResult)
-			}
-		})
+		checkNumberOfDigits(tC.input, testName, tC.expectedResult, t)
 	}
+}
+
+func checkNumberOfDigits[T int | *big.Int](input T, testName string, expectedResult int, t *testing.T) {
+	t.Run(testName, func(t *testing.T) {
+		if actualNumberOfDigits := NumberOfDigits(input); actualNumberOfDigits != expectedResult {
+			t.Errorf("Actual number of digits: %d. Expected number of digits: %d", actualNumberOfDigits, expectedResult)
+		}
+	})
 }
 
 func TestGetDigits(t *testing.T) {
@@ -92,11 +92,7 @@ func TestGetDigits(t *testing.T) {
 
 	for _, tC := range testCasesInt {
 		testName := fmt.Sprintf("Input int: %d", tC.input)
-		t.Run(testName, func(t *testing.T) {
-			if digits := GetDigits(tC.input); !slices.Equal(digits, tC.expectedDigits) {
-				t.Errorf("Actual digits: %v Expected digits: %v", digits, tC.expectedDigits)
-			}
-		})
+		checkDigits(tC.input, testName, tC.expectedDigits, t)
 	}
 
 	testCasesBigInt := []struct {
@@ -123,12 +119,16 @@ func TestGetDigits(t *testing.T) {
 
 	for _, tC := range testCasesBigInt {
 		testName := fmt.Sprintf("Input big.Int: %d", tC.input)
-		t.Run(testName, func(t *testing.T) {
-			if digits := GetDigits(tC.input); !slices.Equal(digits, tC.expectedDigits) {
-				t.Errorf("Actual digits: %v Expected digits: %v", digits, tC.expectedDigits)
-			}
-		})
+		checkDigits(tC.input, testName, tC.expectedDigits, t)
 	}
+}
+
+func checkDigits[T int | *big.Int](input T, testName string, expectedResult []int, t *testing.T) {
+	t.Run(testName, func(t *testing.T) {
+		if digits := GetDigits(input); !slices.Equal(digits, expectedResult) {
+			t.Errorf("Actual digits: %v Expected digits: %v", digits, expectedResult)
+		}
+	})
 }
 
 func ExampleNumberOfDigits() {
@@ -167,7 +167,7 @@ func ExampleGetDigits() {
 	}
 	fmt.Println()
 
-	bigInts := []*big.Int{new(big.Int).Exp(big.NewInt(10), big.NewInt(20), nil), new(big.Int).Exp(big.NewInt(2), big.NewInt(100), nil)}
+	bigInts := []*big.Int{new(big.Int).Exp(big.NewInt(2), big.NewInt(100), nil), new(big.Int).Exp(big.NewInt(3), big.NewInt(100), nil)}
 	for _, v := range bigInts {
 		digits := GetDigits(v)
 		fmt.Printf("The last digit of %d is %d\n", v, digits[len(digits)-1])
@@ -180,8 +180,8 @@ func ExampleGetDigits() {
 	// The last digit of -9223372036854775808 is 8
 	// The last digit of 0 is 0
 	//
-	// The last digit of 100000000000000000000 is 0
 	// The last digit of 1267650600228229401496703205376 is 6
+	// The last digit of 515377520732011331036461129765621272702107522001 is 1
 }
 
 func BenchmarkNumberOfDigits(b *testing.B) {
