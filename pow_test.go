@@ -65,6 +65,9 @@ func ExamplePow() {
 
 func BenchmarkPow(b *testing.B) {
 	for b.Loop() {
-		Pow(3, 5)
+		_, err := Pow(3, 5)
+		if err != nil {
+			b.Fatal(err)
+		}
 	}
 }
