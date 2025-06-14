@@ -196,11 +196,11 @@ func BenchmarkGetDigits(b *testing.B) {
 	}
 }
 
-func FuzzNumberOfDigits(f *testing.F) {
-	testCases := []int{
-		math.MinInt, -10, -9, -1, 0, 1, 9, 10, 99, 100, 500, 4563198, math.MaxInt,
-	}
+var testCases = []int{
+	math.MinInt, -10, -9, -1, 0, 1, 9, 10, 99, 100, 500, 4563198, math.MaxInt,
+}
 
+func FuzzNumberOfDigits(f *testing.F) {
 	for _, v := range testCases {
 		f.Add(v)
 	}
@@ -222,10 +222,6 @@ func FuzzNumberOfDigits(f *testing.F) {
 }
 
 func FuzzGetDigits(f *testing.F) {
-	testCases := []int{
-		math.MinInt, -10, -9, -1, 0, 1, 9, 10, 99, 100, 500, 4563198, math.MaxInt,
-	}
-
 	for _, v := range testCases {
 		f.Add(v)
 	}
