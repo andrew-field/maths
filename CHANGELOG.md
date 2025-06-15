@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.4.0](https://github.com/andrew-field/maths/compare/v2.3.0...v2.4.0) (2025-06-15)
+
+
+### Features
+
+* Add benchmarks tests ([#56](https://github.com/andrew-field/maths/issues/56)) ([1f0db2d](https://github.com/andrew-field/maths/commit/1f0db2dc957fd1479a240a583d999459004540d5))
+* Add examples functions to improve documentation ([#55](https://github.com/andrew-field/maths/issues/55)) ([094a1d5](https://github.com/andrew-field/maths/commit/094a1d54ef84d7f2a44b7fc24ce2baac40832d75))
+* add fuzz tests for the digit functions ([#60](https://github.com/andrew-field/maths/issues/60)) ([d05341a](https://github.com/andrew-field/maths/commit/d05341a7b623ba2ccbbdad81c4938256e17c6a2e))
+* add some tests for the max function with float value inputs and add a Pow benchmark ([#58](https://github.com/andrew-field/maths/issues/58)) ([52ba2c0](https://github.com/andrew-field/maths/commit/52ba2c00ffb9d3a1e16e48ede9fcdf25bc1f2a87))
+* refactor digit functions to take type parameters ([#59](https://github.com/andrew-field/maths/issues/59)) ([1499b78](https://github.com/andrew-field/maths/commit/1499b78bdcc7c7918fae9f4818f8f5dfcc277980))
+* Update go mod version to 1.24.3 ([#53](https://github.com/andrew-field/maths/issues/53)) ([2b81be5](https://github.com/andrew-field/maths/commit/2b81be50516db94fe02aea590585526ac68a7ffb))
+
+
+### Bug Fixes
+
+* refactor digit functions to be clearer ([#57](https://github.com/andrew-field/maths/issues/57)) ([fd195ac](https://github.com/andrew-field/maths/commit/fd195ac70ec3b9df308b736f46a2d49770fd3095))
+* Update bump-go-mod-version.yml comments ([#54](https://github.com/andrew-field/maths/issues/54)) ([92b3a3d](https://github.com/andrew-field/maths/commit/92b3a3db0e5a69b94400bced3081142e6e399bdc))
+* Update golang linter confguration for V2 ([#50](https://github.com/andrew-field/maths/issues/50)) ([a70fcc5](https://github.com/andrew-field/maths/commit/a70fcc5638abef94ced3b8f449c1f308bac00559))
+
 ## [2.3.0](https://github.com/andrew-field/maths/compare/v2.2.0...v2.3.0) (2025-05-01)
 
 
