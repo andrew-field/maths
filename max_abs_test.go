@@ -1,7 +1,6 @@
 package maths
 
 import (
-	"errors"
 	"fmt"
 	"math"
 	"testing"
@@ -81,7 +80,7 @@ func TestAbs(t *testing.T) {
 			actualResult, actualError := Abs(tC.input)
 
 			// Check if the actual error matches the expected error.
-			if !errors.Is(actualError, tC.expectedError) {
+			if actualError != tC.expectedError {
 				t.Errorf("Expected error: %v, got error: %v", tC.expectedError, actualError)
 			}
 
