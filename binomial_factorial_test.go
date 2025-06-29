@@ -3,6 +3,7 @@ package maths
 import (
 	"errors"
 	"fmt"
+	"math"
 	"testing"
 )
 
@@ -58,6 +59,7 @@ func TestBinomial(t *testing.T) {
 		{2, 2, 1},
 		{10, 10, 1},
 		{10, 5, 252},
+		{math.MaxInt, math.MaxInt, 1},
 	}
 
 	for _, tC := range testCases {
@@ -76,7 +78,7 @@ func TestBinomial(t *testing.T) {
 	}{
 		{"n must be non-negative", -10, 5, ErrNegativeNumber},
 		{"k must be non-negative", 10, -5, ErrNegativeNumber},
-		{"k must not be larger than n", 5, 6, ErrValuesOfNandK},
+		{"k must not be larger than n", 5, 6, ErrNLessThanK},
 		{"The result of (70, 35) is too large to store in an int", 70, 35, ErrOverflowDetected},
 	}
 
