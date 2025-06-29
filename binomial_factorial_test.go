@@ -1,82 +1,104 @@
 package maths
 
 import (
+	"errors"
 	"fmt"
-	"math"
 	"testing"
 )
 
 func TestFactorial(t *testing.T) {
 	testCases := []struct {
-		input, expectedResult int
-		expectedError         bool
+		input, want int
 	}{
-		{-10, 3628800, false},
-		{-2, 2, false},
-		{-1, 1, false},
-		{0, 1, false},
-		{1, 1, false},
-		{2, 2, false},
-		{3, 6, false},
-		{10, 3628800, false},
-		{1000, 0, true},
-		{math.MinInt, 0, true},
+		{0, 1},
+		{1, 1},
+		{2, 2},
+		{3, 6},
+		{10, 3628800},
+		{20, 2432902008176640000},
 	}
 
 	for _, tC := range testCases {
 		testName := fmt.Sprintf("Input: %d", tC.input)
 		t.Run(testName, func(t *testing.T) {
-			actualResult, actualError := Factorial(tC.input)
+			got, gotError := Factorial(tC.input)
 
-			checkResults(t, tC.expectedResult, tC.expectedError, actualResult, actualError)
+			checkResults(t, tC.want, got, gotError)
+		})
+	}
+
+	errorTestCases := []struct {
+		desc      string
+		input     int
+		wantError error
+	}{
+		{"n must be non-negative", -1, ErrNegativeNumber},
+		{"The result of 21! is too large to store in an int", 21, ErrOverflowDetected},
+	}
+
+	for _, tC := range errorTestCases {
+		t.Run(tC.desc, func(t *testing.T) {
+			_, gotError := Factorial(tC.input)
+
+			if !errors.Is(gotError, tC.wantError) {
+				t.Errorf("Got %v, want %v", gotError, tC.wantError)
+			}
 		})
 	}
 }
 
 func TestBinomial(t *testing.T) {
 	testCases := []struct {
-		n, k, expectedResult int
-		expectedError        bool
+		n, k, want int
 	}{
-		{10, -5, 252, false},
-		{-2, -1, 2, false},
-		{-1, 0, 1, false},
-		{0, 0, 1, false},
-		{1, 0, 1, false},
-		{1, 1, 1, false},
-		{2, 1, 2, false},
-		{2, 2, 1, false},
-		{10, 10, 1, false},
-		{10, 5, 252, false},
-		{math.MinInt, 1, 0, true},
-		{1, math.MinInt, 0, true},
-		{5, 6, 0, true},
-		{-5, -6, 0, true},
-		{1000, 1, 0, true},
-		// Can not currently test the case where fact(k) returns an error. If this were to return an error, then fact(absN) would have already thrown an error earlier.
-		// Can not currently test the case where fact(differenceOfAbsolute) returns an error. If this were to return an error, then fact(absN) would have already thrown an error earlier.
+		{0, 0, 1},
+		{1, 0, 1},
+		{1, 1, 1},
+		{2, 1, 2},
+		{2, 2, 1},
+		{10, 10, 1},
+		{10, 5, 252},
 	}
 
 	for _, tC := range testCases {
 		testName := fmt.Sprintf("Input: n:%d, k:%d", tC.n, tC.k)
 		t.Run(testName, func(t *testing.T) {
-			actualResult, actualError := Binomial(tC.n, tC.k)
+			got, gotError := Binomial(tC.n, tC.k)
 
-			checkResults(t, tC.expectedResult, tC.expectedError, actualResult, actualError)
+			checkResults(t, tC.want, got, gotError)
+		})
+	}
+
+	errorTestCases := []struct {
+		desc      string
+		n, k      int
+		wantError error
+	}{
+		{"n must be non-negative", -10, 5, ErrNegativeNumber},
+		{"k must be non-negative", 10, -5, ErrNegativeNumber},
+		{"k must not be larger than n", 5, 6, ErrValuesOfNandK},
+		{"The result of (70, 35) is too large to store in an int", 70, 35, ErrOverflowDetected},
+	}
+
+	for _, tC := range errorTestCases {
+		t.Run(tC.desc, func(t *testing.T) {
+			_, gotError := Binomial(tC.n, tC.k)
+
+			if !errors.Is(gotError, tC.wantError) {
+				t.Errorf("Got %v, want %v", gotError, tC.wantError)
+			}
 		})
 	}
 }
 
-func checkResults(t testing.TB, expectedResult int, expectedError bool, actualResult int, actualError error) {
+func checkResults(t testing.TB, want int, got int, gotError error) {
 	t.Helper()
-	// Check if an error was returned and matches if an error was expected.
-	if gotError := actualError != nil; gotError != expectedError {
-		t.Errorf("Expected error: %t, got error: %t, error: %v", expectedError, gotError, actualError)
+	if gotError != nil {
+		t.Errorf("Got error but didn't want one. Error: %v", gotError)
 	}
 
-	// Check if the actual result matches the expected result.
-	if actualResult != expectedResult {
-		t.Errorf("Expected result: %d, got result: %d", expectedResult, actualResult)
+	if got != want {
+		t.Errorf("Got: %d, want: %d", got, want)
 	}
 }
 
@@ -99,7 +121,7 @@ func ExampleFactorial() {
 
 	// Output:
 	// The factorial of 10 is 3628800
-	// Error calculating the factorial of 21: failed to get fact(21): failed to calculate 21 * 2432902008176640000. The result is too large to hold in an int variable: arithmetic overflow detected
+	// Error calculating the factorial of 21: The result of 21! is too large to hold in an int variable: arithmetic overflow detected
 }
 
 func ExampleBinomial() {
@@ -111,7 +133,7 @@ func ExampleBinomial() {
 		fmt.Printf("The binomial coefficient of %d choose %d is %d\n", n, k, p)
 	}
 
-	n, k = 22, 5
+	n, k = 70, 35
 	p, err = Binomial(n, k)
 	if err != nil {
 		fmt.Printf("Error calculating the binomial coefficient of %d choose %d: %v\n", n, k, err)
@@ -121,7 +143,7 @@ func ExampleBinomial() {
 
 	// Output:
 	// The binomial coefficient of 10 choose 3 is 120
-	// Error calculating the binomial coefficient of 22 choose 5: failed to get fact(22): failed to calculate 21 * 2432902008176640000. The result is too large to hold in an int variable: arithmetic overflow detected
+	// Error calculating the binomial coefficient of 70 choose 35: The result of (70, 35) is too large to hold in an int variable: arithmetic overflow detected
 }
 
 func BenchmarkBinomial(b *testing.B) {
