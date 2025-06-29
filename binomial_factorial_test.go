@@ -121,7 +121,7 @@ func ExampleFactorial() {
 
 	// Output:
 	// The factorial of 10 is 3628800
-	// Error calculating the factorial of 21: The result of 21! is too large to hold in an int variable: arithmetic overflow detected
+	// Error calculating the factorial of 21: the result of 21! is too large to hold in an int variable: arithmetic overflow detected
 }
 
 func ExampleBinomial() {
@@ -143,7 +143,7 @@ func ExampleBinomial() {
 
 	// Output:
 	// The binomial coefficient of 10 choose 3 is 120
-	// Error calculating the binomial coefficient of 70 choose 35: The result of (70, 35) is too large to hold in an int variable: arithmetic overflow detected
+	// Error calculating the binomial coefficient of 70 choose 35: the result of (70, 35) is too large to hold in an int variable: arithmetic overflow detected
 }
 
 func BenchmarkBinomial(b *testing.B) {
