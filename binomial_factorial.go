@@ -2,81 +2,51 @@
 package maths
 
 import (
+	"errors"
 	"fmt"
-	"math"
+	"math/big"
 )
 
-// Factorial returns the factorial of |n|, with overflow detection.
-// If an overflow error is detected when the numbers get too large, the function returns 0, ErrOverflowDetected.
-// In this case, use *bigInt.MulRange() from the math/big package.
+var ErrNLessThanK = errors.New("to calculate n choose k, n must be larger than or equal to k")
+var ErrNegativeNumber = errors.New("number must be non-negative")
+
+// Factorial returns the factorial of n, where n >= 0, with overflow detection.
+// If an overflow error is detected, the function returns 0, ErrOverflowDetected.
+// In this case, consider *big.Int.MulRange() from the math/big package.
 func Factorial(n int) (int, error) {
-	absN, err := Abs(n)
-	if err != nil {
-		return 0, fmt.Errorf("failed to get Abs(%d): %w", n, err)
+	if n < 0 {
+		return 0, fmt.Errorf("n: %d. %w", n, ErrNegativeNumber)
 	}
 
-	result, err := fact(absN)
-	if err != nil {
-		return 0, fmt.Errorf("failed to get fact(%d): %w", absN, err)
+	if n > 20 {
+		return 0, fmt.Errorf("the result of %d! is too large to hold in an int variable: %w", n, ErrOverflowDetected)
 	}
+
+	result := 1
+	for i := 2; i <= n; i++ {
+		result *= i
+	}
+
 	return result, nil
 }
 
-func fact(n int) (int, error) {
-	if n == 0 {
-		return 1, nil
-	}
-
-	// Recursive call for n-1 factorial.
-	partial, err := fact(n - 1)
-	if err != nil {
-		return 0, err // propagate overflow error.
-	}
-
-	// Check for overflow before multiplication. Partial can only be positive here.
-	if n > math.MaxInt/partial {
-		return 0, fmt.Errorf("failed to calculate %d * %d. The result is too large to hold in an int variable: %w", n, partial, ErrOverflowDetected)
-	}
-
-	return n * partial, nil
-}
-
-// Binomial returns the binomial coefficient of (|n|, |k|), |n| choose |k|, where |n| >= |k|.
-// If an overflow error is detected when the numbers get too large, the function returns 0, ErrOverflowDetected.
-// In this case, use *bigInt.Binomial() from the math/big package.
+// Binomial returns the binomial coefficient of (n, k), n choose k, where n >= 0, k >= 0 and n >= k.
+// If an overflow error is detected, the function returns 0, ErrOverflowDetected.
+// In this case, consider *big.Int.Binomial() from the math/big package.
 func Binomial(n, k int) (int, error) {
-	absN, err := Abs(n)
-	if err != nil {
-		return 0, fmt.Errorf("failed to get Abs(%d): %w", n, err)
-	}
-	absK, err := Abs(k)
-	if err != nil {
-		return 0, fmt.Errorf("failed to get Abs(%d): %w", k, err)
+	if n < 0 || k < 0 {
+		return 0, fmt.Errorf("n: %d. k: %d. %w", n, k, ErrNegativeNumber)
 	}
 
-	// |n| must be larger than or equal to |k|.
-	differenceOfAbsolutes := absN - absK
-	if differenceOfAbsolutes < 0 {
-		return 0, fmt.Errorf("to calculate |n| choose |k|, |n| must be larger than or equal to |k|. |n|:%d. |k|:%d", n, k)
+	if n < k {
+		return 0, fmt.Errorf("n: %d. k: %d. %w", n, k, ErrNLessThanK)
 	}
 
-	// Calculate the factorial of |n|.
-	factN, err := fact(absN)
-	if err != nil {
-		return 0, fmt.Errorf("failed to get fact(%d): %w", absN, err)
+	result := new(big.Int).Binomial(int64(n), int64(k))
+
+	if !result.IsInt64() {
+		return 0, fmt.Errorf("the result of (%d, %d) is too large to hold in an int variable: %w", n, k, ErrOverflowDetected)
 	}
 
-	// Calculate the factorial of |k|.
-	factK, err := fact(absK)
-	if err != nil {
-		return 0, fmt.Errorf("failed to get fact(%d): %w", absK, err)
-	}
-
-	// Calculate the factorial of |n| - |k|.
-	factDifference, err := fact(differenceOfAbsolutes)
-	if err != nil {
-		return 0, fmt.Errorf("failed to get fact(%d): %w", differenceOfAbsolutes, err)
-	}
-
-	return factN / factK / factDifference, nil // If the preceding steps did not give an error, this calculation can not give an error.
+	return int(result.Int64()), nil
 }
