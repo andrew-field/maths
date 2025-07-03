@@ -75,7 +75,7 @@ func GetDivisors(x int) (<-chan int, error) {
 	return divisorCh, nil
 }
 
-// SumOfDivisors returns the sum of all (positive) divisors of x. Uses PrimeFactorisation().
+// SumOfDivisors returns the sum of all the (positive) divisors of x. Uses PrimeFactorisation().
 // If an overflow error is detected when the numbers get too large, the function returns 0, ErrOverflowDetected.
 // In this case, you can try SumOfDivisorsBruteForce(), although this might still give an ErrOverflowDetected.
 func SumOfDivisors(x int) (int, error) {

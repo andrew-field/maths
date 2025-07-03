@@ -21,7 +21,7 @@ func TestSumOfDivisorsBruteForce(t *testing.T) {
 func ExampleNumberOfDivisorsBruteForce() {
 	n := 28
 	numDivisors := NumberOfDivisorsBruteForce(n)
-	fmt.Println("The nmber of divisors of", n, "is", numDivisors)
+	fmt.Println("The number of divisors of", n, "is", numDivisors)
 
 	// Output: The number of divisors of 28 is 6
 }
