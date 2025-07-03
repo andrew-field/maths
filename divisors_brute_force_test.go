@@ -21,9 +21,9 @@ func TestSumOfDivisorsBruteForce(t *testing.T) {
 func ExampleNumberOfDivisorsBruteForce() {
 	n := 28
 	numDivisors := NumberOfDivisorsBruteForce(n)
-	fmt.Println("Number of divisors of", n, "is", numDivisors)
+	fmt.Println("The nmber of divisors of", n, "is", numDivisors)
 
-	// Output: Number of divisors of 28 is 6
+	// Output: The number of divisors of 28 is 6
 }
 
 func ExampleGetDivisorsBruteForce() {
@@ -39,18 +39,18 @@ func ExampleGetDivisorsBruteForce() {
 		divisors = append(divisors, d)
 	}
 	slices.Sort(divisors)
-	fmt.Printf("Divisors of %d are %v", n, divisors)
+	fmt.Printf("The divisors of %d are %v", n, divisors)
 
-	// Output: Divisors of 30 are [1 2 3 5 6 10 15 30]
+	// Output: The divisors of 30 are [1 2 3 5 6 10 15 30]
 }
 
 func ExampleSumOfDivisorsBruteForce() {
 	n := 28
 	sumDivisors, err := SumOfDivisorsBruteForce(n)
 	if err != nil {
-		fmt.Printf("Error calculating sum of the divisors of %d: %v", n, err)
+		fmt.Printf("Error calculating the sum of the divisors of %d: %v", n, err)
 	} else {
-		fmt.Println("Sum of the divisors of", n, "is", sumDivisors)
+		fmt.Println("The sum of the divisors of", n, "is", sumDivisors)
 	}
 
 	n = 3598428716789018112
@@ -58,11 +58,11 @@ func ExampleSumOfDivisorsBruteForce() {
 	if err != nil {
 		fmt.Printf("Error calculating the sum of the divisors of %d: %v", n, err)
 	} else {
-		fmt.Println("Sum of the divisors of", n, "is", sumDivisors)
+		fmt.Println("The sum of the divisors of", n, "is", sumDivisors)
 	}
 
 	// Output:
-	// Sum of the divisors of 28 is 56
+	// The sum of the divisors of 28 is 56
 	// Error calculating the sum of the divisors of 3598428716789018112: failed to calculate 9060329447629492072 + 399825412976557568. The result is too large to hold in an int variable: arithmetic overflow detected
 }
 
