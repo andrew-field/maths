@@ -174,7 +174,7 @@ func ExampleGCD() {
 	if err != nil {
 		fmt.Printf("Error calculating the GCD of %d and %d: %v", m, n, err)
 	} else {
-		fmt.Println(" The GCD of", m, "and", n, "is", gcd)
+		fmt.Println("The GCD of", m, "and", n, "is", gcd)
 	}
 
 	// Output: The GCD of 48 and 18 is 6
