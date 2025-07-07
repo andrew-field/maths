@@ -9,7 +9,7 @@ import (
 )
 
 var numberOfDivisorsTestCases = []struct {
-	input, expectedResult int
+	input, want int
 }{
 	{math.MinInt, 64},
 	{-3, 2},
@@ -114,8 +114,8 @@ func testNumberOfDivisorsHelper(t *testing.T, f func(int) int) {
 		testName := fmt.Sprintf("Input: %d", tC.input)
 		t.Run(testName, func(t *testing.T) {
 			// Check if the actual result matches the expected result.
-			if actualResult := f(tC.input); actualResult != tC.expectedResult {
-				t.Errorf("Expected number of divisors: %d, actual number of divisors: %d", tC.expectedResult, actualResult)
+			if got := f(tC.input); got != tC.want {
+				t.Errorf("Expected number of divisors: %d, actual number of divisors: %d", tC.want, got)
 			}
 		})
 	}
@@ -168,15 +168,7 @@ func testSumOfDivisorsHelper(t *testing.T, f func(int) (int, error)) {
 		t.Run(testName, func(t *testing.T) {
 			got, gotError := f(tC.input)
 
-			// Check there was no error.
-			if gotError != nil {
-				t.Errorf("Got error but didn't want one. Error: %v", gotError)
-			}
-
-			// Check if the actual result matches the expected result.
-			if got != tC.want {
-				t.Errorf("Expected sum of divisors: %d, actual sum of divisors: %d", tC.want, got)
-			}
+			checkResults(t, tC.want, got, gotError)
 		})
 	}
 

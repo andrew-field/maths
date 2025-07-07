@@ -46,13 +46,7 @@ func TestGCD(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			got, gotError := GCD(tC.input...)
 
-			if gotError != nil {
-				t.Errorf("Got error but didn't want one. Error: %v", gotError)
-			}
-
-			if got != tC.want {
-				t.Errorf("Got: %d, want: %d", got, tC.want)
-			}
+			checkResults(t, tC.want, got, gotError)
 		})
 	}
 
@@ -108,13 +102,7 @@ func TestLCM(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			got, gotError := LCM(tC.input...)
 
-			if gotError != nil {
-				t.Errorf("Got error but didn't want one. Error: %v", gotError)
-			}
-
-			if got != tC.want {
-				t.Errorf("Got: %d, want: %d", got, tC.want)
-			}
+			checkResults(t, tC.want, got, gotError)
 		})
 	}
 
@@ -123,7 +111,7 @@ func TestLCM(t *testing.T) {
 		input     []int
 		wantError error
 	}{
-		{"|math.MinInt| is too large to hold in an int", []int{math.MinInt}, ErrAbsoluteValueOfMinInt},
+		{"|math.MinInt| is too large to store in an int", []int{math.MinInt}, ErrAbsoluteValueOfMinInt},
 		{"The result is too large to store in an int", []int{math.MaxInt, 2}, ErrOverflowDetected},
 	}
 
