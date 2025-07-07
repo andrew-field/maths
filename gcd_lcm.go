@@ -10,8 +10,8 @@ import (
 // GCD returns the greatest common divisor of a group of integers i.e. the largest positive integer that divides each of the integers. This method uses the Euclidean algorithm.
 // GCD() = GCD(0) = 0, nil.
 // GCD(a, 0) = |a|, nil.
-// If an overflow error is detected when the result gets too large, the function returns 0, ErrAbsoluteValueOfMinInt.
-// In this case, use *bigInt.GCD() from the math/big package.
+// If an overflow error is detected when the result gets too large, the function returns 0, ErrOverflowDetected.
+// In this case, consider *big.Int.GCD() from the math/big package.
 func GCD(numbers ...int) (int, error) {
 	if len(numbers) == 0 || !slices.ContainsFunc(numbers, func(n int) bool { // If there are no numbers or no non-zero numbers (all zeroes), return 0, nil.
 		return n != 0
@@ -36,10 +36,10 @@ func GCD(numbers ...int) (int, error) {
 }
 
 // LCM returns the least common multiple of a group of integers i.e. the smallest positive integer that is divisible by each integer. This method uses GCD().
-// LCM() = LCM(0, 0, ...) = 0, nil.
+// LCM() = LCM(0) = 0, nil.
 // LCM(a, 0) = 0, nil.
 // If an overflow error is detected when the numbers get too large, the function returns 0, ErrOverflowDetected.
-// In this case, use LCMBig.
+// In this case, consider LCMBig.
 func LCM(numbers ...int) (int, error) {
 	// If there are no numbers or if one of the numbers is zero, return 0, nil.
 	// There is an argument to be made that LCM(a, 0), for a != 0, should return an error. However, a decision has been made that it will return 0, nil instead.
@@ -78,8 +78,8 @@ func LCM(numbers ...int) (int, error) {
 	return lcmResult, nil // lcmResult can not be negative.
 }
 
-// LCMBig returns the least common multiple of a group of integers. This method uses *bigInt.GCD() from math/big.
-// LCMBig() = LCM(0, 0, ...) = 0.
+// LCMBig returns the least common multiple of a group of integers. This method uses *big.Int.GCD() from math/big.
+// LCMBig() = LCM(0) = 0.
 // LCM(a, 0) = 0.
 func LCMBig(numbers ...*big.Int) *big.Int {
 	// If there are no numbers or if one of the numbers is zero, return 0, nil.
