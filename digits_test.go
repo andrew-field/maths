@@ -10,7 +10,7 @@ import (
 
 func TestNumberOfDigits(t *testing.T) {
 	testCasesInt := []struct {
-		input, expectedResult int
+		input, want int
 	}{
 		{math.MinInt, 19},
 		{-10, 2},
@@ -29,12 +29,12 @@ func TestNumberOfDigits(t *testing.T) {
 
 	for _, tC := range testCasesInt {
 		testName := fmt.Sprintf("Input int: %d", tC.input)
-		checkNumberOfDigits(tC.input, testName, tC.expectedResult, t)
+		checkNumberOfDigits(tC.input, testName, tC.want, t)
 	}
 
 	testCasesBigInt := []struct {
-		input          *big.Int
-		expectedResult int
+		input *big.Int
+		want  int
 	}{
 		{new(big.Int).Exp(big.NewInt(-10), big.NewInt(35), nil), 36},
 		{big.NewInt(math.MinInt), 19},
@@ -58,22 +58,22 @@ func TestNumberOfDigits(t *testing.T) {
 
 	for _, tC := range testCasesBigInt {
 		testName := fmt.Sprintf("Input big.Int: %d", tC.input)
-		checkNumberOfDigits(tC.input, testName, tC.expectedResult, t)
+		checkNumberOfDigits(tC.input, testName, tC.want, t)
 	}
 }
 
 func checkNumberOfDigits[T int | *big.Int](input T, testName string, expectedResult int, t *testing.T) {
 	t.Run(testName, func(t *testing.T) {
-		if actualNumberOfDigits := NumberOfDigits(input); actualNumberOfDigits != expectedResult {
-			t.Errorf("Actual number of digits: %d. Expected number of digits: %d", actualNumberOfDigits, expectedResult)
+		if got := NumberOfDigits(input); got != expectedResult {
+			t.Errorf("Actual number of digits: %d. Expected number of digits: %d", got, expectedResult)
 		}
 	})
 }
 
 func TestGetDigits(t *testing.T) {
 	testCasesInt := []struct {
-		input          int
-		expectedDigits []int
+		input int
+		want  []int
 	}{
 		{math.MinInt, []int{9, 2, 2, 3, 3, 7, 2, 0, 3, 6, 8, 5, 4, 7, 7, 5, 8, 0, 8}},
 		{-10, []int{1, 0}},
@@ -92,12 +92,12 @@ func TestGetDigits(t *testing.T) {
 
 	for _, tC := range testCasesInt {
 		testName := fmt.Sprintf("Input int: %d", tC.input)
-		checkDigits(tC.input, testName, tC.expectedDigits, t)
+		checkDigits(tC.input, testName, tC.want, t)
 	}
 
 	testCasesBigInt := []struct {
-		input          *big.Int
-		expectedDigits []int
+		input *big.Int
+		want  []int
 	}{
 		{new(big.Int).Exp(big.NewInt(-10), big.NewInt(21), nil), []int{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
 		{big.NewInt(math.MinInt), []int{9, 2, 2, 3, 3, 7, 2, 0, 3, 6, 8, 5, 4, 7, 7, 5, 8, 0, 8}},
@@ -119,14 +119,14 @@ func TestGetDigits(t *testing.T) {
 
 	for _, tC := range testCasesBigInt {
 		testName := fmt.Sprintf("Input big.Int: %d", tC.input)
-		checkDigits(tC.input, testName, tC.expectedDigits, t)
+		checkDigits(tC.input, testName, tC.want, t)
 	}
 }
 
 func checkDigits[T int | *big.Int](input T, testName string, expectedResult []int, t *testing.T) {
 	t.Run(testName, func(t *testing.T) {
-		if digits := GetDigits(input); !slices.Equal(digits, expectedResult) {
-			t.Errorf("Actual digits: %v Expected digits: %v", digits, expectedResult)
+		if got := GetDigits(input); !slices.Equal(got, expectedResult) {
+			t.Errorf("Actual digits: %v Expected digits: %v", got, expectedResult)
 		}
 	})
 }

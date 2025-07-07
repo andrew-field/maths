@@ -113,7 +113,6 @@ func testNumberOfDivisorsHelper(t *testing.T, f func(int) int) {
 	for _, tC := range numberOfDivisorsTestCases {
 		testName := fmt.Sprintf("Input: %d", tC.input)
 		t.Run(testName, func(t *testing.T) {
-			// Check if the actual result matches the expected result.
 			if got := f(tC.input); got != tC.want {
 				t.Errorf("Expected number of divisors: %d, actual number of divisors: %d", tC.want, got)
 			}
