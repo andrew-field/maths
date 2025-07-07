@@ -41,9 +41,9 @@ func TestPrimeFactorisation(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			primeFactorisationCh := PrimeFactorisation(tC.input)
 
-			for _, expectedPrimeFactor := range tC.expectedResult {
-				if actualPrimeFactor := <-primeFactorisationCh; actualPrimeFactor != expectedPrimeFactor {
-					t.Errorf("Actual factor: %v. Expected factor: %v.", actualPrimeFactor, expectedPrimeFactor)
+			for _, want := range tC.expectedResult {
+				if got := <-primeFactorisationCh; got != want {
+					t.Errorf("Actual factor: %v. Expected factor: %v.", got, want)
 				}
 			}
 
@@ -82,12 +82,12 @@ func ExamplePrimeFactorisation() {
 	input := 360
 	resultCh := PrimeFactorisation(input)
 
-	fmt.Printf("Prime factorisation of %d: ", input)
+	fmt.Printf("The prime factorisation of %d is: ", input)
 	for factor := range resultCh {
 		fmt.Printf("%d^%d ", factor.Value, factor.Index)
 	}
 
-	// Output: Prime factorisation of 360: 2^3 3^2 5^1
+	// Output: The prime factorisation of 360 is: 2^3 3^2 5^1
 }
 
 func BenchmarkPrimeFactorisation(b *testing.B) {

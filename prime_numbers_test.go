@@ -14,9 +14,9 @@ func TestGetPrimeNumbers(t *testing.T) {
 		ctx, cancel := context.WithCancel(context.Background())
 		primeChannel := GetPrimeNumbers(ctx)
 
-		for _, expectedPrime := range expectedPrimes {
-			if actualPrime := <-primeChannel; actualPrime != expectedPrime {
-				t.Errorf("Actual prime: %d. Expected prime: %d.", actualPrime, expectedPrime)
+		for _, want := range expectedPrimes {
+			if got := <-primeChannel; got != want {
+				t.Errorf("Actual prime: %d. Expected prime: %d.", got, want)
 			}
 		}
 
@@ -931,9 +931,9 @@ func TestGetPrimeNumbersBelowAndIncluding(t *testing.T) {
 			defer cancel()
 			primeCh := GetPrimeNumbersBelowAndIncluding(ctx, tC.input)
 
-			for _, expectedPrime := range tC.expectedResult {
-				if actualPrime := <-primeCh; actualPrime != expectedPrime {
-					t.Errorf("Actual prime: %d. Expected prime: %d.", actualPrime, expectedPrime)
+			for _, want := range tC.expectedResult {
+				if got := <-primeCh; got != want {
+					t.Errorf("Actual prime: %d. Expected prime: %d.", got, want)
 				}
 			}
 

@@ -4,8 +4,8 @@ import "testing"
 
 func TestMaxPath(t *testing.T) {
 	testCases := []struct {
-		input          *Tree
-		expectedResult int
+		input *Tree
+		want  int
 	}{
 		{CreateBinaryTree(), 0},
 		{CreateBinaryTree(1, 2, -3), 3},
@@ -32,8 +32,8 @@ func TestMaxPath(t *testing.T) {
 	}
 
 	for _, tC := range testCases {
-		if actualResult := MaxPath(tC.input); actualResult != tC.expectedResult {
-			t.Errorf("Input in test: %v. Actual result: %v. Expected result: %v", tC.input, actualResult, tC.expectedResult)
+		if got := MaxPath(tC.input); got != tC.want {
+			t.Errorf("Input in test: %v. Actual result: %v. Expected result: %v", tC.input, got, tC.want)
 		}
 	}
 }
