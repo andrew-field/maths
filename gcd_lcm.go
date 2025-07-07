@@ -10,7 +10,7 @@ import (
 // GCD returns the greatest common divisor of a group of integers i.e. the largest positive integer that divides each of the integers. This method uses the Euclidean algorithm.
 // GCD() = GCD(0) = 0, nil.
 // GCD(a, 0) = |a|, nil.
-// If an overflow error is detected when the result gets too large, the function returns 0, ErrOverflowDetected.
+// It returns an error wrapping ErrOverflowDetected if the calculation results in an overflow.
 // In this case, consider *big.Int.GCD() from the math/big package.
 func GCD(numbers ...int) (int, error) {
 	if len(numbers) == 0 || !slices.ContainsFunc(numbers, func(n int) bool { // If there are no numbers or no non-zero numbers (all zeroes), return 0, nil.
@@ -38,7 +38,7 @@ func GCD(numbers ...int) (int, error) {
 // LCM returns the least common multiple of a group of integers i.e. the smallest positive integer that is divisible by each integer. This method uses GCD().
 // LCM() = LCM(0) = 0, nil.
 // LCM(a, 0) = 0, nil.
-// If an overflow error is detected when the numbers get too large, the function returns 0, ErrOverflowDetected.
+// It returns an error wrapping ErrOverflowDetected if the calculation results in an overflow.
 // In this case, consider LCMBig.
 func LCM(numbers ...int) (int, error) {
 	// If there are no numbers or if one of the numbers is zero, return 0, nil.

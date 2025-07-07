@@ -83,7 +83,7 @@ func GetDivisorsBruteForce(x int) (<-chan int, error) {
 }
 
 // SumOfDivisorsBruteForce returns the sum of all (positive) divisors of x. Uses GetDivisorsBruteForce().
-// If an overflow error is detected when the numbers get too large, the function returns 0, ErrOverflowDetected.
+// It returns an error wrapping ErrOverflowDetected if the calculation results in an overflow.
 func SumOfDivisorsBruteForce(x int) (int, error) {
 	divisorCh, err := GetDivisorsBruteForce(x)
 	if err != nil {

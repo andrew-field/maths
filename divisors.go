@@ -76,8 +76,8 @@ func GetDivisors(x int) (<-chan int, error) {
 }
 
 // SumOfDivisors returns the sum of all the (positive) divisors of x. Uses PrimeFactorisation().
-// If an overflow error is detected when the numbers get too large, the function returns 0, ErrOverflowDetected.
-// In this case, you can try SumOfDivisorsBruteForce(), although this might still give an ErrOverflowDetected.
+// It returns an error wrapping ErrOverflowDetected if the calculation results in an overflow.
+// In this case, you can try SumOfDivisorsBruteForce(), although this might still give an error.
 func SumOfDivisors(x int) (int, error) {
 	x, err := Abs(x) // A special case can not be made for x equal to math.MinInt because the sum of all positive divisors of math.MinInt can not be stored in an int variable.
 	if err != nil {

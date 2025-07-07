@@ -11,6 +11,7 @@ var ErrNLessThanK = errors.New("to calculate n choose k, n must be larger than o
 var ErrNegativeNumber = errors.New("number must be non-negative")
 
 // Factorial returns the factorial of n, where n >= 0, with overflow detection.
+// It returns an ErrOverflowDetected error if the calculation results in an overflow.
 // If an overflow error is detected, the function returns 0, ErrOverflowDetected.
 // In this case, consider *big.Int.MulRange() from the math/big package.
 func Factorial(n int) (int, error) {
@@ -31,7 +32,7 @@ func Factorial(n int) (int, error) {
 }
 
 // Binomial returns the binomial coefficient of (n, k), n choose k, where n >= 0, k >= 0 and n >= k.
-// If an overflow error is detected, the function returns 0, ErrOverflowDetected.
+// It returns an ErrOverflowDetected error if the calculation results in an overflow.
 // In this case, consider *big.Int.Binomial() from the math/big package.
 func Binomial(n, k int) (int, error) {
 	if n < 0 || k < 0 {
