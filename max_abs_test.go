@@ -8,8 +8,8 @@ import (
 
 func TestMax(t *testing.T) {
 	testCasesInt := []struct {
-		input          []int
-		expectedResult int
+		input []int
+		want  int
 	}{
 		{[]int{0}, 0},
 		{[]int{-10}, -10},
@@ -32,16 +32,15 @@ func TestMax(t *testing.T) {
 	for _, tC := range testCasesInt {
 		testName := fmt.Sprintf("Input: %v", tC.input)
 		t.Run(testName, func(t *testing.T) {
-			// Check if the actual result matches the expected result.
-			if actualResult := Max(tC.input...); actualResult != tC.expectedResult {
-				t.Errorf("Expected result: %d, got result: %d", tC.expectedResult, actualResult)
+			if got := Max(tC.input...); got != tC.want {
+				t.Errorf("Expected result: %d, got result: %d", tC.want, got)
 			}
 		})
 	}
 
 	testCasesFloat := []struct {
-		input          []float64
-		expectedResult float64
+		input []float64
+		want  float64
 	}{
 		{[]float64{0.0}, 0.0},
 		{[]float64{-0.9999, -1}, -0.9999},
@@ -51,9 +50,8 @@ func TestMax(t *testing.T) {
 	for _, tC := range testCasesFloat {
 		testName := fmt.Sprintf("Input: %0.4f", tC.input)
 		t.Run(testName, func(t *testing.T) {
-			// Check if the actual result matches the expected result.
-			if actualResult := Max(tC.input...); actualResult != tC.expectedResult {
-				t.Errorf("Expected result: %f, got result: %f", tC.expectedResult, actualResult)
+			if got := Max(tC.input...); got != tC.want {
+				t.Errorf("Expected result: %f, got result: %f", tC.want, got)
 			}
 		})
 	}
@@ -61,33 +59,39 @@ func TestMax(t *testing.T) {
 
 func TestAbs(t *testing.T) {
 	testCases := []struct {
-		input, expectedResult int
-		expectedError         error
+		input, want int
 	}{
-		{math.MinInt + 1, math.MaxInt, nil},
-		{-100, 100, nil},
-		{-1, 1, nil},
-		{0, 0, nil},
-		{1, 1, nil},
-		{100, 100, nil},
-		{math.MaxInt, math.MaxInt, nil},
-		{math.MinInt, 0, ErrAbsoluteValueOfMinInt},
+		{math.MinInt + 1, math.MaxInt},
+		{-100, 100},
+		{-1, 1},
+		{0, 0},
+		{1, 1},
+		{100, 100},
+		{math.MaxInt, math.MaxInt},
 	}
 
 	for _, tC := range testCases {
 		testName := fmt.Sprintf("Input: %d", tC.input)
 		t.Run(testName, func(t *testing.T) {
-			actualResult, actualError := Abs(tC.input)
+			got, gotError := Abs(tC.input)
 
-			// Check if the actual error matches the expected error.
-			if actualError != tC.expectedError {
-				t.Errorf("Expected error: %v, got error: %v", tC.expectedError, actualError)
-			}
+			checkResults(t, tC.want, got, gotError)
+		})
+	}
 
-			// Check if the actual result matches the expected result.
-			if actualResult != tC.expectedResult {
-				t.Errorf("Expected result: %d, got result: %d", tC.expectedResult, actualResult)
-			}
+	errorTestCases := []struct {
+		desc      string
+		input     int
+		wantError error
+	}{
+		{"The value of |math.MinInt| can not be stored as an int", math.MinInt, ErrAbsoluteValueOfMinInt},
+	}
+
+	for _, tC := range errorTestCases {
+		t.Run(tC.desc, func(t *testing.T) {
+			_, gotError := Abs(tC.input)
+
+			checkError(t, gotError, tC.wantError)
 		})
 	}
 }
@@ -98,10 +102,10 @@ func ExampleAbs() {
 	if err != nil {
 		fmt.Println("Error:", err)
 	} else {
-		fmt.Println("Absolute value of", n, "is", absValue)
+		fmt.Println("The absolute value of", n, "is", absValue)
 	}
 
-	// Output: Absolute value of -10 is 10
+	// Output: The absolute value of -10 is 10
 }
 
 func ExampleMax() {

@@ -1,7 +1,6 @@
 package maths
 
 import (
-	"errors"
 	"fmt"
 	"math"
 	"math/big"
@@ -62,9 +61,7 @@ func TestGCD(t *testing.T) {
 		t.Run(tC.desc, func(t *testing.T) {
 			_, gotError := GCD(tC.input...)
 
-			if !errors.Is(gotError, tC.wantError) {
-				t.Errorf("Got %v, want %v", gotError, tC.wantError)
-			}
+			checkError(t, gotError, tC.wantError)
 		})
 	}
 }
@@ -119,9 +116,7 @@ func TestLCM(t *testing.T) {
 		t.Run(tC.desc, func(t *testing.T) {
 			_, gotError := LCM(tC.input...)
 
-			if !errors.Is(gotError, tC.wantError) {
-				t.Errorf("Got %v, want %v", gotError, tC.wantError)
-			}
+			checkError(t, gotError, tC.wantError)
 		})
 	}
 }
@@ -160,7 +155,6 @@ func TestLCMBig(t *testing.T) {
 	for _, tC := range testCases {
 		testName := fmt.Sprintf("Input: %v", tC.input)
 		t.Run(testName, func(t *testing.T) {
-			// Check if the actual result matches the expected result.
 			if got := LCMBig(tC.input...); got.Cmp(tC.want) != 0 {
 				t.Errorf("Expected LCM: %v, actual LCM: %v", tC.want, got) // Can print the big.Int values OK.
 			}

@@ -1,7 +1,6 @@
 package maths
 
 import (
-	"errors"
 	"fmt"
 	"math"
 	"testing"
@@ -41,9 +40,7 @@ func TestFactorial(t *testing.T) {
 		t.Run(tC.desc, func(t *testing.T) {
 			_, gotError := Factorial(tC.input)
 
-			if !errors.Is(gotError, tC.wantError) {
-				t.Errorf("Got %v, want %v", gotError, tC.wantError)
-			}
+			checkError(t, gotError, tC.wantError)
 		})
 	}
 }
@@ -86,9 +83,7 @@ func TestBinomial(t *testing.T) {
 		t.Run(tC.desc, func(t *testing.T) {
 			_, gotError := Binomial(tC.n, tC.k)
 
-			if !errors.Is(gotError, tC.wantError) {
-				t.Errorf("Got %v, want %v", gotError, tC.wantError)
-			}
+			checkError(t, gotError, tC.wantError)
 		})
 	}
 }
