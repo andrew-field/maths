@@ -17,37 +17,29 @@ type Tree struct {
 }
 
 func (t *Tree) String() string {
+
 	if t == nil {
 		return ""
 	}
 
-	trees := [][]*Tree{}
-	trees = append(trees, []*Tree{t})
-
-	for stop := false; !stop; {
-		trees = append(trees, []*Tree{})
-		for _, v := range trees[len(trees)-2] {
-			if v.Right == nil {
-				if v.Left != nil {
-					trees[len(trees)-1] = append(trees[len(trees)-1], v.Left)
-				}
-				stop = true
-				break
-			}
-			if slices.Contains(trees[len(trees)-1], v.Left) {
-				trees[len(trees)-1] = append(trees[len(trees)-1], v.Right)
-			} else {
-				trees[len(trees)-1] = append(trees[len(trees)-1], v.Left, v.Right)
-			}
-		}
-	}
-
 	var b strings.Builder
-	for _, row := range trees {
-		for _, tree := range row {
-			fmt.Fprintf(&b, "%d ", tree.Value)
+	currentLevel := []*Tree{t}
+
+	for len(currentLevel) > 0 {
+		nextLevel := []*Tree{}
+		for _, node := range currentLevel {
+			if node == nil {
+				continue
+			}
+			fmt.Fprintf(&b, "%d ", node.Value)
+			if slices.Contains(nextLevel, node.Left) {
+				nextLevel = append(nextLevel, node.Right)
+			} else {
+				nextLevel = append(nextLevel, node.Left, node.Right)
+			}
 		}
 		b.WriteString("\n")
+		currentLevel = nextLevel
 	}
 
 	return b.String()
