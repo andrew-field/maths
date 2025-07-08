@@ -11,16 +11,14 @@ import (
 func TestGetPrimeNumbers(t *testing.T) {
 	t.Run("first 25 prime numbers are correct", func(t *testing.T) {
 		expectedPrimes := []int{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97}
-		ctx, cancel := context.WithCancel(context.Background())
+		ctx := t.Context()
 		primeChannel := GetPrimeNumbers(ctx)
 
-		for _, expectedPrime := range expectedPrimes {
-			if actualPrime := <-primeChannel; actualPrime != expectedPrime {
-				t.Errorf("Actual prime: %d. Expected prime: %d.", actualPrime, expectedPrime)
+		for _, want := range expectedPrimes {
+			if got := <-primeChannel; got != want {
+				t.Errorf("Actual prime: %d. Expected prime: %d.", got, want)
 			}
 		}
-
-		cancel()
 	})
 
 	t.Run("cancel context half way through calculation", func(t *testing.T) {
@@ -927,13 +925,12 @@ func TestGetPrimeNumbersBelowAndIncluding(t *testing.T) {
 	for _, tC := range testCases {
 		testName := fmt.Sprintf("Input: %d", tC.input)
 		t.Run(testName, func(t *testing.T) {
-			ctx, cancel := context.WithCancel(context.Background())
-			defer cancel()
+			ctx := t.Context()
 			primeCh := GetPrimeNumbersBelowAndIncluding(ctx, tC.input)
 
-			for _, expectedPrime := range tC.expectedResult {
-				if actualPrime := <-primeCh; actualPrime != expectedPrime {
-					t.Errorf("Actual prime: %d. Expected prime: %d.", actualPrime, expectedPrime)
+			for _, want := range tC.expectedResult {
+				if got := <-primeCh; got != want {
+					t.Errorf("Actual prime: %d. Expected prime: %d.", got, want)
 				}
 			}
 
