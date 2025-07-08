@@ -1,6 +1,9 @@
 package maths
 
 import (
+	"fmt"
+	"slices"
+	"strings"
 	"sync"
 )
 
@@ -13,13 +16,54 @@ type Tree struct {
 	Right *Tree
 }
 
+func (t *Tree) String() string {
+	if t == nil {
+		return ""
+	}
+
+	trees := [][]*Tree{}
+	trees = append(trees, []*Tree{t})
+
+	for stop := false; !stop; {
+		trees = append(trees, []*Tree{})
+		for _, v := range trees[len(trees)-2] {
+			if v.Right == nil {
+				if v.Left != nil {
+					trees[len(trees)-1] = append(trees[len(trees)-1], v.Left)
+				}
+				stop = true
+				break
+			}
+			if slices.Contains(trees[len(trees)-1], v.Left) {
+				trees[len(trees)-1] = append(trees[len(trees)-1], v.Right)
+			} else {
+				trees[len(trees)-1] = append(trees[len(trees)-1], v.Left, v.Right)
+			}
+		}
+	}
+
+	var b strings.Builder
+	for _, row := range trees {
+		for _, tree := range row {
+			fmt.Fprintf(&b, "%d ", tree.Value)
+		}
+		b.WriteString("\n")
+	}
+
+	return b.String()
+}
+
 // CreateBinaryTree returns a (mostly) symmetric binary tree, filling with values from top to bottom, left to right.
+// Each row has double the number of nodes as the previous row, starting with 1 node at the top.
+// The tree is not guaranteed to be complete, so the last row may not be full.
 // CreateBinaryTree() returns <nil>
 func CreateBinaryTree(values ...int) *Tree {
 	return createTree(true, values...)
 }
 
 // CreatePyramidTree returns a (mostly) symmetric pyramid tree, filling with values from top to bottom, left to right.
+// Each row has one more node than the previous row, starting with 1 node at the top.
+// The tree is not guaranteed to be complete, so the last row may not be full.
 // CreatePyramidTree() returns <nil>
 func CreatePyramidTree(values ...int) *Tree {
 	return createTree(false, values...)
@@ -34,28 +78,36 @@ func createTree(isBinaryTree bool, values ...int) *Tree {
 
 	trees := make([]*Tree, numberOfValues)
 
-	// Create all the tree nodes.
+	// Create all the tree nodes, initialised with a value.
 	for ind, val := range values {
 		trees[ind] = &Tree{nil, val, nil}
 	}
 
-	pyramidSet, pyramidLimit := 0, 0
-
-	// Take the tree nodes and link them together to build the tree structure.
 	i, j := 0, 1
-	for ; j < numberOfValues-1; i++ {
-		trees[i].Left = trees[j]
-		j++
-		trees[i].Right = trees[j]
-		switch {
-		case isBinaryTree:
+	// Take the tree nodes and link them together to build the tree structure.
+	if isBinaryTree {
+		for ; j < numberOfValues-1; i++ {
+			trees[i].Left = trees[j]
 			j++
-		case pyramidSet == pyramidLimit:
+			trees[i].Right = trees[j]
 			j++
-			pyramidSet = 0
-			pyramidLimit++
-		default:
-			pyramidSet++
+		}
+	} else {
+		// pyramidLimit is the number of nodes that should have two parent nodes in the current row. This number increases by one for every row.
+		// pyramidSet is the number of nodes that have two parent nodes in the current row. When pyramidSet equals pyramidLimit, the process moves to the next row.
+		pyramidLimit, pyramidSet := 0, 0
+
+		for ; j < numberOfValues-1; i++ {
+			trees[i].Left = trees[j]
+			j++
+			trees[i].Right = trees[j]
+			if pyramidSet == pyramidLimit {
+				j++
+				pyramidSet = 0
+				pyramidLimit++
+			} else {
+				pyramidSet++
+			}
 		}
 	}
 
@@ -67,8 +119,7 @@ func createTree(isBinaryTree bool, values ...int) *Tree {
 }
 
 // MaxPath returns the largest of all the possible summations from top to bottom of a tree.
-// The execution works up from the bottom of the pyramid. The maximum path to a node is the value of the node
-// plus the maximum of the maximum paths to each child node.
+// The execution works up from the bottom of the pyramid. The maximum path to a node is the value of the node plus the maximum of the maximum paths to each child node.
 // There is a natural recursive function but it fails when a pyramid tree gets too large and the function runs out of resources.
 // MaxPath(<nil>) returns 0.
 func MaxPath(t *Tree) int {
@@ -92,7 +143,7 @@ func generateMaximumPaths(t *Tree, maximumPaths *sync.Map, channelsMap *sync.Map
 		return
 	}
 
-	var leftMax, rightMax interface{} = 0, 0
+	var leftMax, rightMax any = 0, 0
 	leftMaxExists, rightMaxExists := true, true
 	if t.Left != nil {
 		leftMax, leftMaxExists = maximumPaths.Load(t.Left)
@@ -109,6 +160,6 @@ func generateMaximumPaths(t *Tree, maximumPaths *sync.Map, channelsMap *sync.Map
 	}
 
 	if leftMaxExists && rightMaxExists {
-		maximumPaths.Store(t, Max(leftMax.(int), rightMax.(int))+t.Value)
+		maximumPaths.Store(t, max(leftMax.(int), rightMax.(int))+t.Value)
 	}
 }
