@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"slices"
 	"strings"
-	"sync"
 )
 
 // Inspiration taken from golang.org/x/tour/tree
@@ -112,46 +111,33 @@ func createTree(isBinaryTree bool, values ...int) *Tree {
 
 // MaxPath returns the largest of all the possible summations from top to bottom of a tree.
 // The execution works up from the bottom of the pyramid. The maximum path to a node is the value of the node plus the maximum of the maximum paths to each child node.
-// There is a natural recursive function but it fails when a pyramid tree gets too large and the function runs out of resources.
 // MaxPath(<nil>) returns 0.
 func MaxPath(t *Tree) int {
 	if t == nil {
 		return 0
 	}
 
-	maximumPaths := new(sync.Map)
+	maximumPaths := make(map[*Tree]int)
+	maximumPaths[nil] = 0
 
-	for _, totalSumExists := maximumPaths.Load(t); !totalSumExists; _, totalSumExists = maximumPaths.Load(t) {
-		generateMaximumPaths(t, maximumPaths, new(sync.Map))
-	}
+	generateMaximumPaths(t, maximumPaths)
 
-	sum, _ := maximumPaths.Load(t)
-	return sum.(int)
+	return maximumPaths[t]
 }
 
-func generateMaximumPaths(t *Tree, maximumPaths *sync.Map, channelsMap *sync.Map) {
-	_, ok := channelsMap.LoadOrStore(t, true) // Prevents duplicate generating paths.
+func generateMaximumPaths(t *Tree, maximumPaths map[*Tree]int) {
+	_, ok := maximumPaths[t] // Prevents duplicate generating paths.
 	if ok {
 		return
 	}
 
-	var leftMax, rightMax any = 0, 0
-	leftMaxExists, rightMaxExists := true, true
 	if t.Left != nil {
-		leftMax, leftMaxExists = maximumPaths.Load(t.Left)
-	}
-	if !leftMaxExists {
-		go generateMaximumPaths(t.Left, maximumPaths, channelsMap)
+		generateMaximumPaths(t.Left, maximumPaths)
 	}
 
 	if t.Right != nil {
-		rightMax, rightMaxExists = maximumPaths.Load(t.Right)
-	}
-	if !rightMaxExists {
-		go generateMaximumPaths(t.Right, maximumPaths, channelsMap)
+		generateMaximumPaths(t.Right, maximumPaths)
 	}
 
-	if leftMaxExists && rightMaxExists {
-		maximumPaths.Store(t, max(leftMax.(int), rightMax.(int))+t.Value)
-	}
+	maximumPaths[t] = max(maximumPaths[t.Left], maximumPaths[t.Right]) + t.Value
 }

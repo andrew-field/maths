@@ -143,3 +143,9 @@ func TestMaxPath(t *testing.T) {
 		})
 	}
 }
+
+func BenchmarkMaxPath(b *testing.B) {
+	for b.Loop() {
+		MaxPath(CreateBinaryTree(75, 95, 64, 17, 47, 82, 18, 35, 87, 10, 24, 12, 54, 38, 20, 46, 35, 42, 64, 21, 45))
+	}
+}
