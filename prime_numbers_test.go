@@ -25,19 +25,19 @@ func TestGetPrimeNumbers(t *testing.T) {
 		ctx, cancel := context.WithCancel(context.Background())
 		primeChannel := GetPrimeNumbers(ctx)
 
-		done := make(chan bool)
+		done := make(chan struct{})
 		go func() {
 			for range primeChannel {
 			}
-			done <- true
+			close(done)
 		}()
 
-		cancel()
+		time.AfterFunc(100*time.Millisecond, cancel)
 
 		select {
 		case <-done:
 			t.Log("Channel closed as expected")
-		case <-time.After(1 * time.Second):
+		case <-time.After(200 * time.Millisecond):
 			t.Error("Channel did not close as expected within a reasonable time")
 		}
 	})
