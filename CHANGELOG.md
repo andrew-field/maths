@@ -1,5 +1,38 @@
 # Changelog
 
+## [2.4.0](https://github.com/andrew-field/maths/compare/v2.3.0...v2.4.0) (2025-07-13)
+
+
+### Features
+
+* Add benchmarks tests ([#56](https://github.com/andrew-field/maths/issues/56)) ([1f0db2d](https://github.com/andrew-field/maths/commit/1f0db2dc957fd1479a240a583d999459004540d5))
+* Add examples functions to improve documentation ([#55](https://github.com/andrew-field/maths/issues/55)) ([094a1d5](https://github.com/andrew-field/maths/commit/094a1d54ef84d7f2a44b7fc24ce2baac40832d75))
+* add fuzz tests for the digit functions ([#60](https://github.com/andrew-field/maths/issues/60)) ([d05341a](https://github.com/andrew-field/maths/commit/d05341a7b623ba2ccbbdad81c4938256e17c6a2e))
+* add some tests for the max function with float value inputs and add a Pow benchmark ([#58](https://github.com/andrew-field/maths/issues/58)) ([52ba2c0](https://github.com/andrew-field/maths/commit/52ba2c00ffb9d3a1e16e48ede9fcdf25bc1f2a87))
+* refactor and update gcd and lcm tests ([#68](https://github.com/andrew-field/maths/issues/68)) ([0098f77](https://github.com/andrew-field/maths/commit/0098f776e357c70462ed3ba76afdf5f1bf63e283))
+* refactor binomial and factorial functions ([#66](https://github.com/andrew-field/maths/issues/66)) ([20e94ee](https://github.com/andrew-field/maths/commit/20e94ee9ba7c0871d9ab7ed2f32158485664fae3))
+* refactor digit functions to take type parameters ([#59](https://github.com/andrew-field/maths/issues/59)) ([1499b78](https://github.com/andrew-field/maths/commit/1499b78bdcc7c7918fae9f4818f8f5dfcc277980))
+* refactor divisor tests to split success and error cases ([#67](https://github.com/andrew-field/maths/issues/67)) ([0388f28](https://github.com/andrew-field/maths/commit/0388f28be425be5caeb3295aacd7633c8882bcb3))
+* refactor max and abs tests ([#69](https://github.com/andrew-field/maths/issues/69)) ([4734452](https://github.com/andrew-field/maths/commit/47344521bd996e65afcc7a2be3eaa24a2ada788a))
+* refactor max path function for trees ([#72](https://github.com/andrew-field/maths/issues/72)) ([adacda6](https://github.com/andrew-field/maths/commit/adacda6283c0403116bfc1beafe7419f166da191))
+* refactor pow tests ([#70](https://github.com/andrew-field/maths/issues/70)) ([9e95437](https://github.com/andrew-field/maths/commit/9e95437891afdcbba5922cf082bad571723bd313))
+* refactor prime tests and tree struct ([#71](https://github.com/andrew-field/maths/issues/71)) ([6cca916](https://github.com/andrew-field/maths/commit/6cca916df582362c89c0a1ee833166472edd0cab))
+* update go bump frequency ([#62](https://github.com/andrew-field/maths/issues/62)) ([d573dbf](https://github.com/andrew-field/maths/commit/d573dbf4a9327d3dbff1a5f3281c09293cab3922))
+* Update go mod version to 1.24.3 ([#53](https://github.com/andrew-field/maths/issues/53)) ([2b81be5](https://github.com/andrew-field/maths/commit/2b81be50516db94fe02aea590585526ac68a7ffb))
+* update go mod version to 1.24.4 ([#63](https://github.com/andrew-field/maths/issues/63)) ([0803b12](https://github.com/andrew-field/maths/commit/0803b1257cb908fc3fb7531090cc2937d671a7dd))
+
+
+### Bug Fixes
+
+* fix go package link and update get prime numbers test ([#73](https://github.com/andrew-field/maths/issues/73)) ([eb50cae](https://github.com/andrew-field/maths/commit/eb50cae0641e3dd37bfcc10d8b66b07644b966c7))
+* fix the go mod workflow ([#65](https://github.com/andrew-field/maths/issues/65)) ([54fb429](https://github.com/andrew-field/maths/commit/54fb429db5ad6a254a35961b30705f4c539576fb))
+* refactor digit functions to be clearer ([#57](https://github.com/andrew-field/maths/issues/57)) ([fd195ac](https://github.com/andrew-field/maths/commit/fd195ac70ec3b9df308b736f46a2d49770fd3095))
+* refactor tree string and add a test ([#74](https://github.com/andrew-field/maths/issues/74)) ([dbebb0b](https://github.com/andrew-field/maths/commit/dbebb0b14f3f61f6ebccc299d8cf1731008e59e6))
+* Update bump-go-mod-version.yml comments ([#54](https://github.com/andrew-field/maths/issues/54)) ([92b3a3d](https://github.com/andrew-field/maths/commit/92b3a3db0e5a69b94400bced3081142e6e399bdc))
+* update error comparison in tests ([#61](https://github.com/andrew-field/maths/issues/61)) ([eb59eff](https://github.com/andrew-field/maths/commit/eb59eff2f6e04a397052fbf6fb9f488c73d9348c))
+* Update golang linter confguration for V2 ([#50](https://github.com/andrew-field/maths/issues/50)) ([a70fcc5](https://github.com/andrew-field/maths/commit/a70fcc5638abef94ced3b8f449c1f308bac00559))
+* update secrets comment ([#64](https://github.com/andrew-field/maths/issues/64)) ([45da624](https://github.com/andrew-field/maths/commit/45da624f36d4575d25c283df56e6b89ecb96c688))
+
 ## [2.3.0](https://github.com/andrew-field/maths/compare/v2.2.0...v2.3.0) (2025-05-01)
 
 
