@@ -24,24 +24,28 @@ func (t *Tree) String() string {
 	var b strings.Builder
 	currentLevel := []*Tree{t}
 
-	for len(currentLevel) > 0 {
+	for {
 		nextLevel := []*Tree{}
-		for _, node := range currentLevel {
+		for i, node := range currentLevel {
 			if node == nil {
-				continue
+				return b.String()
 			}
-			fmt.Fprintf(&b, "%d ", node.Value)
+			if i > 0 {
+				b.WriteString(" ")
+			}
+			fmt.Fprintf(&b, "%d", node.Value)
 			if slices.Contains(nextLevel, node.Left) {
 				nextLevel = append(nextLevel, node.Right)
 			} else {
 				nextLevel = append(nextLevel, node.Left, node.Right)
 			}
 		}
+		if nextLevel[0] == nil {
+			return b.String()
+		}
 		b.WriteString("\n")
 		currentLevel = nextLevel
 	}
-
-	return b.String()
 }
 
 // CreateBinaryTree returns a (mostly) symmetric binary tree, filling with values from top to bottom, left to right.

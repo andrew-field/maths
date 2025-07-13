@@ -144,8 +144,82 @@ func TestMaxPath(t *testing.T) {
 	}
 }
 
+func TestString(t *testing.T) {
+	testCases := []struct {
+		input *Tree
+		want  string
+	}{
+		{CreateBinaryTree(0), `0`},
+		{CreateBinaryTree(1, 2), `1
+2`},
+		{CreateBinaryTree(1, 2, -3), `1
+2 -3`},
+		{CreateBinaryTree(1, 2, 3, 4), `1
+2 3
+4`},
+		{CreateBinaryTree(1, 2, 3, 4, 5), `1
+2 3
+4 5`},
+		{CreateBinaryTree(1, 2, 3, 4, 5, 6, 7), `1
+2 3
+4 5 6 7`},
+		{CreateBinaryTree(75, 95, 64, 17, 47, 82, 18, 35, 87, 10), `75
+95 64
+17 47 82 18
+35 87 10`},
+		{CreateBinaryTree(75, 95, 64, 17, 47, -82, 18, 35, 87, 10, 24, 12, 54, 38, 20, 46, 35, 42, 64, 21, 45), `75
+95 64
+17 47 -82 18
+35 87 10 24 12 54 38 20
+46 35 42 64 21 45`},
+		{CreatePyramidTree(0), `0`},
+		{CreatePyramidTree(1, 2), `1
+2`},
+		{CreatePyramidTree(1, 2, 3), `1
+2 3`},
+		{CreatePyramidTree(1, 2, 3, 4), `1
+2 3
+4`},
+		{CreatePyramidTree(1, 2, 3, 4, 5), `1
+2 3
+4 5`},
+		{CreatePyramidTree(1, 2, 3, 4, 5, 6), `1
+2 3
+4 5 6`},
+		{CreatePyramidTree(1, 2, 3, 4, 5, 6, 7), `1
+2 3
+4 5 6
+7`},
+		{CreatePyramidTree(75, 95, 64, 17, 47, 82, 18, 35, 87, 10), `75
+95 64
+17 47 82
+18 35 87 10`},
+		{CreatePyramidTree(75, 95, 64, 17, 47, 82, 18, 35, 87, 10, 24, 12, 54, 38, 20, 46, 35, 42, 64, 21, 45), `75
+95 64
+17 47 82
+18 35 87 10
+24 12 54 38 20
+46 35 42 64 21 45`},
+	}
+
+	for _, tC := range testCases {
+		testName := fmt.Sprintf("Input: %s", tC.input)
+		t.Run(testName, func(t *testing.T) {
+			if got := tC.input.String(); got != tC.want {
+				t.Errorf("Actual result: %s.Expected result: %s", got, tC.want)
+			}
+		})
+	}
+}
+
 func BenchmarkMaxPath(b *testing.B) {
 	for b.Loop() {
 		MaxPath(CreateBinaryTree(75, 95, 64, 17, 47, 82, 18, 35, 87, 10, 24, 12, 54, 38, 20, 46, 35, 42, 64, 21, 45))
+	}
+}
+
+func BenchmarkString(b *testing.B) {
+	for b.Loop() {
+		_ = CreateBinaryTree(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15).String()
 	}
 }
