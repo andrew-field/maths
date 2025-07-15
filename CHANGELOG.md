@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0](https://github.com/andrew-field/maths/compare/v2.4.0...v2.5.0) (2025-07-15)
+
+
+### Features
+
+* bump and clean go mod, go version: 1.24.5 ([#75](https://github.com/andrew-field/maths/issues/75)) ([e57c149](https://github.com/andrew-field/maths/commit/e57c149fb1f90af5d0632df9fa6294438a3657fb))
+
 ## [2.4.0](https://github.com/andrew-field/maths/compare/v2.3.0...v2.4.0) (2025-07-13)
 
 
