@@ -39,7 +39,12 @@ func GetDigits[T int | *big.Int](x T) []int {
 }
 
 // DigitsToInt returns an int made from a concatenation of the given integers, in order.
+// It will return an error if the concatenated digits exceed the range of an int. It will ignore any negative signs in the integers provided.
+// If no integers are provided, it returns 0, nil.
 func DigitsToInt(x ...int) (int, error) {
+	if len(x) == 0 {
+		return 0, nil
+	}
 	var b strings.Builder
 
 	for _, v := range x {
@@ -54,7 +59,11 @@ func DigitsToInt(x ...int) (int, error) {
 }
 
 // DigitsToBigInt returns a big.Int made from a concatenation of the given integers, in order.
+// It will ignore any negative signs in the integers provided. If no integers are provided, it returns 0, big.NewInt(0).
 func DigitsToBigInt(x ...int) *big.Int {
+	if len(x) == 0 {
+		return big.NewInt(0)
+	}
 	var b strings.Builder
 
 	for _, v := range x {

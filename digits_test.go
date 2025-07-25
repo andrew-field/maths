@@ -152,6 +152,7 @@ func TestDigitsToInt(t *testing.T) {
 		{[]int{9, 2, 2, 3, 3, 7, 2, 0, 3, 6, 8, 5, 4, 7, 7, 5, 8, 0, 7}, math.MaxInt},
 		{[]int{123, 4567}, 1234567},
 		{[]int{123, 4567, 8901}, 12345678901},
+		{[]int{}, 0},
 	}
 
 	for _, tC := range testCases {
@@ -185,8 +186,8 @@ func TestDigitsToBigInt(t *testing.T) {
 		input []int
 		want  *big.Int
 	}{
-		{[]int{-1, -0, -0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new(big.Int).Exp(big.NewInt(10), big.NewInt(21), nil)},
-		{[]int{-9, 2, 2, 3, 3, 7, 2, 0, 3, 6, 8, 5, 4, 7, 7, 5, 8, 0, 8}, new(big.Int).SetBit(new(big.Int), 63, 1)},
+		{[]int{-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new(big.Int).Exp(big.NewInt(10), big.NewInt(21), nil)},
+		{[]int{-9, -2, -2, 3, 3, 7, 2, 0, 3, 6, 8, 5, 4, 7, 7, 5, 8, 0, 8}, new(big.Int).SetBit(new(big.Int), 63, 1)},
 		{[]int{-1, 0}, big.NewInt(10)},
 		{[]int{-9}, big.NewInt(9)},
 		{[]int{-1}, big.NewInt(1)},
@@ -203,6 +204,7 @@ func TestDigitsToBigInt(t *testing.T) {
 		{[]int{1, 2, 6, 7, 6, 5, 0, 6, 0, 0, 2, 2, 8, 2, 2, 9, 4, 0, 1, 4, 9, 6, 7, 0, 3, 2, 0, 5, 3, 7, 6}, new(big.Int).SetBit(new(big.Int), 100, 1)},
 		{[]int{123, 4567}, big.NewInt(1234567)},
 		{[]int{123, 4567, 8901}, big.NewInt(12345678901)},
+		{[]int{}, big.NewInt(0)},
 	}
 
 	for _, tC := range testCases {
