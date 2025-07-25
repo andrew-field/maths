@@ -295,7 +295,10 @@ func ExampleDigitsToBigInt() {
 
 func BenchmarkDigitsToInt(b *testing.B) {
 	for b.Loop() {
-		DigitsToInt(1, 2, 3, 4, 5)
+		_, err := DigitsToInt(1, 2, 3, 4, 5)
+		if err != nil {
+			b.Fatal(err)
+		}
 	}
 }
 
