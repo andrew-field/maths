@@ -2,7 +2,6 @@ package maths
 
 import (
 	"cmp"
-	"errors"
 	"fmt"
 	"math"
 	"slices"
@@ -12,9 +11,6 @@ import (
 func Max[T cmp.Ordered](numbers ...T) T {
 	return slices.Max(numbers)
 }
-
-// ErrOverflowDetected is an error that indicates an arithmetic overflow has been detected.
-var ErrOverflowDetected = errors.New("arithmetic overflow detected")
 
 // ErrAbsoluteValueOfMinInt is an error that indicates an attempt to calculate
 // the absolute value of math.MinInt and store it in an int variable, which is

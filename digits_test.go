@@ -5,6 +5,7 @@ import (
 	"math"
 	"math/big"
 	"slices"
+	"strconv"
 	"testing"
 )
 
@@ -114,7 +115,7 @@ func TestGetDigits(t *testing.T) {
 		{big.NewInt(4563198), []int{4, 5, 6, 3, 1, 9, 8}},
 		{big.NewInt(math.MaxInt), []int{9, 2, 2, 3, 3, 7, 2, 0, 3, 6, 8, 5, 4, 7, 7, 5, 8, 0, 7}},
 		{new(big.Int).Exp(big.NewInt(10), big.NewInt(20), nil), []int{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}},
-		{new(big.Int).Exp(big.NewInt(2), big.NewInt(100), nil), []int{1, 2, 6, 7, 6, 5, 0, 6, 0, 0, 2, 2, 8, 2, 2, 9, 4, 0, 1, 4, 9, 6, 7, 0, 3, 2, 0, 5, 3, 7, 6}},
+		{new(big.Int).SetBit(new(big.Int), 100, 1), []int{1, 2, 6, 7, 6, 5, 0, 6, 0, 0, 2, 2, 8, 2, 2, 9, 4, 0, 1, 4, 9, 6, 7, 0, 3, 2, 0, 5, 3, 7, 6}},
 	}
 
 	for _, tC := range testCasesBigInt {
@@ -126,9 +127,94 @@ func TestGetDigits(t *testing.T) {
 func checkDigits[T int | *big.Int](input T, testName string, expectedResult []int, t *testing.T) {
 	t.Run(testName, func(t *testing.T) {
 		if got := GetDigits(input); !slices.Equal(got, expectedResult) {
-			t.Errorf("Actual digits: %v Expected digits: %v", got, expectedResult)
+			t.Errorf("Actual digits: %v, Expected digits: %v", got, expectedResult)
 		}
 	})
+}
+
+func TestDigitsToInt(t *testing.T) {
+	testCases := []struct {
+		input []int
+		want  int
+	}{
+		{[]int{-9, -2, -2, 3, 3, 7, 2, 0, 3, 6, 8, 5, 4, 7, 7, 5, 8, 0, 7}, math.MaxInt},
+		{[]int{-1, 0}, 10},
+		{[]int{-9}, 9},
+		{[]int{-1}, 1},
+		{[]int{0}, 0},
+		{[]int{1}, 1},
+		{[]int{9}, 9},
+		{[]int{1, 0}, 10},
+		{[]int{9, 9}, 99},
+		{[]int{1, 0, 0}, 100},
+		{[]int{5, 0, 0}, 500},
+		{[]int{4, 5, 6, 3, 1, 9, 8}, 4563198},
+		{[]int{9, 2, 2, 3, 3, 7, 2, 0, 3, 6, 8, 5, 4, 7, 7, 5, 8, 0, 7}, math.MaxInt},
+		{[]int{123, 4567}, 1234567},
+		{[]int{123, 4567, 8901}, 12345678901},
+		{[]int{}, 0},
+	}
+
+	for _, tC := range testCases {
+		testName := fmt.Sprintf("Input: %v", tC.input)
+		t.Run(testName, func(t *testing.T) {
+			got, gotError := DigitsToInt(tC.input...)
+
+			checkResult(t, tC.want, got, gotError)
+		})
+	}
+
+	errorTestCases := []struct {
+		desc      string
+		input     []int
+		wantError error
+	}{
+		{"The concatenation of the provided digits is too large to store in an int", []int{9, 2, 2, 3, 3, 7, 2, 0, 3, 6, 8, 5, 4, 7, 7, 5, 8, 0, 8}, strconv.ErrRange},
+	}
+
+	for _, tC := range errorTestCases {
+		t.Run(tC.desc, func(t *testing.T) {
+			_, gotError := DigitsToInt(tC.input...)
+
+			checkError(t, gotError, tC.wantError)
+		})
+	}
+}
+
+func TestDigitsToBigInt(t *testing.T) {
+	testCases := []struct {
+		input []int
+		want  *big.Int
+	}{
+		{[]int{-1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new(big.Int).Exp(big.NewInt(10), big.NewInt(21), nil)},
+		{[]int{-9, -2, -2, 3, 3, 7, 2, 0, 3, 6, 8, 5, 4, 7, 7, 5, 8, 0, 8}, new(big.Int).SetBit(new(big.Int), 63, 1)},
+		{[]int{-1, 0}, big.NewInt(10)},
+		{[]int{-9}, big.NewInt(9)},
+		{[]int{-1}, big.NewInt(1)},
+		{[]int{0}, big.NewInt(0)},
+		{[]int{1}, big.NewInt(1)},
+		{[]int{9}, big.NewInt(9)},
+		{[]int{1, 0}, big.NewInt(10)},
+		{[]int{9, 9}, big.NewInt(99)},
+		{[]int{1, 0, 0}, big.NewInt(100)},
+		{[]int{5, 0, 0}, big.NewInt(500)},
+		{[]int{4, 5, 6, 3, 1, 9, 8}, big.NewInt(4563198)},
+		{[]int{9, 2, 2, 3, 3, 7, 2, 0, 3, 6, 8, 5, 4, 7, 7, 5, 8, 0, 7}, big.NewInt(math.MaxInt)},
+		{[]int{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, new(big.Int).Exp(big.NewInt(10), big.NewInt(20), nil)},
+		{[]int{1, 2, 6, 7, 6, 5, 0, 6, 0, 0, 2, 2, 8, 2, 2, 9, 4, 0, 1, 4, 9, 6, 7, 0, 3, 2, 0, 5, 3, 7, 6}, new(big.Int).SetBit(new(big.Int), 100, 1)},
+		{[]int{123, 4567}, big.NewInt(1234567)},
+		{[]int{123, 4567, 8901}, big.NewInt(12345678901)},
+		{[]int{}, big.NewInt(0)},
+	}
+
+	for _, tC := range testCases {
+		testName := fmt.Sprintf("Input: %v", tC.input)
+		t.Run(testName, func(t *testing.T) {
+			if got := DigitsToBigInt(tC.input...); got.Cmp(tC.want) != 0 {
+				t.Errorf("Got: %v, want: %v", got, tC.want)
+			}
+		})
+	}
 }
 
 func ExampleNumberOfDigits() {
@@ -139,7 +225,7 @@ func ExampleNumberOfDigits() {
 	}
 	fmt.Println()
 
-	bigInts := []*big.Int{new(big.Int).Exp(big.NewInt(10), big.NewInt(20), nil), new(big.Int).Exp(big.NewInt(2), big.NewInt(100), nil)}
+	bigInts := []*big.Int{new(big.Int).Exp(big.NewInt(10), big.NewInt(20), nil), new(big.Int).SetBit(new(big.Int), 100, 1)}
 	for _, v := range bigInts {
 		fmt.Printf("Number of digits in %d: %d\n", v, NumberOfDigits(v))
 	}
@@ -167,7 +253,7 @@ func ExampleGetDigits() {
 	}
 	fmt.Println()
 
-	bigInts := []*big.Int{new(big.Int).Exp(big.NewInt(2), big.NewInt(100), nil), new(big.Int).Exp(big.NewInt(3), big.NewInt(100), nil)}
+	bigInts := []*big.Int{new(big.Int).SetBit(new(big.Int), 100, 1), new(big.Int).Exp(big.NewInt(3), big.NewInt(100), nil)}
 	for _, v := range bigInts {
 		digits := GetDigits(v)
 		fmt.Printf("The last digit of %d is %d\n", v, digits[len(digits)-1])
@@ -184,15 +270,49 @@ func ExampleGetDigits() {
 	// The last digit of 515377520732011331036461129765621272702107522001 is 1
 }
 
-func BenchmarkNumberOfDigits(b *testing.B) {
+func ExampleDigitsToInt() {
+	digits := []int{1, 2, 3, 4, 5}
+
+	result, err := DigitsToInt(digits...)
+	if err != nil {
+		fmt.Printf("Error calculating the integer from digits %v: %v\n", digits, err)
+	} else {
+		fmt.Printf("The integer from digits %v is %d\n", digits, result)
+	}
+
+	// Output:
+	// The integer from digits [1 2 3 4 5] is 12345
+}
+
+func ExampleDigitsToBigInt() {
+	digits := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}
+
+	result := DigitsToBigInt(digits...)
+
+	fmt.Printf("The big integer from digits %v is %s\n", digits, result.String())
+
+	// Output:
+	// The big integer from digits [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20] is 1234567891011121314151617181920
+}
+
+func BenchmarkDigitsToInt(b *testing.B) {
 	for b.Loop() {
-		NumberOfDigits(12345678912345)
+		_, err := DigitsToInt(1, 2, 3, 4, 5)
+		if err != nil {
+			b.Fatal(err)
+		}
 	}
 }
 
-func BenchmarkGetDigits(b *testing.B) {
+func BenchmarkDigitsToBigInt(b *testing.B) {
 	for b.Loop() {
-		GetDigits(12345678912345)
+		DigitsToBigInt(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+	}
+}
+
+func BenchmarkNumberOfDigits(b *testing.B) {
+	for b.Loop() {
+		NumberOfDigits(12345678912345)
 	}
 }
 

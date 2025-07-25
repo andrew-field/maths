@@ -35,7 +35,7 @@ func TestPow(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			got, gotError := Pow(tC.x, tC.y)
 
-			checkResults(t, tC.want, got, gotError)
+			checkResult(t, tC.want, got, gotError)
 		})
 	}
 

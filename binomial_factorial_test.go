@@ -23,7 +23,7 @@ func TestFactorial(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			got, gotError := Factorial(tC.input)
 
-			checkResults(t, tC.want, got, gotError)
+			checkResult(t, tC.want, got, gotError)
 		})
 	}
 
@@ -64,7 +64,7 @@ func TestBinomial(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			got, gotError := Binomial(tC.n, tC.k)
 
-			checkResults(t, tC.want, got, gotError)
+			checkResult(t, tC.want, got, gotError)
 		})
 	}
 
@@ -85,17 +85,6 @@ func TestBinomial(t *testing.T) {
 
 			checkError(t, gotError, tC.wantError)
 		})
-	}
-}
-
-func checkResults(t testing.TB, want int, got int, gotError error) {
-	t.Helper()
-	if gotError != nil {
-		t.Errorf("Got error but didn't want one. Error: %v", gotError)
-	}
-
-	if got != want {
-		t.Errorf("Got: %d, want: %d", got, want)
 	}
 }
 

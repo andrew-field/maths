@@ -75,7 +75,7 @@ func TestAbs(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			got, gotError := Abs(tC.input)
 
-			checkResults(t, tC.want, got, gotError)
+			checkResult(t, tC.want, got, gotError)
 		})
 	}
 
