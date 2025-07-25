@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.5.0](https://github.com/andrew-field/maths/compare/v2.4.0...v2.5.0) (2025-07-25)
+
+
+### Features
+
+* add digits to int function ([#77](https://github.com/andrew-field/maths/issues/77)) ([7e07c2f](https://github.com/andrew-field/maths/commit/7e07c2f1dc4d99e8c405ed0404a6a1519220efda))
+* bump and clean go mod, go version: 1.24.5 ([#75](https://github.com/andrew-field/maths/issues/75)) ([e57c149](https://github.com/andrew-field/maths/commit/e57c149fb1f90af5d0632df9fa6294438a3657fb))
+
 ## [2.4.0](https://github.com/andrew-field/maths/compare/v2.3.0...v2.4.0) (2025-07-13)
 
 
