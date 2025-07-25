@@ -3,6 +3,8 @@ package maths
 import (
 	"fmt"
 	"math/big"
+	"strconv"
+	"strings"
 )
 
 // NumberOfDigits returns the number of digits of an integer or big.Int. Uses integer-string conversion.
@@ -34,4 +36,35 @@ func GetDigits[T int | *big.Int](x T) []int {
 	}
 
 	return digits
+}
+
+// DigitsToInt returns an int made from a concatenation of the given integers, in order.
+func DigitsToInt(x ...int) (int, error) {
+	var b strings.Builder
+
+	for _, v := range x {
+		s := strconv.Itoa(v)
+		if s[0] == '-' {
+			s = s[1:]
+		}
+		b.WriteString(s)
+	}
+
+	return strconv.Atoi(b.String())
+}
+
+// DigitsToBigInt returns a big.Int made from a concatenation of the given integers, in order.
+func DigitsToBigInt(x ...int) *big.Int {
+	var b strings.Builder
+
+	for _, v := range x {
+		s := strconv.Itoa(v)
+		if s[0] == '-' {
+			s = s[1:]
+		}
+		b.WriteString(s)
+	}
+
+	result, _ := new(big.Int).SetString(b.String(), 10)
+	return result
 }

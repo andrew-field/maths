@@ -45,7 +45,7 @@ func TestGCD(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			got, gotError := GCD(tC.input...)
 
-			checkResults(t, tC.want, got, gotError)
+			checkResult(t, tC.want, got, gotError)
 		})
 	}
 
@@ -99,7 +99,7 @@ func TestLCM(t *testing.T) {
 		t.Run(testName, func(t *testing.T) {
 			got, gotError := LCM(tC.input...)
 
-			checkResults(t, tC.want, got, gotError)
+			checkResult(t, tC.want, got, gotError)
 		})
 	}
 

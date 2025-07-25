@@ -1,7 +1,6 @@
 package maths
 
 import (
-	"errors"
 	"fmt"
 	"math"
 	"slices"
@@ -167,7 +166,7 @@ func testSumOfDivisorsHelper(t *testing.T, f func(int) (int, error)) {
 		t.Run(testName, func(t *testing.T) {
 			got, gotError := f(tC.input)
 
-			checkResults(t, tC.want, got, gotError)
+			checkResult(t, tC.want, got, gotError)
 		})
 	}
 
@@ -177,13 +176,6 @@ func testSumOfDivisorsHelper(t *testing.T, f func(int) (int, error)) {
 
 			checkError(t, gotError, tC.wantError)
 		})
-	}
-}
-
-func checkError(t *testing.T, gotError, wantError error) {
-	t.Helper()
-	if !errors.Is(gotError, wantError) {
-		t.Errorf("Got %v, want %v", gotError, wantError)
 	}
 }
 
