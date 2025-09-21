@@ -15,9 +15,10 @@ permissions: {}
 jobs:
   build_test:
     name: Call build and test action
-    uses: andrew-field/reusable-workflows/.github/workflows/build-test.yml@master
+    uses: andrew-field/reusable-workflows/.github/workflows/build-test.yml@update-permissions
     with:
       test_flags: -race
 
-    secrets: inherit
     # Codecov secret used by the build-test action. CODECOV_TOKEN (Use global token) needs to be added as a secret.
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
