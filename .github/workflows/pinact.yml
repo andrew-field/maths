@@ -15,6 +15,8 @@ permissions: {}
 jobs:
   lint:
     name: Run pinact
+    permissions:
+      contents: read # The contents: read is not necessary for this public repository but it is necessary for the reusable workflow.
     uses: andrew-field/reusable-workflows/.github/workflows/pinact.yml@update-permissions
 
     # Needs to inherit more than the GITHUB_TOKEN to commit changes and trigger Github Actions CI checks. APP_ID and APP_PRIVATE_KEY (for the github app) need to be added as a secret.
