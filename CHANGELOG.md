@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.6.0](https://github.com/andrew-field/maths/compare/v2.5.0...v2.6.0) (2025-09-24)
+
+
+### Features
+
+* bump and clean go mod, go version: 1.24.6 ([#78](https://github.com/andrew-field/maths/issues/78)) ([3740d7f](https://github.com/andrew-field/maths/commit/3740d7fa4ba6a61d962e5d4a2204c282a272abb2))
+* bump and clean go mod, go version: 1.25.0 ([#80](https://github.com/andrew-field/maths/issues/80)) ([1ad7590](https://github.com/andrew-field/maths/commit/1ad759078d5aba1bcd108e184f5facc3d5cb7066))
+* bump and clean go mod, go version: 1.25.1 ([#81](https://github.com/andrew-field/maths/issues/81)) ([ce4ca7d](https://github.com/andrew-field/maths/commit/ce4ca7d6ef18fb260acea3f8d1c6fd3e20e1e3d1))
+* remove pinact ([#84](https://github.com/andrew-field/maths/issues/84)) ([e0d53e6](https://github.com/andrew-field/maths/commit/e0d53e63c1fc03b5b22cea1593ae38d6fe8eb3a6))
+* update workflow permissions and tags ([#82](https://github.com/andrew-field/maths/issues/82)) ([aaf3eda](https://github.com/andrew-field/maths/commit/aaf3eda8381d823cf7fe1ce5a92b454783de3dd3))
+
+
+### Bug Fixes
+
+* format comments ([#85](https://github.com/andrew-field/maths/issues/85)) ([2e30f05](https://github.com/andrew-field/maths/commit/2e30f056bc88c05a549a32dce6c9b6eb9935f426))
+* update comments ([#83](https://github.com/andrew-field/maths/issues/83)) ([3abfa27](https://github.com/andrew-field/maths/commit/3abfa27bd054faca7583c4d0a633644188df4c1d))
+
 ## [2.5.0](https://github.com/andrew-field/maths/compare/v2.4.0...v2.5.0) (2025-07-25)
 
 
