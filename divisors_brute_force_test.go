@@ -7,15 +7,22 @@ import (
 )
 
 func TestNumberOfDivisorsBruteForce(t *testing.T) {
-	testNumberOfDivisorsHelper(t, NumberOfDivisorsBruteForce)
+	numberOfDivisorsTestValidCases(t, NumberOfDivisorsBruteForce, numberOfDivisorsTestCases)
+	if !testing.Short() {
+		numberOfDivisorsTestValidCases(t, NumberOfDivisorsBruteForce, numberOfDivisorsTestCasesLong)
+	}
 }
 
 func TestGetDivisorsBruteForce(t *testing.T) {
-	testGetDivisorsHelper(t, GetDivisorsBruteForce)
+	getDivisorsTestValidCases(t, GetDivisorsBruteForce, getDivisorsTestCases)
+	if !testing.Short() {
+		getDivisorsTestValidCases(t, GetDivisorsBruteForce, getDivisorsTestCasesLong)
+	}
+	getDivisorsTestErrorCases(t, GetDivisorsBruteForce)
 }
 
 func TestSumOfDivisorsBruteForce(t *testing.T) {
-	testSumOfDivisorsHelper(t, SumOfDivisorsBruteForce)
+	sumOfDivisorsTestHelper(t, SumOfDivisorsBruteForce)
 }
 
 func ExampleNumberOfDivisorsBruteForce() {
