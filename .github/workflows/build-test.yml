@@ -18,6 +18,8 @@ jobs:
     permissions:
       contents: read # The contents: read is not necessary for a public repository but it is necessary for the reusable workflow.
     uses: andrew-field/reusable-workflows/.github/workflows/build-test.yml@master
+    with:
+      test_flags: -short
 
     # Codecov secret used by the build-test action. CODECOV_TOKEN (Use global token) needs to be added as a secret.
     secrets:
