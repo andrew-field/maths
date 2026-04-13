@@ -17,4 +17,4 @@ jobs:
     name: Lint code base
     permissions:
       contents: read # The contents: read is not necessary for a public repository but it is necessary for the reusable workflow.
-    uses: andrew-field/reusable-workflows/.github/workflows/super-linter.yml@8cac99c0329e894a7d3fce0bad7de602c1a69c10 # v1.0.6
+    uses: andrew-field/reusable-workflows/.github/workflows/super-linter.yml@2d107512e74864be54b378e61d023a40e60a8f15 # v1.0.8
