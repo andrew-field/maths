@@ -180,9 +180,8 @@ func ExampleLCM() {
 	if err != nil {
 		fmt.Printf("Error calculating the LCM of %d and %d: %v", m, n, err)
 		return
-	} else {
-		fmt.Println("The LCM of", m, "and", n, "is", lcm)
 	}
+	fmt.Println("The LCM of", m, "and", n, "is", lcm)
 
 	// Output: The LCM of 48 and 18 is 144
 }
