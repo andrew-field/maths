@@ -1,5 +1,36 @@
 # Changelog
 
+## [2.6.0](https://github.com/andrew-field/maths/compare/v2.5.0...v2.6.0) (2026-04-29)
+
+
+### Features
+
+* add biome ([#88](https://github.com/andrew-field/maths/issues/88)) ([6b624da](https://github.com/andrew-field/maths/commit/6b624da59fd5ccbea58dce9c542062c8f77799eb))
+* add cooldown period for dependabot.yml ([#91](https://github.com/andrew-field/maths/issues/91)) ([2b78845](https://github.com/andrew-field/maths/commit/2b7884524e4c0b4f3b5a3a6ba8c64272a778710d))
+* add long tests ([#93](https://github.com/andrew-field/maths/issues/93)) ([265ebd5](https://github.com/andrew-field/maths/commit/265ebd54925f6a27aacdc8e1decb27db242b6676))
+* bump and clean go mod, go version: 1.24.6 ([#78](https://github.com/andrew-field/maths/issues/78)) ([3740d7f](https://github.com/andrew-field/maths/commit/3740d7fa4ba6a61d962e5d4a2204c282a272abb2))
+* bump and clean go mod, go version: 1.25.0 ([#80](https://github.com/andrew-field/maths/issues/80)) ([1ad7590](https://github.com/andrew-field/maths/commit/1ad759078d5aba1bcd108e184f5facc3d5cb7066))
+* bump and clean go mod, go version: 1.25.1 ([#81](https://github.com/andrew-field/maths/issues/81)) ([ce4ca7d](https://github.com/andrew-field/maths/commit/ce4ca7d6ef18fb260acea3f8d1c6fd3e20e1e3d1))
+* bump and clean go mod, go version: 1.25.2 ([#86](https://github.com/andrew-field/maths/issues/86)) ([77511b8](https://github.com/andrew-field/maths/commit/77511b85ca8549cc5ad634bfe7403a79d12bbf60))
+* bump and clean go mod, go version: 1.25.3 ([#87](https://github.com/andrew-field/maths/issues/87)) ([c28db13](https://github.com/andrew-field/maths/commit/c28db1368b1de91f66592ad420ae7828e793d44c))
+* bump and clean go mod, go version: 1.25.4 ([#90](https://github.com/andrew-field/maths/issues/90)) ([3547abe](https://github.com/andrew-field/maths/commit/3547abef9ae50584f2b0578721d521651716b6b6))
+* bump and clean go mod, go version: 1.25.5 ([#92](https://github.com/andrew-field/maths/issues/92)) ([2957c82](https://github.com/andrew-field/maths/commit/2957c82ba93fc8b48541296c34004c613f816223))
+* bump and clean go mod, go version: 1.25.6 ([#94](https://github.com/andrew-field/maths/issues/94)) ([40aef14](https://github.com/andrew-field/maths/commit/40aef14048a9a7b3ae7b2c804d1e67e9c7b9d9b5))
+* bump and clean go mod, go version: 1.25.7 ([#95](https://github.com/andrew-field/maths/issues/95)) ([c17a9d7](https://github.com/andrew-field/maths/commit/c17a9d719ccea2298052fc82c2dfa4a01402b00e))
+* bump and clean go mod, go version: 1.26.0 ([#96](https://github.com/andrew-field/maths/issues/96)) ([7621e80](https://github.com/andrew-field/maths/commit/7621e80d5b778f850b66575ca4518ec3ff2bb52f))
+* bump and clean go mod, go version: 1.26.1 ([#97](https://github.com/andrew-field/maths/issues/97)) ([4dd02db](https://github.com/andrew-field/maths/commit/4dd02dbeeeb695cfb318f121d3683970ee773c1a))
+* bump and clean go mod, go version: 1.26.2 ([#105](https://github.com/andrew-field/maths/issues/105)) ([a7659d1](https://github.com/andrew-field/maths/commit/a7659d13b586129b7f322abbb00089a80ec5fc5b))
+* delete biome.json ([#89](https://github.com/andrew-field/maths/issues/89)) ([d06a417](https://github.com/andrew-field/maths/commit/d06a4179c44ff19ab37404a65894b5eac8c24afb))
+* remove pinact ([#84](https://github.com/andrew-field/maths/issues/84)) ([e0d53e6](https://github.com/andrew-field/maths/commit/e0d53e63c1fc03b5b22cea1593ae38d6fe8eb3a6))
+* update workflow permissions and tags ([#82](https://github.com/andrew-field/maths/issues/82)) ([aaf3eda](https://github.com/andrew-field/maths/commit/aaf3eda8381d823cf7fe1ce5a92b454783de3dd3))
+
+
+### Bug Fixes
+
+* format comments ([#85](https://github.com/andrew-field/maths/issues/85)) ([2e30f05](https://github.com/andrew-field/maths/commit/2e30f056bc88c05a549a32dce6c9b6eb9935f426))
+* update comments ([#83](https://github.com/andrew-field/maths/issues/83)) ([3abfa27](https://github.com/andrew-field/maths/commit/3abfa27bd054faca7583c4d0a633644188df4c1d))
+* update super linter arguments ([#111](https://github.com/andrew-field/maths/issues/111)) ([b9acaec](https://github.com/andrew-field/maths/commit/b9acaec37bb27f3740a5ac6fe7dc6f92cccd6d8b))
+
 ## [2.5.0](https://github.com/andrew-field/maths/compare/v2.4.0...v2.5.0) (2025-07-25)
 
 
