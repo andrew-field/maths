@@ -2,12 +2,9 @@
 package maths
 
 import (
-	"errors"
 	"fmt"
 	"math/big"
 )
-
-var ErrNLessThanK = errors.New("to calculate n choose k, n must be larger than or equal to k")
 
 // Factorial returns the factorial of n, where n >= 0, with overflow detection.
 // It returns an ErrOverflowDetected error if the calculation results in an overflow.
