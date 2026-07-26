@@ -9,5 +9,3 @@
 [![Build and test](https://github.com/andrew-field/maths/actions/workflows/build-test.yml/badge.svg)](https://github.com/andrew-field/maths/actions/workflows/build-test.yml)
 [![CodeQL](https://github.com/andrew-field/maths/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/andrew-field/maths/actions/workflows/github-code-scanning/codeql)
 [![Super Linter](https://github.com/andrew-field/maths/actions/workflows/super-linter.yml/badge.svg)](https://github.com/andrew-field/maths/actions/workflows/super-linter.yml)
-
-[![codecov - svg](https://codecov.io/gh/andrew-field/maths/graphs/icicle.svg?token=K4NRrNIgNv)](https://codecov.io/gh/andrew-field/maths)
