@@ -986,11 +986,12 @@ func BenchmarkGetPrimeNumbersBelowAndIncluding(b *testing.B) {
 }
 
 func BenchmarkGetPrimeNumbers(b *testing.B) {
-	ctx := b.Context()
 	inputs := []int{10, 200, 3000}
 	for _, input := range inputs {
 		b.Run(fmt.Sprintf("Input: %d", input), func(b *testing.B) {
 			for b.Loop() {
+				ctx, cancel := context.WithCancel(context.Background())
+				defer cancel()
 				primeCh := GetPrimeNumbers(ctx)
 				for range input { // Just iterating through the channel to benchmark the function.
 					<-primeCh
