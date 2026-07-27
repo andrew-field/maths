@@ -1,6 +1,5 @@
 # Maths Extension library
 
-[![License](https://img.shields.io/github/license/andrew-field/maths)](./LICENSE)
 [![Go Doc](https://pkg.go.dev/badge/github.com/andrew-field/maths/v2?status.svg)](https://pkg.go.dev/github.com/andrew-field/maths/v2 "GoDoc")
 [![GitHub Release](https://img.shields.io/github/v/release/andrew-field/maths)](https://github.com/andrew-field/maths/releases/latest "GitHub release")
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
