@@ -13,7 +13,7 @@ permissions: {}
 jobs:
   release-please:
     name: Call release please
-    uses: andrew-field/reusable-workflows/.github/workflows/release-please.yml@f19e99b41738050304263983ebe19ebcdb98acf1 # v1.5.25
+    uses: andrew-field/reusable-workflows/.github/workflows/release-please.yml@616750c7c67b9e145fa40d56d8949d88dd6ca60a # v1.5.26
 
     # Needs to inherit more than the GITHUB_TOKEN to trigger Github Actions CI checks. RELEASE_PLEASE_TOKEN needs to be added as a secret.
     secrets:
